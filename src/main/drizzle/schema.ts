@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core'
+import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core'
 
 // Define ClipboardType as a tuple (optimized for Drizzle & TypeScript)
 export const ClipboardType = ['text', 'file'] as const
@@ -12,4 +12,18 @@ export const clipboardSchema = sqliteTable('clipboard', {
   createdAt: integer()
     .notNull()
     .$defaultFn(() => Date.now()) // Stores timestamp
+})
+
+export const notesSchema = sqliteTable('notes', {
+  id: integer().primaryKey({ autoIncrement: true }),
+  title: text().notNull(),
+  description: text().notNull(),
+  content: blob().notNull(), // content is going to be JSON
+  labels: blob(), // content is going to be JSON
+  createdAt: integer()
+    .notNull()
+    .$defaultFn(() => Date.now()), // Stores timestamp
+  updatedAt: integer()
+    .notNull()
+    .$onUpdateFn(() => Date.now()) // Stores timestamp
 })

@@ -47,6 +47,8 @@ import { Label } from '@renderer/components/ui/label'
 
 import { atom, SetStateAction, useAtom } from 'jotai'
 import { Switch } from '@renderer/components/ui/switch'
+import MinimalTiptapThree from '@renderer/components/minimal-tiptap-three'
+import { useQuery } from '@tanstack/react-query'
 
 interface MailDisplayProps {
   mail: Mail | null
@@ -635,16 +637,11 @@ interface MailProps {
   navCollapsedSize: number
 }
 
-export function Mail({
-  // accounts,
-  mails,
-  defaultLayout = [20, 32, 48]
-  // defaultCollapsed = false,
-  // navCollapsedSize
-}: MailProps): React.JSX.Element {
-  // const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
-  const [mail] = useMail()
-
+export function Mail({ mails, defaultLayout = [12, 32, 48] }: MailProps): React.JSX.Element {
+  const { data, isLoading } = useQuery({
+    queryKey: ['all-notes'],
+    queryFn: () => window.api.getAllNotes()
+  })
   return (
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
@@ -654,111 +651,7 @@ export function Mail({
         }}
         className="h-full max-h-[800px] items-stretch"
       >
-        {/* <ResizablePanel
-          defaultSize={defaultLayout[0]}
-          collapsedSize={navCollapsedSize}
-          collapsible={true}
-          minSize={15}
-          maxSize={20}
-          onCollapse={() => {
-            setIsCollapsed(true)
-            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(true)}`
-          }}
-          onResize={() => {
-            setIsCollapsed(false)
-            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(false)}`
-          }}
-          className={cn(isCollapsed && 'min-w-[50px] transition-all duration-300 ease-in-out')}
-        >
-          <div
-            className={cn(
-              'flex h-[52px] items-center justify-center',
-              isCollapsed ? 'h-[52px]' : 'px-2'
-            )}
-          >
-            <AccountSwitcher isCollapsed={isCollapsed} accounts={accounts} />
-          </div>
-          <Separator />
-          <Nav
-            isCollapsed={isCollapsed}
-            links={[
-              {
-                title: 'Inbox',
-                label: '128',
-                icon: Inbox,
-                variant: 'default'
-              },
-              {
-                title: 'Drafts',
-                label: '9',
-                icon: File,
-                variant: 'ghost'
-              },
-              {
-                title: 'Sent',
-                label: '',
-                icon: Send,
-                variant: 'ghost'
-              },
-              {
-                title: 'Junk',
-                label: '23',
-                icon: ArchiveX,
-                variant: 'ghost'
-              },
-              {
-                title: 'Trash',
-                label: '',
-                icon: Trash2,
-                variant: 'ghost'
-              },
-              {
-                title: 'Archive',
-                label: '',
-                icon: Archive,
-                variant: 'ghost'
-              }
-            ]}
-          />
-          <Separator />
-          <Nav
-            isCollapsed={isCollapsed}
-            links={[
-              {
-                title: 'Social',
-                label: '972',
-                icon: Users2,
-                variant: 'ghost'
-              },
-              {
-                title: 'Updates',
-                label: '342',
-                icon: AlertCircle,
-                variant: 'ghost'
-              },
-              {
-                title: 'Forums',
-                label: '128',
-                icon: MessagesSquare,
-                variant: 'ghost'
-              },
-              {
-                title: 'Shopping',
-                label: '8',
-                icon: ShoppingCart,
-                variant: 'ghost'
-              },
-              {
-                title: 'Promotions',
-                label: '21',
-                icon: Archive,
-                variant: 'ghost'
-              }
-            ]}
-          />
-        </ResizablePanel> */}
-        {/* <ResizableHandle withHandle /> */}
-        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
+        <ResizablePanel defaultSize={defaultLayout[0]} minSize={30}>
           <Tabs defaultValue="all">
             <div className="flex items-center px-4 py-2">
               <h1 className="text-xl font-bold">Inbox</h1>
@@ -789,8 +682,20 @@ export function Mail({
           </Tabs>
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={defaultLayout[2]} minSize={30}>
-          <MailDisplay mail={mails.find((item) => item.id === mail.selected) || null} />
+        <ResizablePanel defaultSize={defaultLayout[3]} minSize={30}>
+          <MinimalTiptapThree
+            // value={content}
+            throttleDelay={3000}
+            className={cn('h-full min-h-56 w-full rounded-xl')}
+            editorContentClassName="overflow-auto h-full"
+            output="json"
+            onChange={(content) => {
+              window.api.updateNote({ id: 1, content })
+            }}
+            placeholder="This is your placeholder..."
+            editable={true}
+            editorClassName="focus:outline-none px-5 py-4 h-full"
+          />
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>

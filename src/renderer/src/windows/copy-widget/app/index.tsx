@@ -40,6 +40,8 @@ export function CopyWidget(): React.JSX.Element {
   const [popoverState, setPopoverState] = useState<PopoverStates>({ index: 0, open: false })
   const [search, setSearch] = useState('')
   const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
+    experimental_prefetchInRender: true,
+    refetchOnMount: 'always',
     queryKey: ['clipboard', search],
     queryFn: ({ pageParam }) =>
       window.api.search({ page: pageParam, searchTerm: search, limit: 5 }),
@@ -52,15 +54,13 @@ export function CopyWidget(): React.JSX.Element {
       return undefined
     }
   })
-  console.log(data)
   const listEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          console.log('List end is visible!')
-          if (hasNextPage && !isFetchingNextPage) fetchNextPage()
+        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage()
         }
       },
       {
@@ -82,9 +82,8 @@ export function CopyWidget(): React.JSX.Element {
   }, [])
 
   const copyToClipboard = (text: string): void => {
-    navigator.clipboard.writeText(text).then(() => {
-      console.log('Copied to clipboard')
-    })
+    navigator.clipboard.writeText(text)
+    console.log('Copied to clipboard')
   }
   const inputRef = useRef<React.ElementRef<typeof CommandPrimitive.Input>>(null)
   const itemRef = useRef<React.ElementRef<typeof CommandPrimitive.Item>>(null)
@@ -120,6 +119,7 @@ export function CopyWidget(): React.JSX.Element {
   return (
     <Dialog
       open
+      modal
       onOpenChange={() => {
         inputRef.current?.focus()
         window.api.closeWindow().then(() => {

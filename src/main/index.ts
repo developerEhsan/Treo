@@ -9,6 +9,13 @@ import { createWindow } from './utils/create-window'
 import { icon } from './utils/resources'
 import { ClipboardDataType, SearchClipboardParams } from 'src/types/database'
 import { pasteFromClipboard } from './utils/paste-from-clipboard'
+import {
+  createNote,
+  deleteNote,
+  getAllNotes,
+  getNoteById,
+  updateNote
+} from './utils/notes-operations'
 
 runMigrate()
 
@@ -58,7 +65,7 @@ let previousContent = clipboard.readText()
 async function checkClipboard(): Promise<void> {
   const currentContent = clipboard.readText()
   if (currentContent !== previousContent) {
-    console.log('Clipboard content has changed:')
+    console.log('Clipboard content has changed')
     await db.insert(clipboardSchema).values({ type: 'text', content: currentContent })
     previousContent = currentContent
   }
@@ -78,7 +85,15 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-
+  const mainWindow = createWindow({
+    windowOptions: {
+      show: false,
+      width: 1200,
+      height: 800
+    },
+    loadUrl: process.env['ELECTRON_RENDERER_URL'],
+    loadFile: '../renderer/index.html'
+  })
   const copyWidgetWindow = createWindow({
     windowOptions: {
       transparent: true,
@@ -96,15 +111,7 @@ app.whenReady().then(() => {
     loadUrl: `${process.env['ELECTRON_RENDERER_URL']}/copy-widget.html`,
     loadFile: '../renderer/copy-widget.html'
   })
-  const mainWindow = createWindow({
-    windowOptions: {
-      show: true,
-      width: 1200,
-      height: 800
-    },
-    loadUrl: process.env['ELECTRON_RENDERER_URL'],
-    loadFile: '../renderer/index.html'
-  })
+
   const tray = new Tray(icon)
   // IPC test
   const contextMenu = Menu.buildFromTemplate([
@@ -117,13 +124,13 @@ app.whenReady().then(() => {
   tray.setTitle('This is my title')
 
   // Register a 'CommandOrControl+X' shortcut listener.
-  globalShortcut.register('CommandOrControl+E', () => {
-    if (!copyWidgetWindow.isVisible()) {
-      copyWidgetWindow.maximize()
-      copyWidgetWindow.show()
-    }
+  const ctrl_E = globalShortcut.register('CommandOrControl+E', () => {
+    // if (!copyWidgetWindow.isVisible()) {
+    copyWidgetWindow.maximize()
+    copyWidgetWindow.show()
+    // }
   })
-
+  console.info(ctrl_E)
   // 🔹 Handle IPC Calls
   ipcMain.handle('save-text', async (_event, text) => {
     await db.insert(clipboardSchema).values({ type: 'text', content: text })
@@ -140,10 +147,9 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('close-window', () => {
-    if (copyWidgetWindow.isVisible()) {
-      copyWidgetWindow.minimize()
-      copyWidgetWindow.hide()
-    }
+    copyWidgetWindow.minimize()
+    copyWidgetWindow.close()
+    // copyWidgetWindow.hide()
   })
 
   ipcMain.handle('save-file', async (_event, filePath) => {
@@ -164,6 +170,9 @@ app.whenReady().then(() => {
   ipcMain.handle('search', async (_e, params: SearchClipboardParams) => {
     return await searchClipboard(params)
   })
+  ipcMain.handle('handle-window', async () => {
+    return true
+  })
 
   ipcMain.handle('paste', () => {
     if (copyWidgetWindow.isVisible()) {
@@ -173,9 +182,15 @@ app.whenReady().then(() => {
     pasteFromClipboard()
   })
 
+  ipcMain.handle('create-note', (_, values) => createNote(values))
+  ipcMain.handle('update-note', (_, values) => updateNote(values.id, values.content))
+  ipcMain.handle('delete-note', (_, id) => deleteNote(id))
+  ipcMain.handle('get-note', (_, id) => getNoteById(id))
+  ipcMain.handle('get-all-notes', getAllNotes)
+
   // Check the clipboard every second
   setInterval(checkClipboard, 1000)
-
+  mainWindow.on('ready-to-show', () => mainWindow.show())
   // app.on('ready-to-show', () => {
   //   appWindow.show()
   // })

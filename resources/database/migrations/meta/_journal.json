@@ -29,6 +29,13 @@
       "when": 1738566557148,
       "tag": "0003_fixed_default_createdAt",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1739114253619,
+      "tag": "0004_added notes schema",
+      "breakpoints": true
     }
   ]
 }

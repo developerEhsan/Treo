@@ -11,7 +11,12 @@ const api = {
   pasteCopied: (): Promise<void> => ipcRenderer.invoke('paste'),
   handleWindow: (e?: boolean): Promise<boolean> => ipcRenderer.invoke('handle-window', e),
   search: (searchValues: SearchClipboardParams): Promise<unknown[]> =>
-    ipcRenderer.invoke('search', searchValues)
+    ipcRenderer.invoke('search', searchValues),
+  createNote: (values): Promise<void> => ipcRenderer.invoke('create-note', values),
+  updateNote: (values): Promise<void> => ipcRenderer.invoke('update-note', values),
+  deleteNote: (id): Promise<void> => ipcRenderer.invoke('delete-note', id),
+  getNote: (id): Promise<void> => ipcRenderer.invoke('get-note', id),
+  getAllNotes: (): Promise<void> => ipcRenderer.invoke('get-all-notes')
 }
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

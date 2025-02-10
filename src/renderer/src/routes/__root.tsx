@@ -8,7 +8,7 @@ import {
 } from '@renderer/components/ui/breadcrumb'
 import { Separator } from '@renderer/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@renderer/components/ui/sidebar'
-import { ToastProvider } from '@renderer/components/ui/toast'
+import { Toaster } from '@renderer/components/ui/toaster'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
@@ -40,7 +40,7 @@ export const Route = createRootRoute({
             <Outlet />
           </SidebarInset>
         </SidebarProvider>
-        <ToastProvider />
+        <Toaster />
         {import.meta.env.PROD ? <TanStackRouterDevtools /> : null}
       </>
     )
