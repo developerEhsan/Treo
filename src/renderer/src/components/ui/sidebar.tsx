@@ -12,13 +12,14 @@ import { Separator } from '@radix-ui/react-dropdown-menu'
 import { Button } from './button'
 import { Input } from './input'
 import { Skeleton } from './skeleton'
+import { SimpleTooltip } from '../shared/simple-tooltip'
 
 const SIDEBAR_COOKIE_NAME = 'sidebar:state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = '16rem'
 const SIDEBAR_WIDTH_MOBILE = '18rem'
 const SIDEBAR_WIDTH_ICON = '3rem'
-const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
+const SIDEBAR_KEYBOARD_SHORTCUT = 'o'
 
 type SidebarContext = {
   state: 'expanded' | 'collapsed'
@@ -51,7 +52,7 @@ const SidebarProvider = React.forwardRef<
 >(
   (
     {
-      defaultOpen = true,
+      defaultOpen = false,
       open: openProp,
       onOpenChange: setOpenProp,
       className,
@@ -267,8 +268,10 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <PanelLeft />
-      <span className="sr-only">Toggle Sidebar</span>
+      <SimpleTooltip content="Toggle Sidebar">
+        <PanelLeft size={18} />
+        <span className="sr-only">Toggle Sidebar</span>
+      </SimpleTooltip>
     </Button>
   )
 })

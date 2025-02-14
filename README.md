@@ -1,34 +1,57 @@
-# learn-electron
+# 🚀 Custom Clipboard & Productivity App  
 
-An Electron application with React and TypeScript
+A powerful **Electron + React** desktop application that extends the default **Windows Clipboard History** with advanced features like **note-taking, clipboard management, theme customization, and more!**  
 
-## Recommended IDE Setup
+## ✨ Features  
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- 📝 **Create, update, delete, and read notes**  
+- 🌗 **Light & dark mode support**  
+- 📋 **Clipboard history manager** (persistent storage)  
+- 🚀 **Built with modern web technologies**  
 
-## Project Setup
+## 🛠 Tech Stack  
 
-### Install
+- **React + Electron-Vite** ⚡  
+- **Zustand** for state management  
+- **TanStack Query** for data fetching  
+- **TanStack Router** for type-safe routing  
+- **Drizzle ORM + better-sqlite3** for database management  
 
-```bash
-$ pnpm install
+## 🚀 Getting Started  
+
+### **Prerequisites**  
+Ensure you have **pnpm** installed. If not, install it globally:  
+
+```sh
+npm install -g pnpm
 ```
 
-### Development
+### **Installation & Setup**  
 
-```bash
-$ pnpm dev
+Clone the repository and install dependencies:  
+
+```sh
+pnpm i
 ```
 
-### Build
+### **Database Setup**  
 
-```bash
-# For windows
-$ pnpm build:win
+Run the following command to generate the database schema:  
 
-# For macOS
-$ pnpm build:mac
+```sh
+pnpm db:generate
+```
 
-# For Linux
-$ pnpm build:linux
+### **Run the Application in Development Mode**  
+
+```sh
+pnpm dev
+```
+
+### **Build for Windows**  
+
+To create a Windows executable:  
+
+```sh
+pnpm build:win
 ```

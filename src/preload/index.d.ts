@@ -1,4 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import { Content } from '@tiptap/react'
 
 // Define the structure of a clipboard data item
 interface ClipboardDataItem {
@@ -30,14 +31,20 @@ interface Note {
   id: number
   title: string
   description: string
-  content: unknown // Can be an object or array
+  content: Content // Can be an object or array
   createdAt: number
   updatedAt: number
 }
 
 // Define the response structure for create/update operations
 interface MutationResponse {
-  result?: string
+  id: number
+  content: Content
+  createdAt: number
+  title: string
+  description: string
+  labels: unknown
+  updatedAt: number
   error?: unknown
 }
 
@@ -50,10 +57,17 @@ interface RendererAPI {
   pasteCopied: () => Promise<void>
   handleWindow: (e?: boolean) => Promise<boolean>
   search: (searchValues: SearchClipboardParams) => Promise<ClipboardDataType>
-  createNote: (values: { id: number; content: object | unknown[] }) => Promise<MutationResponse>
+  createNote: (values: {
+    content: object | unknown[]
+    title: string
+    description: string
+    labels?: string[]
+  }) => Promise<MutationResponse>
   updateNote: (values: {
-    id: number
+    id: string
     content: string | JSONContent | JSONContent[] | null
+    title?: string | null
+    description?: string | null
   }) => Promise<MutationResponse>
   deleteNote: (id: string) => Promise<void>
   getNote: (id: string) => Promise<Note>

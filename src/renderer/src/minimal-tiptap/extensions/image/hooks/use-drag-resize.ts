@@ -25,7 +25,15 @@ export function useDragResize({
   minHeight,
   maxWidth,
   onDimensionsChange
-}: HookParams) {
+}: HookParams): {
+  initiateResize: (
+    direction: ResizeDirection
+  ) => (event: React.PointerEvent<HTMLDivElement>) => void
+  isResizing: boolean
+  updateDimensions: React.Dispatch<React.SetStateAction<ElementDimensions>>
+  currentWidth: number
+  currentHeight: number
+} {
   const [dimensions, updateDimensions] = useState<ElementDimensions>({
     width: Math.max(initialWidth ?? minWidth, minWidth),
     height: Math.max(initialHeight ?? minHeight, minHeight)
@@ -107,18 +115,19 @@ export function useDragResize({
   )
 
   const initiateResize = useCallback(
-    (direction: ResizeDirection) => (event: React.PointerEvent<HTMLDivElement>) => {
-      event.preventDefault()
-      event.stopPropagation()
+    (direction: ResizeDirection) =>
+      (event: React.PointerEvent<HTMLDivElement>): void => {
+        event.preventDefault()
+        event.stopPropagation()
 
-      setBoundaryWidth(maxWidth)
-      setInitialDimensions({
-        width: Math.max(widthConstraint(dimensions.width, maxWidth), minWidth),
-        height: Math.max(dimensions.height, minHeight)
-      })
-      setResizeOrigin(event.pageX)
-      setResizeDirection(direction)
-    },
+        setBoundaryWidth(maxWidth)
+        setInitialDimensions({
+          width: Math.max(widthConstraint(dimensions.width, maxWidth), minWidth),
+          height: Math.max(dimensions.height, minHeight)
+        })
+        setResizeOrigin(event.pageX)
+        setResizeDirection(direction)
+      },
     [maxWidth, widthConstraint, dimensions.width, dimensions.height, minWidth, minHeight]
   )
 
@@ -127,12 +136,11 @@ export function useDragResize({
       document.addEventListener('keydown', handleKeydown)
       document.addEventListener('pointermove', handlePointerMove)
       document.addEventListener('pointerup', handlePointerUp)
-
-      return () => {
-        document.removeEventListener('keydown', handleKeydown)
-        document.removeEventListener('pointermove', handlePointerMove)
-        document.removeEventListener('pointerup', handlePointerUp)
-      }
+    }
+    return (): void => {
+      document.removeEventListener('keydown', handleKeydown)
+      document.removeEventListener('pointermove', handlePointerMove)
+      document.removeEventListener('pointerup', handlePointerUp)
     }
   }, [resizeDirection, handleKeydown, handlePointerMove, handlePointerUp])
 

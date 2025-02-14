@@ -1,30 +1,39 @@
-import * as React from 'react'
 import {
   AudioWaveform,
-  Blocks,
-  Calendar,
+  BookOpen,
+  Bot,
   Command,
-  Home,
-  Inbox,
-  MessageCircleQuestion,
-  Search,
+  Frame,
+  GalleryVerticalEnd,
+  Map,
+  PieChart,
   Settings2,
-  Sparkles,
-  Trash2
+  SquareTerminal
 } from 'lucide-react'
-import { NavFavorites } from './nav-favorites'
-import { NavMain } from './nav-main'
-import { NavSecondary } from './nav-secondary'
-import { NavWorkspaces } from './nav-workspaces'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
+  useSidebar
+} from './ui/sidebar'
 import { TeamSwitcher } from './team-switcher'
-import { Sidebar, SidebarHeader, SidebarContent, SidebarRail } from './ui/sidebar'
+import { NavMain } from './nav-main'
+import { NavProjects } from './nav-projects'
+import { NavUser } from './nav-secondary'
 
 // This is sample data.
 const data = {
+  user: {
+    name: 'shadcn',
+    email: 'm@example.com',
+    avatar: '/avatars/shadcn.jpg'
+  },
   teams: [
     {
       name: 'Acme Inc',
-      logo: Command,
+      logo: GalleryVerticalEnd,
       plan: 'Enterprise'
     },
     {
@@ -40,229 +49,129 @@ const data = {
   ],
   navMain: [
     {
-      title: 'Search',
+      title: 'Playground',
       url: '#',
-      icon: Search
+      icon: SquareTerminal,
+      isActive: true,
+      items: [
+        {
+          title: 'History',
+          url: '#'
+        },
+        {
+          title: 'Starred',
+          url: '#'
+        },
+        {
+          title: 'Settings',
+          url: '/settings/profile'
+        }
+      ]
     },
     {
-      title: 'Ask AI',
+      title: 'Models',
       url: '#',
-      icon: Sparkles
+      icon: Bot,
+      items: [
+        {
+          title: 'Genesis',
+          url: '#'
+        },
+        {
+          title: 'Explorer',
+          url: '#'
+        },
+        {
+          title: 'Quantum',
+          url: '#'
+        }
+      ]
     },
     {
-      title: 'Home',
-      url: '/',
-      icon: Home,
-      isActive: true
-    },
-    {
-      title: 'Inbox',
+      title: 'Documentation',
       url: '#',
-      icon: Inbox,
-      badge: '10'
-    }
-  ],
-  navSecondary: [
-    {
-      title: 'Calendar',
-      url: '#',
-      icon: Calendar
+      icon: BookOpen,
+      items: [
+        {
+          title: 'Introduction',
+          url: '#'
+        },
+        {
+          title: 'Get Started',
+          url: '#'
+        },
+        {
+          title: 'Tutorials',
+          url: '#'
+        },
+        {
+          title: 'Changelog',
+          url: '#'
+        }
+      ]
     },
     {
       title: 'Settings',
-      url: '/settings/profile',
-      icon: Settings2
-    },
-    {
-      title: 'Templates',
       url: '#',
-      icon: Blocks
-    },
-    {
-      title: 'Trash',
-      url: '#',
-      icon: Trash2
-    },
-    {
-      title: 'Help',
-      url: '#',
-      icon: MessageCircleQuestion
+      icon: Settings2,
+      items: [
+        {
+          title: 'Profile',
+          url: '/settings/profile'
+        },
+        {
+          title: 'Account',
+          url: '/settings/account'
+        },
+        {
+          title: 'Appearance',
+          url: '/settings/appearance'
+        },
+        {
+          title: 'Notifications',
+          url: '/settings/notifications'
+        },
+        {
+          title: 'Display',
+          url: '/settings/display'
+        }
+      ]
     }
   ],
-  favorites: [
+  projects: [
     {
-      name: 'Project Management & Task Tracking',
+      name: 'Design Engineering',
       url: '#',
-      emoji: '📊'
+      icon: Frame
     },
     {
-      name: 'Family Recipe Collection & Meal Planning',
+      name: 'Sales & Marketing',
       url: '#',
-      emoji: '🍳'
+      icon: PieChart
     },
     {
-      name: 'Fitness Tracker & Workout Routines',
+      name: 'Travel',
       url: '#',
-      emoji: '💪'
-    },
-    {
-      name: 'Book Notes & Reading List',
-      url: '#',
-      emoji: '📚'
-    },
-    {
-      name: 'Sustainable Gardening Tips & Plant Care',
-      url: '#',
-      emoji: '🌱'
-    },
-    {
-      name: 'Language Learning Progress & Resources',
-      url: '#',
-      emoji: '🗣️'
-    },
-    {
-      name: 'Home Renovation Ideas & Budget Tracker',
-      url: '#',
-      emoji: '🏠'
-    },
-    {
-      name: 'Personal Finance & Investment Portfolio',
-      url: '#',
-      emoji: '💰'
-    },
-    {
-      name: 'Movie & TV Show Watchlist with Reviews',
-      url: '#',
-      emoji: '🎬'
-    },
-    {
-      name: 'Daily Habit Tracker & Goal Setting',
-      url: '#',
-      emoji: '✅'
-    }
-  ],
-  workspaces: [
-    {
-      name: 'Personal Life Management',
-      emoji: '🏠',
-      pages: [
-        {
-          name: 'Daily Journal & Reflection',
-          url: '#',
-          emoji: '📔'
-        },
-        {
-          name: 'Health & Wellness Tracker',
-          url: '#',
-          emoji: '🍏'
-        },
-        {
-          name: 'Personal Growth & Learning Goals',
-          url: '#',
-          emoji: '🌟'
-        }
-      ]
-    },
-    {
-      name: 'Professional Development',
-      emoji: '💼',
-      pages: [
-        {
-          name: 'Career Objectives & Milestones',
-          url: '#',
-          emoji: '🎯'
-        },
-        {
-          name: 'Skill Acquisition & Training Log',
-          url: '#',
-          emoji: '🧠'
-        },
-        {
-          name: 'Networking Contacts & Events',
-          url: '#',
-          emoji: '🤝'
-        }
-      ]
-    },
-    {
-      name: 'Creative Projects',
-      emoji: '🎨',
-      pages: [
-        {
-          name: 'Writing Ideas & Story Outlines',
-          url: '#',
-          emoji: '✍️'
-        },
-        {
-          name: 'Art & Design Portfolio',
-          url: '#',
-          emoji: '🖼️'
-        },
-        {
-          name: 'Music Composition & Practice Log',
-          url: '#',
-          emoji: '🎵'
-        }
-      ]
-    },
-    {
-      name: 'Home Management',
-      emoji: '🏡',
-      pages: [
-        {
-          name: 'Household Budget & Expense Tracking',
-          url: '#',
-          emoji: '💰'
-        },
-        {
-          name: 'Home Maintenance Schedule & Tasks',
-          url: '#',
-          emoji: '🔧'
-        },
-        {
-          name: 'Family Calendar & Event Planning',
-          url: '#',
-          emoji: '📅'
-        }
-      ]
-    },
-    {
-      name: 'Travel & Adventure',
-      emoji: '🧳',
-      pages: [
-        {
-          name: 'Trip Planning & Itineraries',
-          url: '#',
-          emoji: '🗺️'
-        },
-        {
-          name: 'Travel Bucket List & Inspiration',
-          url: '#',
-          emoji: '🌎'
-        },
-        {
-          name: 'Travel Journal & Photo Gallery',
-          url: '#',
-          emoji: '📸'
-        }
-      ]
+      icon: Map
     }
   ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>): React.JSX.Element {
+  const { toggleSidebar } = useSidebar()
   return (
-    <Sidebar className="border-r-0" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
-        <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <NavFavorites favorites={data.favorites} />
-        <NavWorkspaces workspaces={data.workspaces} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={data.navMain} />
+        <NavProjects projects={data.projects} />
       </SidebarContent>
-      <SidebarRail />
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
+      <SidebarRail onMouseEnter={() => toggleSidebar()} />
     </Sidebar>
   )
 }

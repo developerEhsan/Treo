@@ -36,6 +36,13 @@
       "when": 1739114253619,
       "tag": "0004_added notes schema",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1739196843790,
+      "tag": "0005_volatile_titania",
+      "breakpoints": true
     }
   ]
 }

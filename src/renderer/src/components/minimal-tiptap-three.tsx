@@ -1,6 +1,5 @@
-import * as React from 'react'
+import React from 'react'
 import '@renderer/minimal-tiptap/styles/index.css'
-
 import { EditorContent, type Content, type Editor } from '@tiptap/react'
 import SectionOne from '@renderer/minimal-tiptap/components/section/one'
 import SectionTwo from '@renderer/minimal-tiptap/components/section/two'
@@ -14,6 +13,7 @@ import useMinimalTiptapEditor, {
 import { MeasuredContainer } from '@renderer/minimal-tiptap/components/measured-container'
 import { cn } from '@renderer/utils'
 import { LinkBubbleMenu } from '@renderer/minimal-tiptap/components/bubble-menu/link-bubble-menu'
+import { NotesNavActions } from './home/components/notes-nav-actions'
 
 export interface MinimalTiptapProps extends Omit<UseMinimalTiptapEditorProps, 'onUpdate'> {
   value?: Content
@@ -24,6 +24,9 @@ export interface MinimalTiptapProps extends Omit<UseMinimalTiptapEditorProps, 'o
 
 const Toolbar = ({ editor }: { editor: Editor }): React.JSX.Element => (
   <div className="shrink-0 overflow-x-auto border-b border-border p-2">
+    <div className="flex w-full justify-end">
+      <NotesNavActions />
+    </div>
     <div className="flex w-max items-center gap-px">
       <SectionOne editor={editor} activeLevels={[1, 2, 3]} variant="outline" />
 
@@ -78,10 +81,7 @@ export const MinimalTiptapThree = React.forwardRef<HTMLDivElement, MinimalTiptap
         as="div"
         name="editor"
         ref={ref}
-        className={cn(
-          'flex h-auto min-h-72 w-full flex-col rounded-md border border-input shadow-sm focus-within:border-primary',
-          className
-        )}
+        className={cn('flex h-auto w-full flex-col shadow-sm', className)}
       >
         <Toolbar editor={editor} />
         <EditorContent

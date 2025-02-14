@@ -17,7 +17,7 @@ import {
   Color,
   UnsetAllMarks,
   ResetMarksOnEnter,
-  FileHandler,
+  FileHandler
   // DBlock
 } from '../extensions'
 import { cn } from '@renderer/utils'
@@ -166,7 +166,7 @@ const createExtensions = (placeholder: string) => [
   CodeBlockLowlight,
   Placeholder.configure({ placeholder: () => placeholder }),
   // DBlock,
-  GlobalDragHandle,
+  GlobalDragHandle
 ]
 
 export const useMinimalTiptapEditor = ({

@@ -183,7 +183,7 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('create-note', (_, values) => createNote(values))
-  ipcMain.handle('update-note', (_, values) => updateNote(values.id, values.content))
+  ipcMain.handle('update-note', (_, values) => updateNote(values))
   ipcMain.handle('delete-note', (_, id) => deleteNote(id))
   ipcMain.handle('get-note', (_, id) => getNoteById(id))
   ipcMain.handle('get-all-notes', getAllNotes)

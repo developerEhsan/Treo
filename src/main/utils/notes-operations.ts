@@ -3,26 +3,36 @@ import { db } from '../drizzle/db'
 import { notesSchema } from '../drizzle/schema'
 
 // Function to create a new note
-export async function createNote(content: object | unknown[]): Promise<
+export function createNote(params: {
+  content: object | unknown[]
+  title: string
+  description: string
+  labels: string[]
+}):
   | {
-      result: string
-      error?: undefined
+      id: number
+      content: unknown
+      createdAt: number
+      title: string
+      description: string
+      labels: unknown
+      updatedAt: number
     }
-  | {
-      error: unknown
-      result?: undefined
-    }
-> {
+  | { error: unknown } {
   try {
     const timestamp = Date.now()
-    await db.insert(notesSchema).values({
-      description: '',
-      title: 'Untitled note',
-      content: JSON.stringify(content), // Store JSON as string
-      createdAt: timestamp,
-      updatedAt: timestamp
-    })
-    return { result: 'success' }
+    const createdNote = db
+      .insert(notesSchema)
+      .values({
+        ...params,
+        labels: JSON.stringify(params.labels),
+        content: JSON.stringify(params.content), // Store JSON as string
+        createdAt: timestamp,
+        updatedAt: timestamp
+      })
+      .returning()
+      .get()
+    return createdNote
   } catch (error) {
     console.error(error)
 
@@ -30,20 +40,31 @@ export async function createNote(content: object | unknown[]): Promise<
   }
 }
 
-// Function to get all notes
+// Function to get all notes (excluding the `content` field)
 export function getAllNotes(): {
   id: number
   title: string
   description: string
-  content: unknown
   createdAt: number
   updatedAt: number
 }[] {
-  return db.select().from(notesSchema).all()
+  // Explicitly select only the required fields
+  const allNotes = db
+    .select({
+      id: notesSchema.id,
+      title: notesSchema.title,
+      description: notesSchema.description,
+      createdAt: notesSchema.createdAt,
+      updatedAt: notesSchema.updatedAt
+    })
+    .from(notesSchema)
+    .all()
+
+  return allNotes
 }
 
 // Function to get a single note by ID
-export function getNoteById(id: number):
+export function getNoteById(id: string):
   | {
       id: number
       title: string
@@ -53,14 +74,28 @@ export function getNoteById(id: number):
       updatedAt: number
     }
   | undefined {
-  return db.select().from(notesSchema).where(eq(notesSchema.id, id)).get()
+  const result = db
+    .select()
+    .from(notesSchema)
+    .where(eq(notesSchema.id, Number(id)))
+    .get()
+  console.log(result)
+
+  return result && { ...result, content: JSON.parse(result?.content as string) }
 }
 
 // Function to update a note
-export async function updateNote(
-  id: number,
-  newContent: object | unknown[]
-): Promise<
+export async function updateNote({
+  id,
+  content,
+  description,
+  title
+}: {
+  id: string
+  content: object | unknown[]
+  title?: string
+  description?: string
+}): Promise<
   | {
       result: string
       error?: undefined
@@ -74,10 +109,12 @@ export async function updateNote(
     await db
       .update(notesSchema)
       .set({
-        content: JSON.stringify(newContent),
+        content: JSON.stringify(content),
+        title,
+        description,
         updatedAt: Date.now() // Update timestamp
       })
-      .where(eq(notesSchema.id, id))
+      .where(eq(notesSchema.id, Number(id)))
     return { result: 'success' }
   } catch (error) {
     console.error(error)
@@ -86,7 +123,7 @@ export async function updateNote(
 }
 
 // Function to delete a note
-export async function deleteNote(id: number): Promise<
+export async function deleteNote(id: string): Promise<
   | {
       result: string
       error?: undefined
@@ -97,7 +134,7 @@ export async function deleteNote(id: number): Promise<
     }
 > {
   try {
-    await db.delete(notesSchema).where(eq(notesSchema.id, id))
+    await db.delete(notesSchema).where(eq(notesSchema.id, Number(id)))
     return { result: 'success' }
   } catch (error) {
     console.error(error)

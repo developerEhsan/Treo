@@ -186,7 +186,7 @@ export const Image = TiptapImage.extend<CustomImageOptions>({
     return {
       setImages:
         (attrs) =>
-        ({ commands }) => {
+        ({ commands }): boolean => {
           const [validImages, errors] = filterFiles(attrs, {
             allowedMimeTypes: this.options.allowedMimeTypes,
             maxFileSize: this.options.maxFileSize,
@@ -233,19 +233,19 @@ export const Image = TiptapImage.extend<CustomImageOptions>({
           return false
         },
 
-      downloadImage: (attrs) => () => {
+      downloadImage: (attrs) => (): true => {
         const downloadFunc = this.options.downloadImage || downloadImage
         void downloadFunc({ ...attrs, action: 'download' }, this.options)
         return true
       },
 
-      copyImage: (attrs) => () => {
+      copyImage: (attrs) => (): true => {
         const copyImageFunc = this.options.copyImage || copyImage
         void copyImageFunc({ ...attrs, action: 'copyImage' }, this.options)
         return true
       },
 
-      copyLink: (attrs) => () => {
+      copyLink: (attrs) => (): true => {
         const copyLinkFunc = this.options.copyLink || copyLink
         void copyLinkFunc({ ...attrs, action: 'copyLink' }, this.options)
         return true
@@ -253,11 +253,11 @@ export const Image = TiptapImage.extend<CustomImageOptions>({
 
       toggleImage:
         () =>
-        ({ editor }) => {
+        ({ editor }): true => {
           const input = document.createElement('input')
           input.type = 'file'
           input.accept = this.options.allowedMimeTypes.join(',')
-          input.onchange = () => {
+          input.onchange = (): false | undefined => {
             const files = input.files
             if (!files) return
 

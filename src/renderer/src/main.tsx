@@ -14,7 +14,12 @@ const memoryHistory = createMemoryHistory({
   initialEntries: ['/'] // Pass your initial url
 })
 // Create a new router instance
-const router = createRouter({ routeTree, history: memoryHistory })
+const router = createRouter({
+  routeTree,
+  history: memoryHistory,
+  scrollRestorationBehavior: 'smooth',
+  scrollRestoration: true
+})
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {

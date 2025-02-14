@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-type Theme = 'dark' | 'light' | 'system'
+export const themes = ['dark', 'light', 'system'] as const
+type Theme = (typeof themes)[number]
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -64,8 +65,6 @@ export function ThemeProvider({
 
 export const useTheme = (): ThemeProviderState => {
   const context = useContext(ThemeProviderContext)
-
   if (context === undefined) throw new Error('useTheme must be used within a ThemeProvider')
-
   return context
 }

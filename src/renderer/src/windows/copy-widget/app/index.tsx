@@ -40,9 +40,8 @@ export function CopyWidget(): React.JSX.Element {
   const [popoverState, setPopoverState] = useState<PopoverStates>({ index: 0, open: false })
   const [search, setSearch] = useState('')
   const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
-    experimental_prefetchInRender: true,
-    refetchOnMount: 'always',
-    queryKey: ['clipboard', search],
+    // queryKey: ['clipboard', search],
+    queryKey: [],
     queryFn: ({ pageParam }) =>
       window.api.search({ page: pageParam, searchTerm: search, limit: 5 }),
     initialPageParam: 1,

@@ -24,9 +24,10 @@ import {
   SelectTrigger,
   SelectValue
 } from '@renderer/components/ui/select'
+import { themes, useTheme } from '@renderer/providers/theme-provider'
 
 const appearanceFormSchema = z.object({
-  theme: z.enum(['light', 'dark'], {
+  theme: z.enum(themes, {
     required_error: 'Please select a theme.'
   }),
   font: z.enum(['inter', 'manrope', 'system'], {
@@ -37,19 +38,20 @@ const appearanceFormSchema = z.object({
 
 type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
 
-// This can come from your database or API.
-const defaultValues: Partial<AppearanceFormValues> = {
-  theme: 'light',
-  font: 'inter'
-}
-
 export function AppearanceForm(): React.JSX.Element {
+  const { theme, setTheme } = useTheme()
+  // This can come from your database or API.
+  const defaultValues: Partial<AppearanceFormValues> = {
+    theme: theme,
+    font: 'inter'
+  }
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues
   })
 
   function onSubmit(data: AppearanceFormValues): void {
+    setTheme(data.theme)
     toast({
       title: 'You submitted the following values:',
       description: (
