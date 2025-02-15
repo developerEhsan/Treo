@@ -5,3 +5,4 @@ out
 *.log*
 example
 data.db*
+electron.vite.config.*.mjs
