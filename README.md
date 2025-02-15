@@ -1,57 +1,96 @@
-# 🚀 Custom Clipboard & Productivity App  
+Here’s a **senior-level, polished, and professional README** that aligns with open-source best practices:  
 
-A powerful **Electron + React** desktop application that extends the default **Windows Clipboard History** with advanced features like **note-taking, clipboard management, theme customization, and more!**  
+---
 
-## ✨ Features  
+# 🚀 **Clipboard & Productivity Suite**  
 
-- 📝 **Create, update, delete, and read notes**  
-- 🌗 **Light & dark mode support**  
-- 📋 **Clipboard history manager** (persistent storage)  
-- 🚀 **Built with modern web technologies**  
+An advanced **Electron + React** desktop application designed to **enhance productivity** by extending Windows Clipboard History with **persistent storage, note-taking, theme customization, and more**.  
 
-## 🛠 Tech Stack  
+## 🏆 **Features**  
 
-- **React + Electron-Vite** ⚡  
-- **Zustand** for state management  
-- **TanStack Query** for data fetching  
-- **TanStack Router** for type-safe routing  
-- **Drizzle ORM + better-sqlite3** for database management  
+- 📋 **Advanced Clipboard Manager** – Persistent clipboard history with configurable retention  
+- 📝 **Rich Note Management** – Create, edit, delete, and organize notes efficiently  
+- 🎨 **Theming Support** – Seamless **light/dark mode** switching  
+- ⚡ **Optimized UX** – Preloading, debouncing, and performance optimizations  
 
-## 🚀 Getting Started  
+---
+
+## 🛠 **Tech Stack**  
+
+| Technology          | Purpose |
+|---------------------|---------|
+| **Electron-Vite**  | Desktop application framework |
+| **React**         | UI development |
+| **Zustand**       | Lightweight state management |
+| **TanStack Query** | Optimized data fetching |
+| **TanStack Router** | Type-safe routing |
+| **Drizzle ORM** + **better-sqlite3** | High-performance local database |
+
+---
+
+## 🚀 **Getting Started**  
 
 ### **Prerequisites**  
-Ensure you have **pnpm** installed. If not, install it globally:  
+
+Ensure you have **pnpm** installed globally:  
 
 ```sh
 npm install -g pnpm
 ```
 
+---
+
 ### **Installation & Setup**  
 
-Clone the repository and install dependencies:  
+1️⃣ **Clone the Repository:**  
+
+```sh
+git clone <repository_url>
+cd <project_folder>
+```
+
+2️⃣ **Install Dependencies:**  
 
 ```sh
 pnpm i
 ```
 
-### **Database Setup**  
-
-Run the following command to generate the database schema:  
+3️⃣ **Generate Database Schema:**  
 
 ```sh
 pnpm db:generate
 ```
 
-### **Run the Application in Development Mode**  
+4️⃣ **Start the Development Server:**  
 
 ```sh
 pnpm dev
 ```
 
-### **Build for Windows**  
+---
 
-To create a Windows executable:  
+## 📦 **Building for Production**  
+
+To create a **Windows executable**, run:  
 
 ```sh
 pnpm build:win
 ```
+
+---
+
+## 🤝 **Contributing**  
+
+This project is **not open-source yet**, but it will be soon.  
+
+📢 **Want to contribute or explore the codebase?** Feel free to **DM me**, and I’d be happy to provide early access.  
+
+---
+
+## 🔗 **Stay Connected**  
+
+📌 **LinkedIn:** [your-ehsan](https://www.linkedin.com/in/your-ehsan/)  
+
+Looking forward to your thoughts, feedback, and contributions! 🚀  
+
+---

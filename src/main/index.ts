@@ -61,16 +61,6 @@ async function searchClipboard({
   }
 }
 
-let previousContent = clipboard.readText()
-async function checkClipboard(): Promise<void> {
-  const currentContent = clipboard.readText()
-  if (currentContent !== previousContent) {
-    console.log('Clipboard content has changed')
-    await db.insert(clipboardSchema).values({ type: 'text', content: currentContent })
-    previousContent = currentContent
-  }
-}
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -124,13 +114,13 @@ app.whenReady().then(() => {
   tray.setTitle('This is my title')
 
   // Register a 'CommandOrControl+X' shortcut listener.
-  const ctrl_E = globalShortcut.register('CommandOrControl+E', () => {
+  globalShortcut.register('CommandOrControl+E', () => {
     // if (!copyWidgetWindow.isVisible()) {
     copyWidgetWindow.maximize()
     copyWidgetWindow.show()
     // }
   })
-  console.info(ctrl_E)
+
   // 🔹 Handle IPC Calls
   ipcMain.handle('save-text', async (_event, text) => {
     await db.insert(clipboardSchema).values({ type: 'text', content: text })
@@ -187,6 +177,17 @@ app.whenReady().then(() => {
   ipcMain.handle('delete-note', (_, id) => deleteNote(id))
   ipcMain.handle('get-note', (_, id) => getNoteById(id))
   ipcMain.handle('get-all-notes', getAllNotes)
+
+  let previousContent = clipboard.readText()
+  async function checkClipboard(): Promise<void> {
+    const currentContent = clipboard.readText()
+    if (currentContent !== previousContent) {
+      console.log('Clipboard content has changed')
+      await db.insert(clipboardSchema).values({ type: 'text', content: currentContent })
+      previousContent = currentContent
+      copyWidgetWindow.webContents.send('refresh-data')
+    }
+  }
 
   // Check the clipboard every second
   setInterval(checkClipboard, 1000)

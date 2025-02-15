@@ -1,3 +1,5 @@
 export { cn } from './cn'
 export * from './extract-title-description'
 export * from './note-title-description'
+export * from './clean-text'
+export * from './copy-clipboard'

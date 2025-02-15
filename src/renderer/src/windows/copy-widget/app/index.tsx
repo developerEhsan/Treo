@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { Search, ArrowRight, LoaderCircleIcon, Loader2Icon } from 'lucide-react'
 import { Dialog, DialogContent } from '@renderer/components/ui/dialog'
 import {
@@ -11,39 +11,22 @@ import {
 } from '@renderer/components/ui/command'
 import { PopoverTrigger, PopoverContent, Popover } from '@renderer/components/ui/popover'
 import { CommandLoading, Command as CommandPrimitive } from 'cmdk'
-import { cn } from '@renderer/utils'
+import { cleanText, cn, copyToClipboard } from '@renderer/utils'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { RichText } from './components/rich-text'
 import { Button } from '@renderer/components/ui/button'
-
-interface PopoverStates {
-  index: number
-  open: boolean
-}
-
-const cleanText = (text: string): string => {
-  const lines = text.split('\n')
-  // Find the leading spaces on the first non-empty line
-  const firstNonEmptyLine = lines.find((line) => line.trim() !== '')
-  // Remove only that many spaces from each line
-  return lines
-    .map((line) =>
-      line.startsWith(' ')
-        ? line.slice(firstNonEmptyLine ? firstNonEmptyLine.match(/^(\s*)/)?.[1].length || 0 : 0)
-        : line
-    ) // Remove fixed spaces
-    .join('\n') // Rejoin lines
-    .trimEnd() // Trim extra spaces at the end
-}
+import { copyWidgetStore } from '@renderer/store/copy-widget-store'
 
 export function CopyWidget(): React.JSX.Element {
-  const [popoverState, setPopoverState] = useState<PopoverStates>({ index: 0, open: false })
-  const [search, setSearch] = useState('')
+  const listEndRef = useRef<HTMLDivElement>(null)
+  const { popover, searchQuery, setPopover, setSearchQuery } = copyWidgetStore()
+  // const [popoverState, setPopoverState] = useState<PopoverStates>({ index: 0, open: false })
+  // const [search, setSearch] = useState('')
   const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
     // queryKey: ['clipboard', search],
     queryKey: [],
     queryFn: ({ pageParam }) =>
-      window.api.search({ page: pageParam, searchTerm: search, limit: 5 }),
+      window.api.search({ page: pageParam, searchTerm: searchQuery, limit: 5 }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       // Check if there are more pages to load
@@ -53,19 +36,19 @@ export function CopyWidget(): React.JSX.Element {
       return undefined
     }
   })
-  const listEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!hasNextPage || isFetchingNextPage) return
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        if (entry.isIntersecting) {
           fetchNextPage()
         }
       },
       {
         root: null, // Use the viewport as the root
-        rootMargin: '40px',
-        threshold: 0.1 // Trigger when 100% of the element is visible
+        rootMargin: '100px',
+        threshold: 1 // Trigger when 100% of the element is visible
       }
     )
 
@@ -78,12 +61,8 @@ export function CopyWidget(): React.JSX.Element {
         observer.unobserve(listEndRef.current)
       }
     }
-  }, [])
+  }, [hasNextPage, isFetchingNextPage])
 
-  const copyToClipboard = (text: string): void => {
-    navigator.clipboard.writeText(text)
-    console.log('Copied to clipboard')
-  }
   const inputRef = useRef<React.ElementRef<typeof CommandPrimitive.Input>>(null)
   const itemRef = useRef<React.ElementRef<typeof CommandPrimitive.Item>>(null)
 
@@ -92,14 +71,10 @@ export function CopyWidget(): React.JSX.Element {
     if (e.key === 'ArrowRight' && (e.metaKey || e.ctrlKey)) {
       //   @ts-expect-error --- TODO !fix this type later
       const elemIndex = Number(document.querySelector('[data-selected="true"]')?.dataset.index)
-      // Open the popover for the currently focused (selected) item.
-      setPopoverState((prev) => ({
-        ...prev,
-        index: elemIndex,
-        open: elemIndex > 0
-      }))
+      setPopover({ index: elemIndex, isOpen: elemIndex > 0 })
     } else {
-      setPopoverState((prev) => ({ ...prev, open: false }))
+      // setPopoverState((prev) => ({ ...prev, open: false }))
+      setPopover({ isOpen: false })
       inputRef.current?.focus()
     }
 
@@ -110,7 +85,6 @@ export function CopyWidget(): React.JSX.Element {
       }
     }
   }
-  // console.log(data)
   // Flatten all pages to get total items count
   const allItems = data?.pages.flatMap((page) => page.results) || []
   const lastItem = allItems.at(-3)
@@ -122,19 +96,19 @@ export function CopyWidget(): React.JSX.Element {
       onOpenChange={() => {
         inputRef.current?.focus()
         window.api.closeWindow().then(() => {
-          setSearch('')
+          setSearchQuery('')
         })
       }}
     >
-      <DialogContent className={cn(popoverState.open ? '!left-[40%]' : null, 'p-0 !min-w-[50vw]')}>
+      <DialogContent className={cn(popover.isOpen ? '!left-[40%]' : null, 'p-0 !min-w-[50vw]')}>
         <Command
           shouldFilter={false}
           onKeyDown={handleKeyDown}
           className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5 !scroll-smooth"
         >
           <CommandInput
-            onValueChange={setSearch}
-            defaultValue={search}
+            onValueChange={setSearchQuery}
+            defaultValue={searchQuery}
             autoFocus
             ref={inputRef}
             placeholder="Type to search..."
@@ -152,10 +126,10 @@ export function CopyWidget(): React.JSX.Element {
                 return (
                   <Popover
                     key={`${id}-${createdAt}`}
-                    open={popoverState.index === id && popoverState.open}
+                    open={popover.index === id && popover.isOpen}
                     onOpenChange={(open) => {
                       inputRef.current?.focus()
-                      setPopoverState((prev) => ({ ...prev, open }))
+                      setPopover({ isOpen: open })
                     }}
                   >
                     <PopoverTrigger asChild className="flex duration-500 ease-in-out">
@@ -180,7 +154,7 @@ export function CopyWidget(): React.JSX.Element {
                               onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
-                                setPopoverState((prev) => ({ ...prev, open: true, index: id }))
+                                setPopover({ isOpen: true, index: id })
                               }}
                               size={'icon'}
                               variant={'ghost'}

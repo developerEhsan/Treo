@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: learn-electron
+productName: Notebook
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: learn-electron
+  executableName: Notebook
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
