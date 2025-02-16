@@ -17,7 +17,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
           cache: 'pnpm'
 
       - name: Install pnpm
@@ -38,7 +38,7 @@ jobs:
 
       - name: Build
         run: |
-          pnpm run build
+          pnpm build:win
         env:
           ELECTRON_BUILDER_ALLOWED_EXECUTABLES: '*'
 
