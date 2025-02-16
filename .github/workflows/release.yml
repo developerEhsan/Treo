@@ -17,22 +17,28 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 22
-          cache: 'npm'
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          run_install: false
 
       - name: Generate Release Notes
         id: release_notes
         run: |
-          npm install -g conventional-changelog-cli
+          pnpm add -g conventional-changelog-cli
           conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 
       - name: Install Dependencies
         run: |
-          npm ci
+          pnpm install --frozen-lockfile
 
       - name: Build
         run: |
-          npm run build
+          pnpm run build
         env:
           ELECTRON_BUILDER_ALLOWED_EXECUTABLES: '*'
 
