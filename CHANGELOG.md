@@ -1,3 +1,9 @@
+## <small>1.1.3 (2025-02-16)</small>
+
+* chore(release-action): updated package.json and resolved pnpm version conflict ([4b1a6bb](https://github.com/Your-Ehsan/electron-desktop/commit/4b1a6bb))
+
+
+
 ## <small>1.1.2 (2025-02-16)</small>
 
 * chore(release-action): reorder the action file - 3rd attempt ([b20da6d](https://github.com/Your-Ehsan/electron-desktop/commit/b20da6d))
