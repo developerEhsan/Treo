@@ -1,3 +1,9 @@
+## <small>1.1.2 (2025-02-16)</small>
+
+* chore(release-action): reorder the action file - 3rd attempt ([b20da6d](https://github.com/Your-Ehsan/electron-desktop/commit/b20da6d))
+
+
+
 ## <small>1.1.1 (2025-02-16)</small>
 
 * chore: updated .gitignore ([4fb0821](https://github.com/Your-Ehsan/electron-desktop/commit/4fb0821))
