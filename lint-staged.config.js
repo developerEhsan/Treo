@@ -1,5 +1,5 @@
 /** @type {import('./lib/types').Configuration} */
 export default {
-  '*': 'prettier --write',
+  '*': 'pnpm format',
   '*.{js,jsx,cjs,mjs,ts,tsx,cts,mts}': ['pnpm lint']
 }

@@ -1,27 +1,27 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-# Read commit message
+# Read commit message from file
 commit_message="$(cat "$1")"
 
 # Define allowed commit types
 allowed_types="add|cut|fix|bump|make|start|stop|refactor|reformat|optimize|document|merge|chore|feat|fix|docs|style|test|perf|ci|build|revert"
 
-# Regex pattern enforcing "type(scope?): subject"
-header_regex="^($allowed_types)(\([\w\-\./]+\))?: .{5,}$"
+# Simplified regex pattern
+header_pattern="^(${allowed_types})(\([a-zA-Z0-9\-\./]+\))?: .+"
 
-# Debugging: Print received commit message
+# Debug output
 echo "🔍 Debug: Received commit message ->"
 echo "-----------------------------------"
 echo "$commit_message"
 echo "-----------------------------------"
 
-# Validate commit header using grep -E (works on Windows, Mac, Linux)
-if ! echo "$commit_message" | grep -E -q "$header_regex"; then
-  cat <<EOF
+# Extract the first line of the commit message
+commit_header="$(echo "$commit_message" | head -n 1)"
+
+# Validate commit header using basic grep
+if ! echo "$commit_header" | grep -E "$header_pattern" > /dev/null 2>&1; then
+    cat <<EOF
 ❌ Invalid commit message format!
 
-🔹 Your commit message: "$commit_message"
+🔹 Your commit message: "$commit_header"
 🔹 Expected format:  type(scope?): subject
 
 ✅ Examples:
@@ -33,35 +33,61 @@ if ! echo "$commit_message" | grep -E -q "$header_regex"; then
 💡 Allowed types: $allowed_types
 
 👉 Please follow the conventional commit format and try again.
-
 EOF
-  exit 1
+    exit 1
 fi
 
-# Validate commit description (requires at least 10 characters after a blank line)
-commit_body="$(awk 'NR>1 {exit 1} END {exit 0}' "$1")"
+# Count the number of lines in the commit message
+line_count=$(echo "$commit_message" | wc -l)
 
-if [ $? -eq 1 ]; then
-  cat <<EOF
-❌ Commit description is required!
+# Check if message has at least 3 lines (header, blank line, and description)
+if [ "$line_count" -lt 3 ]; then
+    cat <<EOF
+❌ Commit description is missing!
 
-🔹 Your commit message must have:
-   - A blank line after the subject
-   - A meaningful description (at least 10 characters)
+Your commit message must include:
+🔹 Header line (type(scope): subject)
+🔹 Blank line
+🔹 Description (at least 10 characters)
 
 ✅ Example:
 -------------------------------------------------------
 fix(auth): resolve login issue
 
-This fixes a bug where the authentication token was not
-properly stored in local storage, causing session issues.
+This commit fixes the authentication system by properly
+handling token validation and improving error messages.
 -------------------------------------------------------
 
-👉 Please add a commit description and try again.
-
+👉 Please add a meaningful description and try again.
 EOF
-  exit 1
+    exit 1
 fi
 
-# Run commitlint (to enforce additional rules)
+# Get the second line (should be blank)
+second_line=$(echo "$commit_message" | sed -n '2p')
+
+# Get the description (third line onwards)
+description=$(echo "$commit_message" | sed -n '3,$p')
+
+# Check if second line is blank and description is not empty
+if [ -n "$second_line" ] || [ -z "$description" ] || [ "${#description}" -lt 10 ]; then
+    cat <<EOF
+❌ Invalid commit message format!
+
+Your commit message must follow this format:
+🔹 First line: type(scope): subject
+🔹 Second line: BLANK LINE
+🔹 Third line onwards: Description (at least 10 characters)
+
+Current format:
+-------------------------------------------------------
+$commit_message
+-------------------------------------------------------
+
+👉 Please format your commit message correctly and try again.
+EOF
+    exit 1
+fi
+
+# Run commitlint
 pnpm dlx commitlint --edit
