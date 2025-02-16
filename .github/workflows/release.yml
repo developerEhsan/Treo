@@ -1,25 +1,29 @@
 name: Release
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
 jobs:
   release:
+    if: ${{ github.repository_owner == 'Your-Ehsan' }}
+    name: Create a release
     runs-on: windows-latest
-    
+
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: latest
           run_install: false
-      
+
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:

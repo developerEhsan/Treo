@@ -42,7 +42,7 @@ export const Route = createRootRoute({
           <Toaster />
           <ModalsProvider />
         </QueryProvider>
-        {import.meta.env.PROD ? <TanStackRouterDevtools /> : null}
+        {import.meta.env.DEV ? <TanStackRouterDevtools /> : null}
       </>
     )
   }

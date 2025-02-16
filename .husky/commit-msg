@@ -1,0 +1,67 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Read commit message
+commit_message="$(cat "$1")"
+
+# Define allowed commit types
+allowed_types="add|cut|fix|bump|make|start|stop|refactor|reformat|optimize|document|merge|chore|feat|fix|docs|style|test|perf|ci|build|revert"
+
+# Regex pattern enforcing "type(scope?): subject"
+header_regex="^($allowed_types)(\([\w\-\./]+\))?: .{5,}$"
+
+# Debugging: Print received commit message
+echo "🔍 Debug: Received commit message ->"
+echo "-----------------------------------"
+echo "$commit_message"
+echo "-----------------------------------"
+
+# Validate commit header using grep -E (works on Windows, Mac, Linux)
+if ! echo "$commit_message" | grep -E -q "$header_regex"; then
+  cat <<EOF
+❌ Invalid commit message format!
+
+🔹 Your commit message: "$commit_message"
+🔹 Expected format:  type(scope?): subject
+
+✅ Examples:
+-------------------------------------------------------
+🔹 1: fix(auth): resolve login issue
+🔹 2: refactor(db): optimize query performance
+🔹 3: document: update README
+
+💡 Allowed types: $allowed_types
+
+👉 Please follow the conventional commit format and try again.
+
+EOF
+  exit 1
+fi
+
+# Validate commit description (requires at least 10 characters after a blank line)
+commit_body="$(awk 'NR>1 {exit 1} END {exit 0}' "$1")"
+
+if [ $? -eq 1 ]; then
+  cat <<EOF
+❌ Commit description is required!
+
+🔹 Your commit message must have:
+   - A blank line after the subject
+   - A meaningful description (at least 10 characters)
+
+✅ Example:
+-------------------------------------------------------
+fix(auth): resolve login issue
+
+This fixes a bug where the authentication token was not
+properly stored in local storage, causing session issues.
+-------------------------------------------------------
+
+👉 Please add a commit description and try again.
+
+EOF
+  exit 1
+fi
+
+# Run commitlint (to enforce additional rules)
+pnpm dlx commitlint --edit

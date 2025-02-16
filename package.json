@@ -17,7 +17,7 @@
     "typecheck": "pnpm run typecheck:node && pnpm run typecheck:web",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "pnpm run typecheck && electron-vite build",
+    "build": "cross-env GENERATE_SOURCEMAP=false \"pnpm run typecheck && electron-vite build\"",
     "rebuild:drizzle": "pnpm rebuild better-sqlite3",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "pnpm run build && electron-builder --dir",
@@ -26,7 +26,8 @@
     "build:linux": "electron-vite build && electron-builder --linux",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "release": "standard-version",
-    "prepare": "husky install"
+    "pre-commit": "lint-staged",
+    "prepare": "husky"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
@@ -113,6 +114,7 @@
     "eslint": "^8.57.1",
     "eslint-plugin-react": "^7.37.4",
     "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
     "postcss": "^8.5.1",
     "prettier": "^3.4.2",
     "react": "^18.3.1",
