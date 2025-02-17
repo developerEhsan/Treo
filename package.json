@@ -26,7 +26,8 @@
     "build:linux": "electron-vite build && electron-builder --linux",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "release": "standard-version",
-    "pre-commit": "lint-staged && commitlint --edit",
+    "commit-msg": "commitlint --edit",
+    "pre-commit": "lint-staged",
     "prepare": "husky"
   },
   "dependencies": {

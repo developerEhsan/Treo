@@ -1,0 +1,33 @@
+type(scope): short description
+
+Detailed description of the change.
+Explain why this change is necessary and what it fixes or improves.
+
+# Commit Message Template
+# ------------------------
+#
+# Format: type(scope): subject
+#
+# Subject should be a short summary of the change (max 72 chars).
+# Leave one blank line after the subject.
+#
+# Below, provide a detailed description of the change.
+# Explain *why* the change was made and *what* it does.
+# ------------------------
+# Example:
+# feat(auth): add JWT authentication
+#
+# Added JWT-based authentication to improve security.
+# This replaces the old session-based authentication system.
+#
+# Allowed types:
+# - feat: A new feature
+# - fix: A bug fix
+# - chore: Routine tasks like configs, scripts
+# - docs: Documentation updates
+# - style: Code style changes (formatting, no logic changes)
+# - refactor: Code restructuring without behavior changes
+# - test: Adding or fixing tests
+# - ci: CI/CD pipeline changes
+# - build: Build system changes
+# - revert: Reverting previous changes
