@@ -17,60 +17,60 @@ import {
 } from '@radix-ui/react-icons'
 
 interface ImageActionsProps {
-  shouldMerge?: boolean
-  isLink?: boolean
-  onView?: () => void
-  onDownload?: () => void
-  onCopy?: () => void
-  onCopyLink?: () => void
+  readonly shouldMerge?: boolean
+  readonly isLink?: boolean
+  readonly onView?: () => void
+  readonly onDownload?: () => void
+  readonly onCopy?: () => void
+  readonly onCopyLink?: () => void
 }
 
 interface ActionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  icon: React.ReactNode
-  tooltip: string
+  readonly icon: React.ReactNode
+  readonly tooltip: string
 }
 
-export const ActionWrapper = React.memo(
-  React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-    ({ children, className, ...props }, ref) => (
-      <div
-        ref={ref}
-        className={cn(
-          'absolute right-3 top-3 flex flex-row rounded px-0.5 opacity-0 group-hover/node-image:opacity-100',
-          'border-[0.5px] bg-[var(--mt-bg-secondary)] [backdrop-filter:saturate(1.8)_blur(20px)]',
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    )
+export const ActionWrapper = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  (
+    { children, className, ...props }: React.HTMLAttributes<HTMLDivElement>,
+    ref
+  ): React.JSX.Element => (
+    <div
+      className={cn(
+        'absolute right-3 top-3 flex flex-row rounded px-0.5 opacity-0 group-hover/node-image:opacity-100',
+        'border-[0.5px] bg-[var(--mt-bg-secondary)] [backdrop-filter:saturate(1.8)_blur(20px)]',
+        className
+      )}
+      ref={ref}
+      {...props}
+    >
+      {children}
+    </div>
   )
 )
 
 ActionWrapper.displayName = 'ActionWrapper'
 
-export const ActionButton = React.memo(
-  React.forwardRef<HTMLButtonElement, ActionButtonProps>(
-    ({ icon, tooltip, className, ...props }, ref) => (
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            ref={ref}
-            variant="ghost"
-            className={cn(
-              'relative flex h-7 w-7 flex-row rounded-none p-0 text-muted-foreground hover:text-foreground',
-              'bg-transparent hover:bg-transparent',
-              className
-            )}
-            {...props}
-          >
-            {icon}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="bottom">{tooltip}</TooltipContent>
-      </Tooltip>
-    )
+export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
+  ({ icon, tooltip, className, ...props }: ActionButtonProps, ref) => (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          className={cn(
+            'relative flex h-7 w-7 flex-row rounded-none p-0 text-muted-foreground hover:text-foreground',
+            'bg-transparent hover:bg-transparent',
+            className
+          )}
+          ref={ref}
+          variant="ghost"
+          {...props}
+        >
+          {icon}
+        </Button>
+      </TooltipTrigger>
+
+      <TooltipContent side="bottom">{tooltip}</TooltipContent>
+    </Tooltip>
   )
 )
 
@@ -100,7 +100,7 @@ const ActionItems: Array<{
 ]
 
 export const ImageActions: React.FC<ImageActionsProps> = React.memo(
-  ({ shouldMerge = false, isLink = false, ...actions }) => {
+  ({ shouldMerge = false, isLink = false, ...actions }: ImageActionsProps) => {
     const [isOpen, setIsOpen] = React.useState(false)
 
     const handleAction = React.useCallback(
@@ -124,15 +124,17 @@ export const ImageActions: React.FC<ImageActionsProps> = React.memo(
             <DropdownMenuTrigger asChild>
               <ActionButton
                 icon={<DotsHorizontalIcon className="size-4" />}
-                tooltip="Open menu"
                 onClick={(e) => e.preventDefault()}
+                tooltip="Open menu"
               />
             </DropdownMenuTrigger>
+
             <DropdownMenuContent className="w-56" align="end">
               {filteredActions.map(({ key, icon, tooltip }) => (
                 <DropdownMenuItem key={key} onClick={(e) => handleAction(e, actions[key])}>
                   <div className="flex flex-row items-center gap-2">
                     {icon}
+
                     <span>{tooltip}</span>
                   </div>
                 </DropdownMenuItem>
@@ -142,10 +144,10 @@ export const ImageActions: React.FC<ImageActionsProps> = React.memo(
         ) : (
           filteredActions.map(({ key, icon, tooltip }) => (
             <ActionButton
-              key={key}
               icon={icon}
-              tooltip={tooltip}
+              key={key}
               onClick={(e) => handleAction(e, actions[key])}
+              tooltip={tooltip}
             />
           ))
         )}

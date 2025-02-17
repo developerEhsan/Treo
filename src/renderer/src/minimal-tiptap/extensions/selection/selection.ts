@@ -12,7 +12,7 @@ export const Selection = Extension.create({
       new Plugin({
         key: new PluginKey('selection'),
         props: {
-          decorations(state) {
+          decorations(state): DecorationSet | null {
             if (state.selection.empty) {
               return null
             }

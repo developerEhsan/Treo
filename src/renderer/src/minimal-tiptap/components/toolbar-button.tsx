@@ -5,18 +5,18 @@ import { Toggle } from '@renderer/components/ui/toggle'
 import { cn } from '@renderer/utils'
 
 interface ToolbarButtonProps extends React.ComponentPropsWithoutRef<typeof Toggle> {
-  isActive?: boolean
-  tooltip?: string
-  tooltipOptions?: TooltipContentProps
+  readonly isActive?: boolean
+  readonly tooltip?: string
+  readonly tooltipOptions?: TooltipContentProps
 }
 
 export const ToolbarButton = React.forwardRef<HTMLButtonElement, ToolbarButtonProps>(
   ({ isActive, children, tooltip, className, tooltipOptions, ...props }, ref) => {
     const toggleButton = (
       <Toggle
-        size="sm"
-        ref={ref}
         className={cn('size-8 p-0', { 'bg-accent': isActive }, className)}
+        ref={ref}
+        size="sm"
         {...props}
       >
         {children}
@@ -30,6 +30,7 @@ export const ToolbarButton = React.forwardRef<HTMLButtonElement, ToolbarButtonPr
     return (
       <Tooltip>
         <TooltipTrigger asChild>{toggleButton}</TooltipTrigger>
+
         <TooltipContent {...tooltipOptions}>
           <div className="flex flex-col items-center text-center">{tooltip}</div>
         </TooltipContent>

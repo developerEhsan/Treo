@@ -63,73 +63,88 @@ const COLORS: ColorPalette[] = [
   }
 ]
 
-const MemoizedColorButton = React.memo<{
-  color: ColorItem
-  isSelected: boolean
-  inverse: string
-  onClick: (value: string) => void
-}>(({ color, isSelected, inverse, onClick }) => {
-  const isDarkMode = useTheme()
-  const label = isDarkMode && color.darkLabel ? color.darkLabel : color.label
+const MemoizedColorButton = React.memo(
+  ({
+    color,
+    isSelected,
+    inverse,
+    onClick
+  }: {
+    readonly color: ColorItem
+    readonly isSelected: boolean
+    readonly inverse: string
+    readonly onClick: (value: string) => void
+  }): React.JSX.Element => {
+    const isDarkMode = useTheme()
+    const label = isDarkMode && color.darkLabel ? color.darkLabel : color.label
 
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <ToggleGroupItem
-          tabIndex={0}
-          className="relative size-7 rounded-md p-0"
-          value={color.cssVar}
-          aria-label={label}
-          style={{ backgroundColor: color.cssVar }}
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            e.preventDefault()
-            onClick(color.cssVar)
-          }}
-        >
-          {isSelected && (
-            <CheckIcon className="absolute inset-0 m-auto size-6" style={{ color: inverse }} />
-          )}
-        </ToggleGroupItem>
-      </TooltipTrigger>
-      <TooltipContent side="bottom">
-        <p>{label}</p>
-      </TooltipContent>
-    </Tooltip>
-  )
-})
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <ToggleGroupItem
+            aria-label={label}
+            className="relative size-7 rounded-md p-0"
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault()
+              onClick(color.cssVar)
+            }}
+            style={{ backgroundColor: color.cssVar }}
+            tabIndex={0}
+            value={color.cssVar}
+          >
+            {isSelected ? (
+              <CheckIcon className="absolute inset-0 m-auto size-6" style={{ color: inverse }} />
+            ) : null}
+          </ToggleGroupItem>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom">
+          <p>{label}</p>
+        </TooltipContent>
+      </Tooltip>
+    )
+  }
+)
 
 MemoizedColorButton.displayName = 'MemoizedColorButton'
 
-const MemoizedColorPicker = React.memo<{
-  palette: ColorPalette
-  selectedColor: string
-  inverse: string
-  onColorChange: (value: string) => void
-}>(({ palette, selectedColor, inverse, onColorChange }) => (
-  <ToggleGroup
-    type="single"
-    value={selectedColor}
-    onValueChange={(value: string) => {
-      if (value) onColorChange(value)
-    }}
-    className="gap-1.5"
-  >
-    {palette.colors.map((color, index) => (
-      <MemoizedColorButton
-        key={index}
-        inverse={inverse}
-        color={color}
-        isSelected={selectedColor === color.cssVar}
-        onClick={onColorChange}
-      />
-    ))}
-  </ToggleGroup>
-))
+const MemoizedColorPicker = React.memo(
+  ({
+    palette,
+    selectedColor,
+    inverse,
+    onColorChange
+  }: {
+    readonly palette: ColorPalette
+    readonly selectedColor: string
+    readonly inverse: string
+    readonly onColorChange: (value: string) => void
+  }): React.JSX.Element => (
+    <ToggleGroup
+      className="gap-1.5"
+      onValueChange={(value: string) => {
+        if (value) onColorChange(value)
+      }}
+      type="single"
+      value={selectedColor}
+    >
+      {palette.colors.map((color, index) => (
+        <MemoizedColorButton
+          color={color}
+          inverse={inverse}
+          isSelected={selectedColor === color.cssVar}
+          key={index}
+          onClick={onColorChange}
+        />
+      ))}
+    </ToggleGroup>
+  )
+)
 
 MemoizedColorPicker.displayName = 'MemoizedColorPicker'
 
 interface SectionThreeProps extends VariantProps<typeof toggleVariants> {
-  editor: Editor
+  readonly editor: Editor
 }
 
 export const SectionThree: React.FC<SectionThreeProps> = ({ editor, size, variant }) => {
@@ -152,41 +167,45 @@ export const SectionThree: React.FC<SectionThreeProps> = ({ editor, size, varian
     <Popover>
       <PopoverTrigger asChild>
         <ToolbarButton
-          tooltip="Text color"
           aria-label="Text color"
           className="w-12"
           size={size}
+          tooltip="Text color"
           variant={variant}
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
+            className="size-5"
             fill="none"
+            height="24"
             stroke="currentColor"
-            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="size-5"
+            strokeWidth="2"
             style={{ color: selectedColor }}
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path d="M4 20h16" />
+
             <path d="m6 16 6-12 6 12" />
+
             <path d="M8 12h8" />
           </svg>
+
           <CaretDownIcon className="size-5" />
         </ToolbarButton>
       </PopoverTrigger>
+
       <PopoverContent align="start" className="w-full">
         <div className="space-y-1.5">
           {COLORS.map((palette, index) => (
             <MemoizedColorPicker
-              key={index}
-              palette={palette}
               inverse={palette.inverse}
-              selectedColor={selectedColor}
+              key={index}
               onColorChange={handleColorChange}
+              palette={palette}
+              selectedColor={selectedColor}
             />
           ))}
         </div>

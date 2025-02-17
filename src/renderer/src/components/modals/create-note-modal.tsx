@@ -74,8 +74,10 @@ export function CreateNoteModal(): React.JSX.Element {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create new Note 📒</DialogTitle>
+
           <DialogDescription>Begin creating a brand new one.</DialogDescription>
         </DialogHeader>
+
         <div className="w-full max-w-md mx-auto p-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -85,10 +87,13 @@ export function CreateNoteModal(): React.JSX.Element {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Username</FormLabel>
+
                     <FormControl>
                       <Input placeholder="title" {...field} />
                     </FormControl>
+
                     <FormDescription>Title for the note.</FormDescription>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -100,10 +105,13 @@ export function CreateNoteModal(): React.JSX.Element {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Description</FormLabel>
+
                     <FormControl>
                       <Textarea {...field} />
                     </FormControl>
+
                     <FormDescription>Description for the note.</FormDescription>
+
                     <FormMessage />
                   </FormItem>
                 )}

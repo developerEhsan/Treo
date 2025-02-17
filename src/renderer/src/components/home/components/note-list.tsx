@@ -7,7 +7,7 @@ import { Link, useLocation } from '@tanstack/react-router'
 import { NoteListMenu } from './note-list-menu'
 
 interface NoteListProps {
-  items: NoteInterface[]
+  readonly items: NoteInterface[]
 }
 export function NoteList({ items }: NoteListProps): React.JSX.Element {
   const { pathname } = useLocation()
@@ -16,7 +16,7 @@ export function NoteList({ items }: NoteListProps): React.JSX.Element {
     <ScrollArea className="h-screen">
       <div className="flex flex-col gap-2 p-4 pt-0">
         {items.map((item) => (
-          <Link params={{ noteId: String(item.id) }} key={item.id} to={'/$noteId'}>
+          <Link params={{ noteId: String(item.id) }} key={item.id} to="/$noteId">
             <div
               className={cn(
                 'flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent',
@@ -28,8 +28,10 @@ export function NoteList({ items }: NoteListProps): React.JSX.Element {
                   <div className="flex items-center gap-2">
                     <div className="font-semibold line-clamp-2">{item.title}</div>
                   </div>
+
                   <NoteListMenu id={item.id.toString()} />
                 </div>
+
                 <div className="line-clamp-2 text-xs text-muted-foreground">{item.description}</div>
               </div>
 

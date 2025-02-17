@@ -8,10 +8,10 @@ import { ToolbarButton } from '../toolbar-button'
 import { LinkEditBlock } from './link-edit-block'
 
 interface LinkEditPopoverProps extends VariantProps<typeof toggleVariants> {
-  editor: Editor
+  readonly editor: Editor
 }
 
-const LinkEditPopover = ({ editor, size, variant }: LinkEditPopoverProps) => {
+function LinkEditPopover({ editor, size, variant }: LinkEditPopoverProps): React.JSX.Element {
   const [open, setOpen] = React.useState(false)
 
   const { from, to } = editor.state.selection
@@ -48,16 +48,17 @@ const LinkEditPopover = ({ editor, size, variant }: LinkEditPopoverProps) => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <ToolbarButton
-          isActive={editor.isActive('link')}
-          tooltip="Link"
           aria-label="Insert link"
           disabled={editor.isActive('codeBlock')}
+          isActive={editor.isActive('link')}
           size={size}
+          tooltip="Link"
           variant={variant}
         >
           <Link2Icon className="size-5" />
         </ToolbarButton>
       </PopoverTrigger>
+
       <PopoverContent className="w-full min-w-80" align="end" side="bottom">
         <LinkEditBlock onSave={onSetLink} defaultText={text} />
       </PopoverContent>

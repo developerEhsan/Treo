@@ -41,7 +41,7 @@ export const Link = TiptapLink.extend({
       ...(this.parent?.() || []),
       new Plugin({
         props: {
-          handleKeyDown: (_: EditorView, event: KeyboardEvent) => {
+          handleKeyDown: (_: EditorView, event: KeyboardEvent): false | void => {
             const { selection } = editor.state
 
             /*
@@ -54,7 +54,7 @@ export const Link = TiptapLink.extend({
 
             return false
           },
-          handleClick(view, pos) {
+          handleClick(view, pos): void {
             /*
              * Marks the entire link when the user clicks on it.
              */

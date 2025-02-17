@@ -4,7 +4,7 @@ import { cn } from '@renderer/utils'
 import { createFileRoute, Link, Outlet, useLocation } from '@tanstack/react-router'
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
-  items: {
+  readonly items: {
     href: string
     title: string
   }[]
@@ -20,8 +20,6 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps): Rea
     >
       {items.map((item) => (
         <Link
-          key={item.href}
-          to={item.href}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
             pathname === item.href
@@ -29,6 +27,8 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps): Rea
               : 'hover:bg-transparent hover:underline',
             'justify-start'
           )}
+          key={item.href}
+          to={item.href}
         >
           {item.title}
         </Link>
@@ -66,15 +66,19 @@ export const Route = createFileRoute('/settings/_settings')({
       <div className="space-y-6 p-10 pb-16 md:block overflow-y-auto">
         <div className="space-y-0.5">
           <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
+
           <p className="text-muted-foreground">
             Manage your account settings and set e-mail preferences.
           </p>
         </div>
+
         <Separator className="my-6" />
+
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
           <aside className="-mx-4 lg:w-1/5">
             <SidebarNav items={sidebarNavItems} />
           </aside>
+
           <div className="flex-1 lg:max-w-2xl">
             <Outlet />
           </div>

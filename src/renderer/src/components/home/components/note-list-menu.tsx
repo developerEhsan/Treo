@@ -13,7 +13,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import { MoreVerticalIcon, Trash2Icon } from 'lucide-react'
 
 interface NoteListMenuProps {
-  id: string
+  readonly id: string
 }
 export function NoteListMenu({ id }: NoteListMenuProps): React.JSX.Element {
   const queryClient = useQueryClient()
@@ -41,14 +41,15 @@ export function NoteListMenu({ id }: NoteListMenuProps): React.JSX.Element {
     <Menubar className="border-none rounded-full bg-transparent p-0 h-auto">
       <MenubarMenu>
         <MenubarTrigger
+          className="p-1 cursor-pointer"
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
           }}
-          className="p-1 cursor-pointer"
         >
           <MoreVerticalIcon size={12} />
         </MenubarTrigger>
+
         <MenubarContent>
           <MenubarItem
             onClick={(e) => {

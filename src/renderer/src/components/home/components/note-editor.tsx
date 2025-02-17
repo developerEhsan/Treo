@@ -16,7 +16,7 @@ interface UpdateNote {
 }
 
 interface NoteEditorProps extends NoteInterface {
-  noteId: string
+  readonly noteId: string
 }
 
 export function NoteEditor({
@@ -76,18 +76,18 @@ export function NoteEditor({
   }
   return (
     <MinimalTiptapThree
-      key={noteId}
-      onFocus={() => setOpen(false)}
-      value={content}
-      throttleDelay={1000} // 1 sec
       className={cn('h-full min-h-56 w-full rounded-xl')}
-      editorContentClassName="overflow-auto h-full"
-      output="json"
-      enableContentCheck
-      onChange={onChange}
-      placeholder="This is your placeholder..."
       editable
       editorClassName="focus:outline-none px-5 py-4 h-full"
+      editorContentClassName="overflow-auto h-full"
+      enableContentCheck
+      key={noteId}
+      onChange={onChange}
+      onFocus={() => setOpen(false)}
+      output="json"
+      placeholder="This is your placeholder..."
+      throttleDelay={1000} // 1 sec
+      value={content}
     />
   )
 }

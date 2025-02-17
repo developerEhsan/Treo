@@ -84,20 +84,22 @@ function DisplayForm(): React.JSX.Element {
             <FormItem>
               <div className="mb-4">
                 <FormLabel className="text-base">Sidebar</FormLabel>
+
                 <FormDescription>
                   Select the items you want to display in the sidebar.
                 </FormDescription>
               </div>
+
               {items.map((item) => (
                 <FormField
-                  key={item.id}
                   control={form.control}
+                  key={item.id}
                   name="items"
                   render={({ field }) => {
                     return (
                       <FormItem
-                        key={item.id}
                         className="flex flex-row items-start space-x-3 space-y-0"
+                        key={item.id}
                       >
                         <FormControl>
                           <Checkbox
@@ -109,16 +111,19 @@ function DisplayForm(): React.JSX.Element {
                             }}
                           />
                         </FormControl>
+
                         <FormLabel className="font-normal">{item.label}</FormLabel>
                       </FormItem>
                     )
                   }}
                 />
               ))}
+
               <FormMessage />
             </FormItem>
           )}
         />
+
         <Button type="submit">Update display</Button>
       </form>
     </Form>
@@ -131,11 +136,14 @@ export const Route = createFileRoute('/settings/_settings/display')({
       <div className="space-y-6">
         <div>
           <h3 className="text-lg font-medium">Display</h3>
+
           <p className="text-sm text-muted-foreground">
             Turn items on or off to control what&apos;s displayed in the app.
           </p>
         </div>
+
         <Separator />
+
         <DisplayForm />
       </div>
     )

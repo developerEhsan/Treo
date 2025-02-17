@@ -115,18 +115,15 @@ function Grid(): React.JSX.Element {
       const shouldHighlight = active - x === x || active - y === y
       return (
         <div
+          className={boxClassName}
           key={`${x}-${y}`}
+          onClick={onMouseEnter}
+          onMouseEnter={onMouseEnter}
           style={{
             transform: `translate(${xPos}px, ${y}px)`
           }}
-          onMouseEnter={onMouseEnter}
-          onClick={onMouseEnter}
-          className={boxClassName}
         >
           <div
-            style={{
-              transitionDelay: active ? `${x + y}ms` : '0ms'
-            }}
             className={cn(
               'h-full w-full scale-90 rounded bg-gray-400/30 opacity-0 transition-all duration-700',
               {
@@ -134,6 +131,9 @@ function Grid(): React.JSX.Element {
                 'group-hover:scale-100 group-hover:opacity-100': !shouldHighlight
               }
             )}
+            style={{
+              transitionDelay: active ? `${x + y}ms` : '0ms'
+            }}
           />
         </div>
       )
@@ -142,9 +142,9 @@ function Grid(): React.JSX.Element {
 
   return (
     <div
-      ref={containerRef}
-      onMouseEnter={onMouseEnter}
       className={cn('absolute inset-0 !min-h-full w-full grid items-center')}
+      onMouseEnter={onMouseEnter}
+      ref={containerRef}
     >
       {cells}
     </div>
@@ -156,9 +156,9 @@ export default function InteractiveGrid({
   className,
   contentClassName
 }: {
-  children: React.ReactNode
-  className?: string
-  contentClassName?: string
+  readonly children: React.ReactNode
+  readonly className?: string
+  readonly contentClassName?: string
 }): React.JSX.Element {
   return (
     <div
@@ -169,6 +169,7 @@ export default function InteractiveGrid({
       }}
     >
       <Grid />
+
       <div className={cn('relative mx-auto h-full w-fit grid items-center', contentClassName)}>
         {children}
       </div>

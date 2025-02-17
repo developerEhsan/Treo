@@ -1,6 +1,6 @@
 import hljs from 'highlight.js'
 
-export function RichText({ content }: { content: string }): React.JSX.Element {
+export function RichText({ content }: { readonly content: string }): React.JSX.Element {
   const text = hljs.highlightAuto(content)
 
   return (

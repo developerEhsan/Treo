@@ -91,7 +91,6 @@ export function CopyWidget(): React.JSX.Element {
 
   return (
     <Dialog
-      open
       modal
       onOpenChange={() => {
         inputRef.current?.focus()
@@ -99,20 +98,22 @@ export function CopyWidget(): React.JSX.Element {
           setSearchQuery('')
         })
       }}
+      open
     >
       <DialogContent className={cn(popover.isOpen ? '!left-[40%]' : null, 'p-0 !min-w-[50vw]')}>
         <Command
-          shouldFilter={false}
-          onKeyDown={handleKeyDown}
           className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5 !scroll-smooth"
+          onKeyDown={handleKeyDown}
+          shouldFilter={false}
         >
           <CommandInput
-            onValueChange={setSearchQuery}
-            defaultValue={searchQuery}
             autoFocus
-            ref={inputRef}
+            defaultValue={searchQuery}
+            onValueChange={setSearchQuery}
             placeholder="Type to search..."
+            ref={inputRef}
           />
+
           <CommandList className="duration-500 ease-in-out">
             {isLoading ? (
               <CommandLoading className="min-h-40 w-full h-full flex items-center justify-center">
@@ -121,34 +122,37 @@ export function CopyWidget(): React.JSX.Element {
             ) : (
               <CommandEmpty>No results found.</CommandEmpty>
             )}
+
             <CommandGroup heading="Text">
               {allItems.map(({ content, id, createdAt }) => {
                 return (
                   <Popover
                     key={`${id}-${createdAt}`}
-                    open={popover.index === id && popover.isOpen}
                     onOpenChange={(open) => {
                       inputRef.current?.focus()
                       setPopover({ isOpen: open })
                     }}
+                    open={popover.index === id && popover.isOpen}
                   >
                     <PopoverTrigger asChild className="flex duration-500 ease-in-out">
                       <CommandItem
-                        ref={itemRef}
+                        className="duration-500 ease-in-out"
+                        data-index={id}
+                        data-islast={lastItem?.id === id}
                         onSelect={() => {
                           copyToClipboard(content)
                           window.api.pasteCopied()
                         }}
+                        ref={itemRef}
                         value={`${id}-${createdAt}`}
-                        data-index={id}
-                        data-islast={lastItem?.id === id}
-                        className="duration-500 ease-in-out"
                       >
                         <div className="flex min-w-full items-center content-center justify-between">
                           <div className="flex items-center">
                             <Search className="mr-2 h-4 w-4" />
+
                             <p className="line-clamp-2">{content}</p>
                           </div>
+
                           <div className="flex">
                             <Button
                               onClick={(e) => {
@@ -156,8 +160,8 @@ export function CopyWidget(): React.JSX.Element {
                                 e.stopPropagation()
                                 setPopover({ isOpen: true, index: id })
                               }}
-                              size={'icon'}
-                              variant={'ghost'}
+                              size="icon"
+                              variant="ghost"
                             >
                               <ArrowRight className="h-4 w-4" />
                             </Button>
@@ -165,20 +169,23 @@ export function CopyWidget(): React.JSX.Element {
                         </div>
                       </CommandItem>
                     </PopoverTrigger>
+
                     <PopoverContent
-                      onWheel={(e) => e.stopPropagation()}
-                      className="w-[500px] p-0 rounded-lg ml-8 scroll-smooth"
-                      side="right"
                       align="start"
+                      className="w-[500px] p-0 rounded-lg ml-8 scroll-smooth"
+                      onWheel={(e) => e.stopPropagation()}
+                      side="right"
                     >
                       <div className="p-4 bg-popover text-popover-foreground">
                         <h4 className="font-semibold mb-2">Detailed View</h4>
+
                         <RichText content={cleanText(content)} />
                       </div>
                     </PopoverContent>
                   </Popover>
                 )
               })}
+
               <div ref={listEndRef} className="w-full h-full flex items-center justify-center">
                 {hasNextPage ? (
                   <Loader2Icon size={18} className="animate-spin my-4" />

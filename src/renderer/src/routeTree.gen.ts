@@ -33,67 +33,64 @@ const homeImport = createFileRoute('/(home)')()
 const SettingsRoute = SettingsImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRoute
 } as any)
 
 const homeRoute = homeImport.update({
   id: '/(home)',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRoute
 } as any)
 
 const SettingsSettingsRoute = SettingsSettingsImport.update({
   id: '/_settings',
-  getParentRoute: () => SettingsRoute,
+  getParentRoute: () => SettingsRoute
 } as any)
 
 const homeHomeRoute = homeHomeImport.update({
   id: '/_home',
-  getParentRoute: () => homeRoute,
+  getParentRoute: () => homeRoute
 } as any)
 
 const homeHomeIndexRoute = homeHomeIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => homeHomeRoute,
+  getParentRoute: () => homeHomeRoute
 } as any)
 
 const SettingsSettingsProfileRoute = SettingsSettingsProfileImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => SettingsSettingsRoute,
+  getParentRoute: () => SettingsSettingsRoute
 } as any)
 
-const SettingsSettingsNotificationsRoute =
-  SettingsSettingsNotificationsImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => SettingsSettingsRoute,
-  } as any)
+const SettingsSettingsNotificationsRoute = SettingsSettingsNotificationsImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => SettingsSettingsRoute
+} as any)
 
 const SettingsSettingsDisplayRoute = SettingsSettingsDisplayImport.update({
   id: '/display',
   path: '/display',
-  getParentRoute: () => SettingsSettingsRoute,
+  getParentRoute: () => SettingsSettingsRoute
 } as any)
 
-const SettingsSettingsAppearanceRoute = SettingsSettingsAppearanceImport.update(
-  {
-    id: '/appearance',
-    path: '/appearance',
-    getParentRoute: () => SettingsSettingsRoute,
-  } as any,
-)
+const SettingsSettingsAppearanceRoute = SettingsSettingsAppearanceImport.update({
+  id: '/appearance',
+  path: '/appearance',
+  getParentRoute: () => SettingsSettingsRoute
+} as any)
 
 const SettingsSettingsAccountRoute = SettingsSettingsAccountImport.update({
   id: '/account',
   path: '/account',
-  getParentRoute: () => SettingsSettingsRoute,
+  getParentRoute: () => SettingsSettingsRoute
 } as any)
 
 const homeHomeNoteIdRoute = homeHomeNoteIdImport.update({
   id: '/$noteId',
   path: '/$noteId',
-  getParentRoute: () => homeHomeRoute,
+  getParentRoute: () => homeHomeRoute
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -189,19 +186,17 @@ interface homeHomeRouteChildren {
 
 const homeHomeRouteChildren: homeHomeRouteChildren = {
   homeHomeNoteIdRoute: homeHomeNoteIdRoute,
-  homeHomeIndexRoute: homeHomeIndexRoute,
+  homeHomeIndexRoute: homeHomeIndexRoute
 }
 
-const homeHomeRouteWithChildren = homeHomeRoute._addFileChildren(
-  homeHomeRouteChildren,
-)
+const homeHomeRouteWithChildren = homeHomeRoute._addFileChildren(homeHomeRouteChildren)
 
 interface homeRouteChildren {
   homeHomeRoute: typeof homeHomeRouteWithChildren
 }
 
 const homeRouteChildren: homeRouteChildren = {
-  homeHomeRoute: homeHomeRouteWithChildren,
+  homeHomeRoute: homeHomeRouteWithChildren
 }
 
 const homeRouteWithChildren = homeRoute._addFileChildren(homeRouteChildren)
@@ -219,23 +214,22 @@ const SettingsSettingsRouteChildren: SettingsSettingsRouteChildren = {
   SettingsSettingsAppearanceRoute: SettingsSettingsAppearanceRoute,
   SettingsSettingsDisplayRoute: SettingsSettingsDisplayRoute,
   SettingsSettingsNotificationsRoute: SettingsSettingsNotificationsRoute,
-  SettingsSettingsProfileRoute: SettingsSettingsProfileRoute,
+  SettingsSettingsProfileRoute: SettingsSettingsProfileRoute
 }
 
-const SettingsSettingsRouteWithChildren =
-  SettingsSettingsRoute._addFileChildren(SettingsSettingsRouteChildren)
+const SettingsSettingsRouteWithChildren = SettingsSettingsRoute._addFileChildren(
+  SettingsSettingsRouteChildren
+)
 
 interface SettingsRouteChildren {
   SettingsSettingsRoute: typeof SettingsSettingsRouteWithChildren
 }
 
 const SettingsRouteChildren: SettingsRouteChildren = {
-  SettingsSettingsRoute: SettingsSettingsRouteWithChildren,
+  SettingsSettingsRoute: SettingsSettingsRouteWithChildren
 }
 
-const SettingsRouteWithChildren = SettingsRoute._addFileChildren(
-  SettingsRouteChildren,
-)
+const SettingsRouteWithChildren = SettingsRoute._addFileChildren(SettingsRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof homeHomeIndexRoute
@@ -318,7 +312,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   homeRoute: homeRouteWithChildren,
-  SettingsRoute: SettingsRouteWithChildren,
+  SettingsRoute: SettingsRouteWithChildren
 }
 
 export const routeTree = rootRoute

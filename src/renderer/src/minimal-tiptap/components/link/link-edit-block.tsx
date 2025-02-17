@@ -6,10 +6,10 @@ import { Input } from '@renderer/components/ui/input'
 import { cn } from '@renderer/utils'
 
 export interface LinkEditorProps extends React.HTMLAttributes<HTMLDivElement> {
-  defaultUrl?: string
-  defaultText?: string
-  defaultIsNewTab?: boolean
-  onSave: (url: string, text?: string, isNewTab?: boolean) => void
+  readonly defaultUrl?: string
+  readonly defaultText?: string
+  readonly defaultIsNewTab?: boolean
+  readonly onSave: (url: string, text?: string, isNewTab?: boolean) => void
 }
 
 export const LinkEditBlock = React.forwardRef<HTMLDivElement, LinkEditorProps>(
@@ -48,27 +48,30 @@ export const LinkEditBlock = React.forwardRef<HTMLDivElement, LinkEditorProps>(
         <div className={cn('space-y-4', className)}>
           <div className="space-y-1">
             <Label>URL</Label>
+
             <Input
-              type="url"
-              required
-              placeholder="Enter URL"
-              value={url}
               onChange={(e) => setUrl(e.target.value)}
+              placeholder="Enter URL"
+              required
+              type="url"
+              value={url}
             />
           </div>
 
           <div className="space-y-1">
             <Label>Display Text (optional)</Label>
+
             <Input
-              type="text"
-              placeholder="Enter display text"
-              value={text}
               onChange={(e) => setText(e.target.value)}
+              placeholder="Enter display text"
+              type="text"
+              value={text}
             />
           </div>
 
           <div className="flex items-center space-x-2">
             <Label>Open in New Tab</Label>
+
             <Switch checked={isNewTab} onCheckedChange={setIsNewTab} />
           </div>
 

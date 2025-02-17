@@ -3,7 +3,7 @@ import { cn } from '@renderer/utils'
 import { getShortcutKey } from '../utils'
 
 export interface ShortcutKeyProps extends React.HTMLAttributes<HTMLSpanElement> {
-  keys: string[]
+  readonly keys: string[]
 }
 
 export const ShortcutKey = React.forwardRef<HTMLSpanElement, ShortcutKeyProps>(
@@ -20,12 +20,12 @@ export const ShortcutKey = React.forwardRef<HTMLSpanElement, ShortcutKeyProps>(
       >
         {modifiedKeys.map((shortcut) => (
           <kbd
-            key={shortcut.symbol}
             className={cn(
               'inline-block min-w-2.5 text-center align-baseline font-sans text-xs font-medium capitalize text-[rgb(156,157,160)]',
 
               className
             )}
+            key={shortcut.symbol}
             {...props}
             ref={ref}
           >

@@ -26,7 +26,12 @@ interface ImageState {
   naturalSize: ElementDimensions
 }
 
-const normalizeUploadResponse = (res: UploadReturnType) => ({
+const normalizeUploadResponse = (
+  res: UploadReturnType
+): {
+  src: string
+  id: string | number
+} => ({
   src: typeof res === 'string' ? res : res.src,
   id: typeof res === 'string' ? randomId() : res.id
 })
@@ -125,10 +130,11 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
   }, [])
 
   const handleResizeStart = React.useCallback(
-    (direction: 'left' | 'right') => (event: React.PointerEvent<HTMLDivElement>) => {
-      setActiveResizeHandle(direction)
-      initiateResize(direction)(event)
-    },
+    (direction: 'left' | 'right') =>
+      (event: React.PointerEvent<HTMLDivElement>): void => {
+        setActiveResizeHandle(direction)
+        initiateResize(direction)(event)
+      },
     [initiateResize]
   )
 
@@ -143,7 +149,7 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
   }, [isResizing, handleResizeEnd])
 
   React.useEffect(() => {
-    const handleImage = async () => {
+    const handleImage = async (): Promise<void> => {
       if (!initSrc.startsWith('blob:') || uploadAttemptedRef.current) {
         return
       }
@@ -193,9 +199,9 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
 
   return (
     <NodeViewWrapper
-      ref={containerRef}
-      data-drag-handle
       className="relative text-center leading-none"
+      data-drag-handle
+      ref={containerRef}
     >
       <div
         className="group/node-image relative mx-auto rounded-md object-contain"
@@ -213,18 +219,19 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
         >
           <div className="h-full contain-paint">
             <div className="relative h-full">
-              {imageState.isServerUploading && !imageState.error && (
+              {imageState.isServerUploading && !imageState.error ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Spinner className="size-7" />
                 </div>
-              )}
+              ) : null}
 
-              {imageState.error && (
+              {imageState.error ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <InfoCircledIcon className="size-8 text-destructive" />
+
                   <p className="mt-2 text-sm text-muted-foreground">Failed to load image</p>
                 </div>
-              )}
+              ) : null}
 
               <ControlledZoom
                 isZoomed={imageState.isZoomed}
@@ -251,32 +258,33 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
               </ControlledZoom>
             </div>
 
-            {imageState.isServerUploading && <ImageOverlay />}
+            {imageState.isServerUploading ? <ImageOverlay /> : null}
 
             {editor.isEditable &&
-              imageState.imageLoaded &&
-              !imageState.error &&
-              !imageState.isServerUploading && (
-                <>
-                  <ResizeHandle
-                    onPointerDown={handleResizeStart('left')}
-                    className={cn('left-1', {
-                      hidden: isResizing && activeResizeHandle === 'right'
-                    })}
-                    isResizing={isResizing && activeResizeHandle === 'left'}
-                  />
-                  <ResizeHandle
-                    onPointerDown={handleResizeStart('right')}
-                    className={cn('right-1', {
-                      hidden: isResizing && activeResizeHandle === 'left'
-                    })}
-                    isResizing={isResizing && activeResizeHandle === 'right'}
-                  />
-                </>
-              )}
+            imageState.imageLoaded &&
+            !imageState.error &&
+            !imageState.isServerUploading ? (
+              <>
+                <ResizeHandle
+                  className={cn('left-1', {
+                    hidden: isResizing && activeResizeHandle === 'right'
+                  })}
+                  isResizing={isResizing && activeResizeHandle === 'left'}
+                  onPointerDown={handleResizeStart('left')}
+                />
+
+                <ResizeHandle
+                  className={cn('right-1', {
+                    hidden: isResizing && activeResizeHandle === 'left'
+                  })}
+                  isResizing={isResizing && activeResizeHandle === 'right'}
+                  onPointerDown={handleResizeStart('right')}
+                />
+              </>
+            ) : null}
           </div>
 
-          {imageState.error && (
+          {imageState.error ? (
             <ActionWrapper>
               <ActionButton
                 icon={<TrashIcon className="size-4" />}
@@ -284,7 +292,7 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
                 onClick={onRemoveImg}
               />
             </ActionWrapper>
-          )}
+          ) : null}
 
           {!isResizing && !imageState.error && !imageState.isServerUploading && (
             <ImageActions

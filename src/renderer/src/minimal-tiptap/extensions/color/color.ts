@@ -7,7 +7,7 @@ export const Color = TiptapColor.extend({
       ...(this.parent?.() || []),
       new Plugin({
         props: {
-          handleKeyDown: (_, event) => {
+          handleKeyDown: (_, event): false | void => {
             if (event.key === 'Enter') {
               this.editor.commands.unsetColor()
             }

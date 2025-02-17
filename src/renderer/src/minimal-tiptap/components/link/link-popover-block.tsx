@@ -4,9 +4,9 @@ import { ToolbarButton } from '../toolbar-button'
 import { CopyIcon, ExternalLinkIcon, LinkBreak2Icon } from '@radix-ui/react-icons'
 
 interface LinkPopoverBlockProps {
-  url: string
-  onClear: () => void
-  onEdit: (e: React.MouseEvent<HTMLButtonElement>) => void
+  readonly url: string
+  readonly onClear: () => void
+  readonly onEdit: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export const LinkPopoverBlock: React.FC<LinkPopoverBlockProps> = ({ url, onClear, onEdit }) => {
@@ -36,18 +36,24 @@ export const LinkPopoverBlock: React.FC<LinkPopoverBlockProps> = ({ url, onClear
         <ToolbarButton tooltip="Edit link" onClick={onEdit} className="w-auto px-2">
           Edit link
         </ToolbarButton>
+
         <Separator orientation="vertical" />
+
         <ToolbarButton tooltip="Open link in a new tab" onClick={handleOpenLink}>
           <ExternalLinkIcon className="size-4" />
         </ToolbarButton>
+
         <Separator orientation="vertical" />
+
         <ToolbarButton tooltip="Clear link" onClick={onClear}>
           <LinkBreak2Icon className="size-4" />
         </ToolbarButton>
+
         <Separator orientation="vertical" />
+
         <ToolbarButton
-          tooltip={copyTitle}
           onClick={handleCopy}
+          tooltip={copyTitle}
           tooltipOptions={{
             onPointerDownOutside: (e) => {
               if (e.target === e.currentTarget) e.preventDefault()

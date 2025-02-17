@@ -7,12 +7,6 @@ allowed_types="add|cut|fix|bump|make|start|stop|refactor|reformat|optimize|docum
 # Simplified regex pattern
 header_pattern="^(${allowed_types})(\([a-zA-Z0-9\-\./]+\))?: .+"
 
-# Debug output
-echo "🔍 Debug: Received commit message ->"
-echo "-----------------------------------"
-echo "$commit_message"
-echo "-----------------------------------"
-
 # Extract the first line of the commit message
 commit_header="$(echo "$commit_message" | head -n 1)"
 
@@ -88,6 +82,3 @@ $commit_message
 EOF
     exit 1
 fi
-
-# Run commitlint
-pnpm dlx commitlint --edit

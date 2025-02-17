@@ -5,7 +5,7 @@ export const ResetMarksOnEnter = Extension.create({
 
   addKeyboardShortcuts() {
     return {
-      Enter: ({ editor }) => {
+      Enter: ({ editor }): boolean => {
         if (
           editor.isActive('bold') ||
           editor.isActive('italic') ||

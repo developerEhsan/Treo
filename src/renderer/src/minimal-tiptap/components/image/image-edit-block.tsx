@@ -5,8 +5,8 @@ import { Label } from '@renderer/components/ui/label'
 import { Input } from '@renderer/components/ui/input'
 
 interface ImageEditBlockProps {
-  editor: Editor
-  close: () => void
+  readonly editor: Editor
+  readonly close: () => void
 }
 
 export const ImageEditBlock: React.FC<ImageEditBlockProps> = ({ editor, close }) => {
@@ -56,24 +56,28 @@ export const ImageEditBlock: React.FC<ImageEditBlockProps> = ({ editor, close })
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-1">
         <Label htmlFor="image-link">Attach an image link</Label>
+
         <div className="flex">
           <Input
-            id="image-link"
-            type="url"
-            required
-            placeholder="https://example.com"
-            value={link}
             className="grow"
+            id="image-link"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLink(e.target.value)}
+            placeholder="https://example.com"
+            required
+            type="url"
+            value={link}
           />
+
           <Button type="submit" className="ml-2">
             Submit
           </Button>
         </div>
       </div>
+
       <Button type="button" className="w-full" onClick={handleClick}>
         Upload from your computer
       </Button>
+
       <input
         type="file"
         accept="image/*"

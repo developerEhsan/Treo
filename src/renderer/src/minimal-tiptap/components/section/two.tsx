@@ -90,9 +90,9 @@ const formatActions: TextStyle[] = [
 ]
 
 interface SectionTwoProps extends VariantProps<typeof toggleVariants> {
-  editor: Editor
-  activeActions?: TextStyleAction[]
-  mainActionCount?: number
+  readonly editor: Editor
+  readonly activeActions?: TextStyleAction[]
+  readonly mainActionCount?: number
 }
 
 export const SectionTwo: React.FC<SectionTwoProps> = ({
@@ -104,13 +104,13 @@ export const SectionTwo: React.FC<SectionTwoProps> = ({
 }) => {
   return (
     <ToolbarSection
-      editor={editor}
       actions={formatActions}
       activeActions={activeActions}
-      mainActionCount={mainActionCount}
+      dropdownClassName="w-8"
       dropdownIcon={<DotsHorizontalIcon className="size-5" />}
       dropdownTooltip="More formatting"
-      dropdownClassName="w-8"
+      editor={editor}
+      mainActionCount={mainActionCount}
       size={size}
       variant={variant}
     />

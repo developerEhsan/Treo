@@ -2,7 +2,7 @@ import * as React from 'react'
 import { cn } from '@renderer/utils'
 
 interface ResizeProps extends React.HTMLAttributes<HTMLDivElement> {
-  isResizing?: boolean
+  readonly isResizing?: boolean
 }
 
 export const ResizeHandle = React.forwardRef<HTMLDivElement, ResizeProps>(
@@ -21,7 +21,7 @@ export const ResizeHandle = React.forwardRef<HTMLDivElement, ResizeProps>(
         )}
         ref={ref}
         {...props}
-      ></div>
+      />
     )
   }
 )

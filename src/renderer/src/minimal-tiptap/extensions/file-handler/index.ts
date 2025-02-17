@@ -11,14 +11,14 @@ type FileHandlePluginOptions = {
   onValidationError?: (errors: FileError[]) => void
 } & FileValidationOptions
 
-const FileHandlePlugin = (options: FileHandlePluginOptions) => {
+const FileHandlePlugin = (options: FileHandlePluginOptions): Plugin<unknown> => {
   const { key, editor, onPaste, onDrop, onValidationError, allowedMimeTypes, maxFileSize } = options
 
   return new Plugin({
     key: key || new PluginKey('fileHandler'),
 
     props: {
-      handleDrop(view, event) {
+      handleDrop(view, event): void {
         event.preventDefault()
         event.stopPropagation()
 
@@ -48,7 +48,7 @@ const FileHandlePlugin = (options: FileHandlePluginOptions) => {
         }
       },
 
-      handlePaste(_, event) {
+      handlePaste(_, event): void {
         event.preventDefault()
         event.stopPropagation()
 

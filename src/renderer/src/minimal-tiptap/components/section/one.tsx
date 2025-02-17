@@ -17,9 +17,9 @@ import { ShortcutKey } from '../shortcut-key'
 
 interface TextStyle
   extends Omit<FormatAction, 'value' | 'icon' | 'action' | 'isActive' | 'canExecute'> {
-  element: keyof React.JSX.IntrinsicElements
-  level?: Level
-  className: string
+  readonly element: keyof React.JSX.IntrinsicElements
+  readonly level?: Level
+  readonly className: string
 }
 
 const formatActions: TextStyle[] = [
@@ -109,6 +109,7 @@ export const SectionOne: React.FC<SectionOneProps> = React.memo(
           aria-label={label}
         >
           <Element className={className}>{label}</Element>
+
           <ShortcutKey keys={shortcuts} />
         </DropdownMenuItem>
       ),
@@ -119,19 +120,21 @@ export const SectionOne: React.FC<SectionOneProps> = React.memo(
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <ToolbarButton
-            isActive={editor.isActive('heading')}
-            tooltip="Text styles"
             aria-label="Text styles"
-            pressed={editor.isActive('heading')}
             className="w-12"
             disabled={editor.isActive('codeBlock')}
+            isActive={editor.isActive('heading')}
+            pressed={editor.isActive('heading')}
             size={size}
+            tooltip="Text styles"
             variant={variant}
           >
             <LetterCaseCapitalizeIcon className="size-5" />
+
             <CaretDownIcon className="size-5" />
           </ToolbarButton>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent align="start" className="w-full">
           {filteredActions.map(renderMenuItem)}
         </DropdownMenuContent>

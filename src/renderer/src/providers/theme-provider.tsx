@@ -4,9 +4,9 @@ export const themes = ['dark', 'light', 'system'] as const
 type Theme = (typeof themes)[number]
 
 type ThemeProviderProps = {
-  children: React.ReactNode
-  defaultTheme?: Theme
-  storageKey?: string
+  readonly children: React.ReactNode
+  readonly defaultTheme?: Theme
+  readonly storageKey?: string
 }
 
 type ThemeProviderState = {

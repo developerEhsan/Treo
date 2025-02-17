@@ -50,9 +50,9 @@ const formatActions: InsertElement[] = [
 ]
 
 interface SectionFiveProps extends VariantProps<typeof toggleVariants> {
-  editor: Editor
-  activeActions?: InsertElementAction[]
-  mainActionCount?: number
+  readonly editor: Editor
+  readonly activeActions?: InsertElementAction[]
+  readonly mainActionCount?: number
 }
 
 export const SectionFive: React.FC<SectionFiveProps> = ({
@@ -65,19 +65,22 @@ export const SectionFive: React.FC<SectionFiveProps> = ({
   return (
     <>
       <LinkEditPopover editor={editor} size={size} variant={variant} />
+
       <ImageEditDialog editor={editor} size={size} variant={variant} />
+
       <ToolbarSection
-        editor={editor}
         actions={formatActions}
         activeActions={activeActions}
-        mainActionCount={mainActionCount}
         dropdownIcon={
           <>
             <PlusIcon className="size-5" />
+
             <CaretDownIcon className="size-5" />
           </>
         }
         dropdownTooltip="Insert elements"
+        editor={editor}
+        mainActionCount={mainActionCount}
         size={size}
         variant={variant}
       />

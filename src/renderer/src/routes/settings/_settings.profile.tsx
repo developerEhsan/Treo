@@ -88,63 +88,78 @@ export function ProfileForm(): React.JSX.Element {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
+
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
+
               <FormDescription>
                 This is your public display name. It can be your real name or a pseudonym. You can
                 only change this once every 30 days.
               </FormDescription>
+
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
+
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a verified email to display" />
                   </SelectTrigger>
                 </FormControl>
+
                 <SelectContent>
                   <SelectItem value="m@example.com">m@example.com</SelectItem>
+
                   <SelectItem value="m@google.com">m@google.com</SelectItem>
+
                   <SelectItem value="m@support.com">m@support.com</SelectItem>
                 </SelectContent>
               </Select>
+
               <FormDescription>
                 You can manage verified email addresses in your{' '}
                 <a href="/examples/forms">email settings</a>.
               </FormDescription>
+
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="bio"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Bio</FormLabel>
+
               <FormControl>
                 <Textarea
-                  placeholder="Tell us a little bit about yourself"
                   className="resize-none"
+                  placeholder="Tell us a little bit about yourself"
                   {...field}
                 />
               </FormControl>
+
               <FormDescription>
                 You can <span>@mention</span> other users and organizations to link to them.
               </FormDescription>
+
               <FormMessage />
             </FormItem>
           )}
         />
+
         <div>
           {fields.map((field, index) => (
             <FormField
@@ -154,27 +169,32 @@ export function ProfileForm(): React.JSX.Element {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className={cn(index !== 0 && 'sr-only')}>URLs</FormLabel>
+
                   <FormDescription className={cn(index !== 0 && 'sr-only')}>
                     Add links to your website, blog, or social media profiles.
                   </FormDescription>
+
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
           ))}
+
           <Button
-            type="button"
-            variant="outline"
-            size="sm"
             className="mt-2"
             onClick={() => append({ value: '' })}
+            size="sm"
+            type="button"
+            variant="outline"
           >
             Add URL
           </Button>
         </div>
+
         <Button type="submit">Update profile</Button>
       </form>
     </Form>
@@ -187,11 +207,14 @@ export const Route = createFileRoute('/settings/_settings/profile')({
       <div className="space-y-6">
         <div>
           <h3 className="text-lg font-medium">Profile</h3>
+
           <p className="text-sm text-muted-foreground">
             This is how others will see you on the site.
           </p>
         </div>
+
         <Separator />
+
         <ProfileForm />
       </div>
     )

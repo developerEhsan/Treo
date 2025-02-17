@@ -6,7 +6,7 @@ import { LinkEditBlock } from '../link/link-edit-block'
 import { LinkPopoverBlock } from '../link/link-popover-block'
 
 interface LinkBubbleMenuProps {
-  editor: Editor
+  readonly editor: Editor
 }
 
 interface LinkAttributes {
@@ -96,11 +96,11 @@ export const LinkBubbleMenu: React.FC<LinkBubbleMenuProps> = ({ editor }) => {
     >
       {showEdit ? (
         <LinkEditBlock
-          defaultUrl={linkAttrs.href}
-          defaultText={selectedText}
-          defaultIsNewTab={linkAttrs.target === '_blank'}
-          onSave={onSetLink}
           className="w-full min-w-80 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none"
+          defaultIsNewTab={linkAttrs.target === '_blank'}
+          defaultText={selectedText}
+          defaultUrl={linkAttrs.href}
+          onSave={onSetLink}
         />
       ) : (
         <LinkPopoverBlock onClear={onUnsetLink} url={linkAttrs.href} onEdit={handleEdit} />

@@ -15,10 +15,10 @@ import {
 import { ImageEditBlock } from './image-edit-block'
 
 interface ImageEditDialogProps extends VariantProps<typeof toggleVariants> {
-  editor: Editor
+  readonly editor: Editor
 }
 
-const ImageEditDialog = ({ editor, size, variant }: ImageEditDialogProps) => {
+function ImageEditDialog({ editor, size, variant }: ImageEditDialogProps): React.JSX.Element {
   const [open, setOpen] = useState(false)
 
   return (
@@ -34,13 +34,16 @@ const ImageEditDialog = ({ editor, size, variant }: ImageEditDialogProps) => {
           <ImageIcon className="size-5" />
         </ToolbarButton>
       </DialogTrigger>
+
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Select image</DialogTitle>
+
           <DialogDescription className="sr-only">
             Upload an image from your computer
           </DialogDescription>
         </DialogHeader>
+
         <ImageEditBlock editor={editor} close={() => setOpen(false)} />
       </DialogContent>
     </Dialog>

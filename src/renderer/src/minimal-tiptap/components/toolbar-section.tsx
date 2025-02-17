@@ -16,13 +16,13 @@ import { ShortcutKey } from './shortcut-key'
 import { getShortcutKey } from '../utils'
 
 interface ToolbarSectionProps extends VariantProps<typeof toggleVariants> {
-  editor: Editor
-  actions: FormatAction[]
-  activeActions?: string[]
-  mainActionCount?: number
-  dropdownIcon?: React.ReactNode
-  dropdownTooltip?: string
-  dropdownClassName?: string
+  readonly editor: Editor
+  readonly actions: FormatAction[]
+  readonly activeActions?: string[]
+  readonly mainActionCount?: number
+  readonly dropdownIcon?: React.ReactNode
+  readonly dropdownTooltip?: string
+  readonly dropdownClassName?: string
 }
 
 export const ToolbarSection: React.FC<ToolbarSectionProps> = ({
@@ -50,13 +50,13 @@ export const ToolbarSection: React.FC<ToolbarSectionProps> = ({
   const renderToolbarButton = React.useCallback(
     (action: FormatAction) => (
       <ToolbarButton
-        key={action.label}
-        onClick={() => action.action(editor)}
+        aria-label={action.label}
         disabled={!action.canExecute(editor)}
         isActive={action.isActive(editor)}
-        tooltip={`${action.label} ${action.shortcuts.map((s) => getShortcutKey(s).symbol).join(' ')}`}
-        aria-label={action.label}
+        key={action.label}
+        onClick={() => action.action(editor)}
         size={size}
+        tooltip={`${action.label} ${action.shortcuts.map((s) => getShortcutKey(s).symbol).join(' ')}`}
         variant={variant}
       >
         {action.icon}
@@ -68,15 +68,16 @@ export const ToolbarSection: React.FC<ToolbarSectionProps> = ({
   const renderDropdownMenuItem = React.useCallback(
     (action: FormatAction) => (
       <DropdownMenuItem
-        key={action.label}
-        onClick={() => action.action(editor)}
-        disabled={!action.canExecute(editor)}
+        aria-label={action.label}
         className={cn('flex flex-row items-center justify-between gap-4', {
           'bg-accent': action.isActive(editor)
         })}
-        aria-label={action.label}
+        disabled={!action.canExecute(editor)}
+        key={action.label}
+        onClick={() => action.action(editor)}
       >
         <span className="grow">{action.label}</span>
+
         <ShortcutKey keys={action.shortcuts} />
       </DropdownMenuItem>
     ),
@@ -91,20 +92,22 @@ export const ToolbarSection: React.FC<ToolbarSectionProps> = ({
   return (
     <>
       {mainActions.map(renderToolbarButton)}
+
       {dropdownActions.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <ToolbarButton
-              isActive={isDropdownActive}
-              tooltip={dropdownTooltip}
               aria-label={dropdownTooltip}
               className={cn(dropdownClassName)}
+              isActive={isDropdownActive}
               size={size}
+              tooltip={dropdownTooltip}
               variant={variant}
             >
               {dropdownIcon || <CaretDownIcon className="size-5" />}
             </ToolbarButton>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent align="start" className="w-full">
             {dropdownActions.map(renderDropdownMenuItem)}
           </DropdownMenuContent>

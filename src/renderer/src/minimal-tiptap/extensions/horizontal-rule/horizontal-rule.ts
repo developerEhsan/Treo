@@ -7,7 +7,7 @@ import { HorizontalRule as TiptapHorizontalRule } from '@tiptap/extension-horizo
 export const HorizontalRule = TiptapHorizontalRule.extend({
   addKeyboardShortcuts() {
     return {
-      'Mod-Alt--': () =>
+      'Mod-Alt--': (): boolean =>
         this.editor.commands.insertContent({
           type: this.name
         })

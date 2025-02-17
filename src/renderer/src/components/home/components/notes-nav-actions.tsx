@@ -118,9 +118,11 @@ export function NotesNavActions(): React.JSX.Element {
               includeSeconds: true
             })}`}
       </div>
+
       <Button variant="ghost" size="icon" className="h-7 w-7">
         <Star size={16} />
       </Button>
+
       <Tooltip>
         <TooltipTrigger>
           <div
@@ -130,14 +132,17 @@ export function NotesNavActions(): React.JSX.Element {
             )}
           />
         </TooltipTrigger>
+
         <TooltipContent>Saved</TooltipContent>
       </Tooltip>
+
       <Popover>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon" className="h-7 w-7 data-[state=open]:bg-accent">
             <MoreHorizontal size={16} />
           </Button>
         </PopoverTrigger>
+
         <PopoverContent className="w-56 overflow-hidden rounded-lg p-0" align="end">
           <Sidebar collapsible="none" className="bg-transparent">
             <SidebarContent>

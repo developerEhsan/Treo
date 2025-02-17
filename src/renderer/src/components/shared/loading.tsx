@@ -3,8 +3,11 @@ import { cn } from '@renderer/utils'
 import { Loader2Icon, LucideProps } from 'lucide-react'
 
 interface LoadingProps {
-  loaderProps?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
-  iconProps?: React.ForwardRefExoticComponent<
+  readonly loaderProps?: React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  >
+  readonly iconProps?: React.ForwardRefExoticComponent<
     Omit<LucideProps, 'ref'> & React.RefAttributes<SVGSVGElement>
   >
 }
