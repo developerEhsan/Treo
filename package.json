@@ -109,7 +109,7 @@
     "conventional-changelog-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "drizzle-kit": "^0.30.4",
-    "electron": "^31.7.7",
+    "electron": "^34.2.0",
     "electron-builder": "^25.1.8",
     "electron-vite": "^2.3.0",
     "eslint": "^8.57.1",
