@@ -61,7 +61,7 @@ export function CopyWidget(): React.JSX.Element {
         observer.unobserve(listEndRef.current)
       }
     }
-  }, [hasNextPage, isFetchingNextPage])
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage])
 
   const inputRef = useRef<React.ElementRef<typeof CommandPrimitive.Input>>(null)
   const itemRef = useRef<React.ElementRef<typeof CommandPrimitive.Item>>(null)

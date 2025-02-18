@@ -17,11 +17,7 @@ updates:
   # Maintain dependencies for npm
   - package-ecosystem: 'npm'
     directory: '/'
+    reviewers:
+      - your-ehsan
     schedule:
       interval: 'daily'
-
-  # Maintain dependencies for Composer
-  - package-ecosystem: 'composer'
-    directory: '/'
-    schedule:
-      interval: 'weekly'

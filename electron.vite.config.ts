@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 // @ts-expect-error --- TODO - fix this later
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 export default defineConfig(({ mode }) => ({

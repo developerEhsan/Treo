@@ -6,9 +6,10 @@ import { allNoteKey } from '@renderer/constants/query-keys'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { FilePenLineIcon } from 'lucide-react'
+import React from 'react'
 
 export const Route = createFileRoute('/(home)/_home')({
-  component() {
+  component: function Home(): React.JSX.Element {
     const { data: Notes, isLoading } = useQuery({
       queryKey: allNoteKey,
       queryFn: () => window.api.getAllNotes()

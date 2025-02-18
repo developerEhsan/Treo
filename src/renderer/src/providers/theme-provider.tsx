@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const themes = ['dark', 'light', 'system'] as const
 type Theme = (typeof themes)[number]
 
@@ -63,6 +64,7 @@ export function ThemeProvider({
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTheme = (): ThemeProviderState => {
   const context = useContext(ThemeProviderContext)
   if (context === undefined) throw new Error('useTheme must be used within a ThemeProvider')

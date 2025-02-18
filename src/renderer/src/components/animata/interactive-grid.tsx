@@ -71,10 +71,7 @@ function Grid(): React.JSX.Element {
     containerRef
   } = useGridLayout()
 
-  const squares = useMemo(
-    () => plotSquares(horizontal, vertical, size),
-    [horizontal, vertical, size]
-  )
+  const squares = useMemo(() => plotSquares(horizontal, vertical, size), [horizontal, vertical])
   const [active, setActive] = useState(0)
   const timerRef = useRef<NodeJS.Timeout>()
 

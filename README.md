@@ -1,7 +1,3 @@
-Here’s a **senior-level, polished, and professional README** that aligns with open-source best practices:
-
----
-
 # 🚀 **Clipboard & Productivity Suite**
 
 An advanced **Electron + React** desktop application designed to **enhance productivity** by extending Windows Clipboard History with **persistent storage, note-taking, theme customization, and more**.

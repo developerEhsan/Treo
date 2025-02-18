@@ -5,7 +5,7 @@ import { queryKeys } from '@renderer/constants/query-keys'
 import { Loading } from '@renderer/components/shared/loading'
 
 export const Route = createFileRoute('/(home)/_home/$noteId')({
-  component() {
+  component: function NoteIdPage() {
     const { noteId } = useParams({ from: '/(home)/_home/$noteId' })
     const { data, isLoading } = useQuery({
       queryKey: [queryKeys.note, noteId],
