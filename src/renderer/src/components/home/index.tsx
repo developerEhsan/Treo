@@ -15,7 +15,6 @@ interface NoteProps {
 }
 
 export function Note({ Notes, defaultLayout = [12, 32, 48] }: NoteProps): React.JSX.Element {
-  // const [Note] = useNote()
   return (
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
@@ -62,9 +61,7 @@ export function Note({ Notes, defaultLayout = [12, 32, 48] }: NoteProps): React.
               </TabsContent> */}
           </Tabs>
         </ResizablePanel>
-
         <ResizableHandle withHandle />
-
         <ResizablePanel defaultSize={defaultLayout[3]} minSize={30}>
           <Outlet />
         </ResizablePanel>

@@ -19,5 +19,6 @@ updates:
     directory: '/'
     assignees:
       - your-ehsan
+    target-branch: development
     schedule:
       interval: 'daily'
