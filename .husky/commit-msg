@@ -2,7 +2,7 @@
 commit_message="$(cat "$1")"
 
 # Define allowed commit types
-allowed_types="add|cut|fix|bump|make|start|stop|refactor|reformat|optimize|document|merge|chore|feat|fix|docs|style|test|perf|ci|build|revert"
+allowed_types="build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test"
 
 # Simplified regex pattern
 header_pattern="^(${allowed_types})(\([a-zA-Z0-9\-\./]+\))?: .+"
