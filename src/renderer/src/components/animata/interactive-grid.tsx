@@ -6,7 +6,7 @@ function useGridLayout(): {
     vertical: number
     horizontal: number
   }
-  containerRef: React.RefObject<HTMLDivElement>
+  containerRef: React.RefObject<HTMLDivElement | null>
 } {
   const containerRef = useRef<HTMLDivElement>(null)
   const [layout, setLayout] = useState({ vertical: 0, horizontal: 0 })
@@ -73,7 +73,7 @@ function Grid(): React.JSX.Element {
 
   const squares = useMemo(() => plotSquares(horizontal, vertical, size), [horizontal, vertical])
   const [active, setActive] = useState(0)
-  const timerRef = useRef<NodeJS.Timeout>()
+  const timerRef = useRef<NodeJS.Timeout>(undefined)
 
   const onMouseEnter = useCallback(() => {
     if (timerRef.current) {
