@@ -4,6 +4,10 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write # needed for creating releases
+  packages: write # if you're also publishing packages
+
 jobs:
   release:
     if: ${{ github.repository_owner == 'your-ehsan' && github.ref_type == 'tag' && contains(github.ref, 'master') }}
