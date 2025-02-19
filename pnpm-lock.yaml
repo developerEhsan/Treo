@@ -150,8 +150,8 @@ importers:
         specifier: ^0.475.0
         version: 0.475.0(react@18.3.1)
       react-day-picker:
-        specifier: 8.10.1
-        version: 8.10.1(date-fns@4.1.0)(react@18.3.1)
+        specifier: 9.5.1
+        version: 9.5.1(react@18.3.1)
       react-hook-form:
         specifier: ^7.54.2
         version: 7.54.2(react@18.3.1)
@@ -464,6 +464,9 @@ packages:
         optional: true
       conventional-commits-parser:
         optional: true
+
+  '@date-fns/tz@1.2.0':
+    resolution: {integrity: sha512-LBrd7MiJZ9McsOgxqWX7AaxrDjcFVjWH/tIKJd7pnR7McaslGYOP1QmmiBXdJH/H/yLCT+rcQ7FaPBUxRGUtrg==}
 
   '@develar/schema-utils@2.6.5':
     resolution: {integrity: sha512-0cp4PsWQ/9avqTVMCtZ+GirikIA36ikvjtHweU4/j8yLtgObI0+JUPhYFScgwlteveGB1rt3Cm8UhN04XayDig==}
@@ -2832,6 +2835,9 @@ packages:
     resolution: {integrity: sha512-BS8PfmtDGnrgYdOonGZQdLZslWIeCGFP9tpan0hi1Co2Zr2NKADsvGYA8XxuG/4UWgJ6Cjtv+YJnB6MM69QGlQ==}
     engines: {node: '>= 0.4'}
 
+  date-fns-jalali@4.1.0-0:
+    resolution: {integrity: sha512-hTIP/z+t+qKwBDcmmsnmjWTduxCg+5KfdqWQvb2X/8C9+knYY6epN/pfxdDuyVlSVeFz0sM5eEfwIUQ70U4ckg==}
+
   date-fns@4.1.0:
     resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
@@ -4536,11 +4542,11 @@ packages:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
 
-  react-day-picker@8.10.1:
-    resolution: {integrity: sha512-TMx7fNbhLk15eqcMt+7Z7S2KF7mfTId/XJDjKE8f+IUcFn0l08/kI4FiYTL/0yuOLmEcbR4Fwe3GJf/NiiMnPA==}
+  react-day-picker@9.5.1:
+    resolution: {integrity: sha512-PxuK8inYLlYgM2zZUVBPsaBM5jI40suPeG+naKyx7kpyF032RRlEAUEjkpW9/poTASh/vyWAOVqjGuGw+47isw==}
+    engines: {node: '>=18'}
     peerDependencies:
-      date-fns: ^2.28.0 || ^3.0.0
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react: '>=16.8.0'
 
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
@@ -5604,6 +5610,8 @@ snapshots:
     optionalDependencies:
       conventional-commits-filter: 5.0.0
       conventional-commits-parser: 6.1.0
+
+  '@date-fns/tz@1.2.0': {}
 
   '@develar/schema-utils@2.6.5':
     dependencies:
@@ -7939,6 +7947,8 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.2
 
+  date-fns-jalali@4.1.0-0: {}
+
   date-fns@4.1.0: {}
 
   debug@4.4.0:
@@ -9854,9 +9864,11 @@ snapshots:
       minimist: 1.2.8
       strip-json-comments: 2.0.1
 
-  react-day-picker@8.10.1(date-fns@4.1.0)(react@18.3.1):
+  react-day-picker@9.5.1(react@18.3.1):
     dependencies:
+      '@date-fns/tz': 1.2.0
       date-fns: 4.1.0
+      date-fns-jalali: 4.1.0-0
       react: 18.3.1
 
   react-dom@18.3.1(react@18.3.1):
