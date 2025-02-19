@@ -2,13 +2,13 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - master
     tags:
       - 'v*'
 
 jobs:
   release:
-    if: ${{ github.repository_owner == 'Your-Ehsan' }}
+    if: ${{ github.repository_owner == 'your-ehsan' }}
     name: Create a release
     runs-on: windows-latest
 
