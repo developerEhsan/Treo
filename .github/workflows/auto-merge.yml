@@ -6,7 +6,7 @@ on:
       - opened
       - synchronize
     branches:
-      - master
+      - development
 
 permissions:
   pull-requests: write
