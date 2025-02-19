@@ -2,37 +2,27 @@ name: Auto-Merge Dependabot PRs
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
     branches:
-      - master # or your default branch
+      - master
+
+permissions:
+  pull-requests: write
+  contents: write
 
 jobs:
   auto-merge:
-    if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Auto-merge Dependabot PR
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const { data: pr } = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
-            });
+      - name: Authenticate with GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+        run: gh auth login --with-token
 
-            // Check if the PR is from Dependabot and all checks are passing
-            if (pr.user.login === 'dependabot[bot]' && pr.mergeable_state === 'clean') {
-              await github.rest.pulls.merge({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: context.payload.pull_request.number,
-                merge_method: 'squash', // or 'merge' or 'rebase'
-              });
-            }
+      - name: Merge Dependabot PR
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+        run: gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
