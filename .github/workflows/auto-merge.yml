@@ -17,12 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Authenticate with GitHub CLI
-        env:
-          GH_TOKEN: ${{ secrets.PAT }}
-        run: gh auth login --with-token
-
       - name: Merge Dependabot PR
         env:
           GH_TOKEN: ${{ secrets.PAT }}
-        run: gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
+        run: gh pr merge ${{ github.event.pull_request.number }} --merge --auto --delete-branch
