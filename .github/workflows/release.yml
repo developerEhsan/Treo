@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   release:
-    if: ${{ github.repository_owner == 'your-ehsan' && contains(github.ref, 'development') && startsWith(github.ref, 'refs/tags/v')}}
+    if: ${{ github.repository_owner == 'your-ehsan' && startsWith(github.ref, 'refs/tags/v')}}
     name: Create a release
     runs-on: windows-latest
 
