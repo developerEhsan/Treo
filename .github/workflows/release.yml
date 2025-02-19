@@ -1,19 +1,19 @@
 name: Release
 on:
   push:
-    branches:
+    branches: 
       - master
     tags:
       - 'v*'
 
 permissions:
-  contents: write
-  packages: write
+  contents: write # needed for creating releases
+  packages: write # if you're also publishing packages
 
 jobs:
   release:
-    if: ${{github.repository_owner == 'your-ehsan'}}
-    name: Create a Release
+    if: ${{ github.repository_owner == 'your-ehsan' && contains(github.ref, 'master') && startsWith(github.ref, 'refs/tags/v')}}
+    name: Create a release
     runs-on: windows-latest
 
     steps:
@@ -33,29 +33,26 @@ jobs:
           node-version: 22
           cache: 'pnpm'
 
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Bump Version & Generate Changelog
+      - name: Generate Release Notes
         run: |
-          pnpm add -g standard-version
-          standard-version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push Changes (Version & Changelog)
-        run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git add .
-          git commit -m "chore(release): bump version and update changelog"
-          git push --follow-tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract Version
-        id: get_version
-        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+          pnpm add -g conventional-changelog-cli
+          conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 
       - name: Build
         env:
@@ -63,17 +60,16 @@ jobs:
         run: pnpm build:win
 
       - name: Verify Build Output
+        shell: bash
         run: |
-          if [ -z "$(ls dist/*.exe 2>/dev/null)" ]; then
+          if [ ! -f "dist/*.exe" ]; then
             echo "Build output not found!"
             exit 1
           fi
 
-      - name: Create GitHub Release
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ env.VERSION }}
-          name: Release v${{ env.VERSION }}
           files: |
             dist/*.exe
             dist/latest.yml
