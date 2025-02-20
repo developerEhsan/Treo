@@ -5,6 +5,9 @@ on:
     branches:
       - master # Runs only if the PR targets the master branch
 
+permissions:
+  contents: read
+
 jobs:
   validate-build:
     runs-on: ubuntu-latest
