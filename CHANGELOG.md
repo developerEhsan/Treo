@@ -1,3 +1,20 @@
+## <small>1.1.5 (2025-02-20)</small>
+
+- refactor(ui): all unnecessary ui removed ([ab3e3ec](https://github.com/Your-Ehsan/Treo/commit/ab3e3ec))
+- chore(action): pr-check yml os changed to windows ([b0bf102](https://github.com/Your-Ehsan/Treo/commit/b0bf102))
+- chore(actions): added labeler.yml ([831385e](https://github.com/Your-Ehsan/Treo/commit/831385e))
+- chore(actions): added new pr-check action ([30815a6](https://github.com/Your-Ehsan/Treo/commit/30815a6))
+- chore(actions): release action updated attempt 2 ([40d3379](https://github.com/Your-Ehsan/Treo/commit/40d3379))
+- chore(actions): release action updated attempt 3 ([bed8ffb](https://github.com/Your-Ehsan/Treo/commit/bed8ffb))
+- chore(actions): release action updated attempt 4 ([485c4b8](https://github.com/Your-Ehsan/Treo/commit/485c4b8))
+- chore(actions): release action updated attempt 5 ([73fa049](https://github.com/Your-Ehsan/Treo/commit/73fa049))
+- chore(actions): release.yml updated added checks ([5ad0d4f](https://github.com/Your-Ehsan/Treo/commit/5ad0d4f))
+- chore(bump): tailwindcss version upgraded to latest ([344119e](https://github.com/Your-Ehsan/Treo/commit/344119e))
+- chore(deps-dev): bump @types/react-dom from 18.3.5 to 19.0.4 ([92ff87e](https://github.com/Your-Ehsan/Treo/commit/92ff87e))
+- chore(tailwind): version downgrade to manually upgrade tailwindcss ([dfe8c1d](https://github.com/Your-Ehsan/Treo/commit/dfe8c1d))
+- Create label.yml ([245ea47](https://github.com/Your-Ehsan/Treo/commit/245ea47))
+- Update .github/workflows/pr-check.yml ([aa6651c](https://github.com/Your-Ehsan/Treo/commit/aa6651c))
+
 ## <small>1.1.4 (2025-02-19)</small>
 
 - chore(action): little actions changes and improvements ([29d6ba1](https://github.com/Your-Ehsan/electron-desktop/commit/29d6ba1))
