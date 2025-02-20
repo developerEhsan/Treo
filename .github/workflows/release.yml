@@ -23,9 +23,10 @@ jobs:
 
       - name: Get the latest tag from development
         id: get_tag
+        shell: bash
         run: |
           LATEST_TAG=$(git tag --sort=-creatordate | head -n 1)
-          if [ -z "$LATEST_TAG" ]; then
+          if [[ -z "$LATEST_TAG" ]]; then
             echo "No tag found. Skipping release."
             exit 1
           fi
