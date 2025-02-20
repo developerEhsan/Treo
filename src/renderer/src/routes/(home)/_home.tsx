@@ -37,7 +37,6 @@ export const Route = createFileRoute('/(home)/_home')({
     return (
       <>
         <Note Notes={Notes} />
-
         <CreateNoteButton />
       </>
     )
