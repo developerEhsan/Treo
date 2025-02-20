@@ -96,7 +96,7 @@ export const LinkBubbleMenu: React.FC<LinkBubbleMenuProps> = ({ editor }) => {
     >
       {showEdit ? (
         <LinkEditBlock
-          className="w-full min-w-80 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none"
+          className="w-full min-w-80 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden"
           defaultIsNewTab={linkAttrs.target === '_blank'}
           defaultText={selectedText}
           defaultUrl={linkAttrs.href}

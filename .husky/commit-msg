@@ -22,7 +22,6 @@ if ! echo "$commit_header" | grep -E "$header_pattern" > /dev/null 2>&1; then
 -------------------------------------------------------
 🔹 1: fix(auth): resolve login issue
 🔹 2: refactor(db): optimize query performance
-🔹 3: document: update README
 
 💡 Allowed types: $allowed_types
 

@@ -88,7 +88,7 @@ export const MinimalTiptapThree = React.forwardRef<HTMLDivElement, MinimalTiptap
     return (
       <MeasuredContainer
         as="div"
-        className={cn('flex h-auto w-full flex-col shadow-sm', className)}
+        className={cn('flex h-auto w-full flex-col shadow-xs', className)}
         name="editor"
         ref={ref}
       >

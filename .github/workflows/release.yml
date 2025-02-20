@@ -1,10 +1,10 @@
 name: Release
 on:
-  push:
-    branches: 
+  pull_request:
+    branches:
       - master
-    tags:
-      - 'v*'
+    types:
+      - closed
 
 permissions:
   contents: write # needed for creating releases
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   release:
-    if: ${{ github.repository_owner == 'your-ehsan' && startsWith(github.ref, 'refs/tags/v')}}
+    if: ${{ github.repository_owner == 'your-ehsan' && github.event.pull_request.merged}}
     name: Create a release
     runs-on: windows-latest
 
@@ -21,6 +21,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Get the latest tag
+        id: get_tag
+        run: echo "LATEST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
+      - name: Verify if the PR contains a tag
+        run: |
+          if [ -z "${{ env.LATEST_TAG }}" ]; then
+            echo "No tag found. Skipping release."
+            exit 1
+          else
+            echo "Latest tag: ${{ env.LATEST_TAG }}"
+          fi
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -74,7 +87,9 @@ jobs:
             dist/*.exe
             dist/latest.yml
           body_path: CHANGELOG.md
+          tag_name: ${{ env.LATEST_TAG }}
           draft: false
+          generate_release_notes: true
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

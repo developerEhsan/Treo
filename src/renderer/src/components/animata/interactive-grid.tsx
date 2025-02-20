@@ -139,7 +139,7 @@ function Grid(): React.JSX.Element {
 
   return (
     <div
-      className={cn('absolute inset-0 !min-h-full w-full grid items-center')}
+      className={cn('absolute inset-0 min-h-full! w-full grid items-center')}
       onMouseEnter={onMouseEnter}
       ref={containerRef}
     >
