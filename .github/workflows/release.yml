@@ -8,13 +8,12 @@ on:
 
 permissions:
   contents: write # needed for creating releases
-  packages: write # if you're also publishing packages
 
 jobs:
   release:
     if: ${{ github.repository_owner == 'your-ehsan' && github.event.pull_request.merged}}
     name: Create a release
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out Git repository
@@ -22,18 +21,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get the latest tag
+      - name: Get the latest tag from development
         id: get_tag
-        run: echo "LATEST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
-
-      - name: Verify if the PR contains a tag
         run: |
-          if [ -z "${{ env.LATEST_TAG }}" ]; then
+          LATEST_TAG=$(git tag --sort=-creatordate | head -n 1)
+          if [ -z "$LATEST_TAG" ]; then
             echo "No tag found. Skipping release."
             exit 1
-          else
-            echo "Latest tag: ${{ env.LATEST_TAG }}"
           fi
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_OUTPUT
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -48,13 +44,14 @@ jobs:
 
       - name: Get pnpm store directory
         shell: bash
+        id: get_store_path
         run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
         uses: actions/cache@v4
         with:
-          path: ${{ env.STORE_PATH }}
+          path: ${{ steps.get_store_path.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -87,7 +84,7 @@ jobs:
             dist/*.exe
             dist/latest.yml
           body_path: CHANGELOG.md
-          tag_name: ${{ env.LATEST_TAG }}
+          tag_name: ${{ steps.get_tag.outputs.LATEST_TAG }}
           draft: false
           generate_release_notes: true
           prerelease: false
