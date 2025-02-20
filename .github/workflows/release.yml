@@ -13,7 +13,7 @@ jobs:
   release:
     if: ${{ github.repository_owner == 'your-ehsan' && github.event.pull_request.merged}}
     name: Create a release
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Check out Git repository
