@@ -1,111 +1,35 @@
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal
-} from 'lucide-react'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-  useSidebar
-} from './ui/sidebar'
+import { NotebookTabsIcon, Settings2, TextSelectIcon } from 'lucide-react'
+import { Sidebar, SidebarContent, SidebarHeader, SidebarRail, useSidebar } from './ui/sidebar'
 import { TeamSwitcher } from './team-switcher'
 import { NavMain } from './nav-main'
-import { NavProjects } from './nav-projects'
-import { NavUser } from './nav-secondary'
 
 // This is sample data.
 const data = {
   user: {
-    name: 'shadcn',
+    name: 'username',
     email: 'm@example.com',
     avatar: '/avatars/shadcn.jpg'
   },
   teams: [
     {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise'
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup'
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
+      name: 'Default Team',
+      logo: TextSelectIcon,
       plan: 'Free'
     }
   ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Notes',
       url: '#',
-      icon: SquareTerminal,
+      icon: NotebookTabsIcon,
       isActive: true,
       items: [
         {
-          title: 'History',
+          title: 'View All',
           url: '#'
         },
         {
           title: 'Starred',
-          url: '#'
-        },
-        {
-          title: 'Settings',
-          url: '/settings/profile'
-        }
-      ]
-    },
-    {
-      title: 'Models',
-      url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#'
-        },
-        {
-          title: 'Explorer',
-          url: '#'
-        },
-        {
-          title: 'Quantum',
-          url: '#'
-        }
-      ]
-    },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#'
-        },
-        {
-          title: 'Get Started',
-          url: '#'
-        },
-        {
-          title: 'Tutorials',
-          url: '#'
-        },
-        {
-          title: 'Changelog',
           url: '#'
         }
       ]
@@ -116,43 +40,10 @@ const data = {
       icon: Settings2,
       items: [
         {
-          title: 'Profile',
-          url: '/settings/profile'
-        },
-        {
-          title: 'Account',
-          url: '/settings/account'
-        },
-        {
           title: 'Appearance',
           url: '/settings/appearance'
-        },
-        {
-          title: 'Notifications',
-          url: '/settings/notifications'
-        },
-        {
-          title: 'Display',
-          url: '/settings/display'
         }
       ]
-    }
-  ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map
     }
   ]
 }
@@ -167,14 +58,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>): 
 
       <SidebarContent>
         <NavMain items={data.navMain} />
-
-        <NavProjects projects={data.projects} />
       </SidebarContent>
-
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
-
       <SidebarRail onMouseEnter={() => toggleSidebar()} />
     </Sidebar>
   )

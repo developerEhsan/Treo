@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: Notebook
+productName: Treo
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: Notebook
+  executableName: Treo
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

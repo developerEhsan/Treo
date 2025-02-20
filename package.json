@@ -1,5 +1,5 @@
 {
-  "name": "notebook",
+  "name": "treo",
   "version": "1.1.4",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",

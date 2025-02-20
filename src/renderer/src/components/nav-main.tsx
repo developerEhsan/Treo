@@ -1,7 +1,4 @@
-'use client'
-
 import { ChevronRight, type LucideIcon } from 'lucide-react'
-
 import {
   Collapsible,
   CollapsibleContent,
@@ -9,7 +6,6 @@ import {
 } from '@renderer/components/ui/collapsible'
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -36,8 +32,6 @@ export function NavMain({
 }): React.JSX.Element {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
-
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible

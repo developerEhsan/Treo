@@ -39,24 +39,8 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps): Rea
 
 const sidebarNavItems = [
   {
-    title: 'Profile',
-    href: '/settings/profile'
-  },
-  {
-    title: 'Account',
-    href: '/settings/account'
-  },
-  {
     title: 'Appearance',
     href: '/settings/appearance'
-  },
-  {
-    title: 'Notifications',
-    href: '/settings/notifications'
-  },
-  {
-    title: 'Display',
-    href: '/settings/display'
   }
 ]
 
@@ -75,7 +59,7 @@ export const Route = createFileRoute('/settings/_settings')({
         <Separator className="my-6" />
 
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <aside className="-mx-4 lg:w-1/5">
+          <aside className="mx-4 lg:w-1/5">
             <SidebarNav items={sidebarNavItems} />
           </aside>
 
