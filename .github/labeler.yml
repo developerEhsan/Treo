@@ -1,0 +1,63 @@
+# Automatically assigns labels to PRs based on file changes
+
+#  General Labels
+'🟢 dependencies':
+  - 'package.json'
+  - 'pnpm-lock.yaml'
+  - 'yarn.lock'
+  - 'npm-shrinkwrap.json'
+
+'changelog':
+  - 'CHANGELOG.md'
+
+# ⚡ Electron-Specific Labels
+'electron-main':
+  - 'src/main/**'
+  - 'electron/**'
+
+'electron-renderer':
+  - 'src/renderer/**'
+  - 'src/components/**'
+  - 'src/pages/**'
+
+#  UI & Frontend
+'🎨 ui':
+  - 'src/renderer/assets/**'
+  - 'src/styles/**'
+  - 'src/css/**'
+
+#  Build & Configuration
+'🏗️ build':
+  - 'webpack.config.js'
+  - 'vite.config.js'
+  - 'babel.config.js'
+  - 'tsconfig.json'
+  - 'esbuild.config.js'
+  - '.eslintrc.js'
+  - '.prettierrc'
+  - 'scripts/**'
+
+# Testing
+'🧪 tests':
+  - 'tests/**'
+  - '__tests__/**'
+  - 'jest.config.js'
+  - 'vitest.config.js'
+
+# CI/CD & GitHub Actions
+'🛠️ ci/cd':
+  - '.github/workflows/**'
+  - '.github/labeler.yml'
+
+# Documentation
+'📄 docs':
+  - 'docs/**'
+  - 'README.md'
+  - 'CONTRIBUTING.md'
+  - 'docs/**/*.md'
+
+# Hotfix
+'🔥 hotfix':
+  - 'src/**'
+  - 'electron/**'
+  - 'package.json'
