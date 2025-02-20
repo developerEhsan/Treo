@@ -73,10 +73,11 @@ jobs:
       - name: Verify Build Output
         shell: bash
         run: |
-          if [ ! -f "dist/*.exe" ]; then
-            echo "Build output not found!"
+          if [[ -z $(find dist -type f -name "*.exe") ]]; then
+            echo "Build output not found! Skipping release."
             exit 1
           fi
+          echo "Build output found!"
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
