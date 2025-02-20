@@ -78,7 +78,7 @@ export function NoteEditor({
     <MinimalTiptapThree
       className={cn('h-full min-h-56 w-full rounded-xl')}
       editable
-      editorClassName="focus:outline-none px-5 py-4 h-full"
+      editorClassName="focus:outline-hidden px-5 py-4 h-full"
       editorContentClassName="overflow-auto h-full"
       enableContentCheck
       key={noteId}

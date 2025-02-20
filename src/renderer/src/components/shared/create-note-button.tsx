@@ -11,7 +11,7 @@ export function CreateNoteButton(): React.JSX.Element {
       <SimpleTooltip content="Create new Note">
         <Button
           className={cn(
-            'h-12 animate-shimmer items-center justify-center border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-foreground transition-colors focus:outline-none focus:ring-1 focus:ring-offset-foreground rounded-full grid'
+            'h-12 animate-shimmer items-center justify-center border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-foreground transition-colors focus:outline-hidden focus:ring-1 focus:ring-offset-foreground rounded-full grid'
           )}
           onClick={() => openModal('create-note-modal')}
           size="icon"
