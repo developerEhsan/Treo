@@ -41,8 +41,8 @@ npm install -g pnpm
 1️⃣ **Clone the Repository:**
 
 ```sh
-git clone <repository_url>
-cd <project_folder>
+git clone https://github.com/Your-Ehsan/Treo.git
+cd Treo
 ```
 
 2️⃣ **Install Dependencies:**
@@ -77,15 +77,13 @@ pnpm build:win
 
 ## 🤝 **Contributing**
 
-This project is **not open-source yet**, but it will be soon.
-
-📢 **Want to contribute or explore the codebase?** Feel free to **DM me**, and I’d be happy to provide early access.
+For more contribution guidelines see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ---
 
 ## 🔗 **Stay Connected**
 
-📌 **LinkedIn:** [your-ehsan](https://www.linkedin.com/in/your-ehsan/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/your-ehsan/)
 
 Looking forward to your thoughts, feedback, and contributions! 🚀
 
