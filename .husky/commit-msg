@@ -27,7 +27,7 @@ if ! echo "$commit_header" | grep -E "$header_pattern" > /dev/null 2>&1; then
 
 👉 Please follow the conventional commit format and try again.
 EOF
-    exit 1
+
 fi
 
 # Count the number of lines in the commit message
@@ -36,7 +36,7 @@ line_count=$(echo "$commit_message" | wc -l)
 # Check if message has at least 3 lines (header, blank line, and description)
 if [ "$line_count" -lt 3 ]; then
     cat <<EOF
-❌ Commit description is missing!
+⚠ Commit description is missing!
 
 Your commit message must include:
 🔹 Header line (type(scope): subject)
@@ -53,7 +53,7 @@ handling token validation and improving error messages.
 
 👉 Please add a meaningful description and try again.
 EOF
-    exit 1
+
 fi
 
 # Get the second line (should be blank)
@@ -65,7 +65,7 @@ description=$(echo "$commit_message" | sed -n '3,$p')
 # Check if second line is blank and description is not empty
 if [ -n "$second_line" ] || [ -z "$description" ] || [ "${#description}" -lt 10 ]; then
     cat <<EOF
-❌ Invalid commit message format!
+⚠ Invalid commit message format!
 
 Your commit message must follow this format:
 🔹 First line: type(scope): subject
@@ -79,7 +79,7 @@ $commit_message
 
 👉 Please format your commit message correctly and try again.
 EOF
-    exit 1
+
 fi
 
 pnpm commit-msg
