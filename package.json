@@ -98,7 +98,7 @@
     "@tanstack/router-devtools": "^1.106.0",
     "@tanstack/router-plugin": "^1.99.3",
     "@types/better-sqlite3": "^7.6.12",
-    "@types/node": "^22.13.4",
+    "@types/node": "^22.13.5",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
