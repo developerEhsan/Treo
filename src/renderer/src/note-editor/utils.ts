@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/react'
-import type { MinimalTiptapProps } from './minimal-tiptap'
+import { EditorProps } from './editor'
 
 type ShortcutKeyResult = {
   symbol: string
@@ -34,10 +34,7 @@ export const getShortcutKey = (key: string): ShortcutKeyResult =>
 
 export const getShortcutKeys = (keys: string[]): ShortcutKeyResult[] => keys.map(getShortcutKey)
 
-export const getOutput = (
-  editor: Editor,
-  format: MinimalTiptapProps['output']
-): object | string => {
+export const getOutput = (editor: Editor, format: EditorProps['output']): object | string => {
   switch (format) {
     case 'json':
       return editor.getJSON()

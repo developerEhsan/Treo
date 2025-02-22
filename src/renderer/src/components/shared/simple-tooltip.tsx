@@ -4,14 +4,10 @@ import { TooltipContentProps, TooltipProps, TooltipTriggerProps } from '@radix-u
 
 interface SimpleTooltipProps extends PropsWithChildren {
   readonly props?: {
-    tooltip: TooltipProps
-    trigger: React.ForwardRefExoticComponent<
-      TooltipTriggerProps & React.RefAttributes<HTMLButtonElement>
-    >
-    content: React.ForwardRefExoticComponent<
-      Omit<TooltipContentProps & React.RefAttributes<HTMLDivElement>, 'ref'> &
-        React.RefAttributes<HTMLDivElement>
-    >
+    tooltip?: TooltipProps
+    trigger?: TooltipTriggerProps & React.RefAttributes<HTMLButtonElement>
+    content?: Omit<TooltipContentProps & React.RefAttributes<HTMLDivElement>, 'ref'> &
+      React.RefAttributes<HTMLDivElement>
   }
   readonly content: ReactNode
 }
@@ -19,8 +15,9 @@ interface SimpleTooltipProps extends PropsWithChildren {
 export function SimpleTooltip({ props, children, content }: SimpleTooltipProps): React.JSX.Element {
   return (
     <Tooltip {...props?.tooltip}>
-      <TooltipTrigger {...props?.trigger}>{children}</TooltipTrigger>
-
+      <TooltipTrigger {...props?.trigger} asChild={props?.trigger?.asChild ?? true}>
+        {children}
+      </TooltipTrigger>
       <TooltipContent {...props?.content}>{content}</TooltipContent>
     </Tooltip>
   )

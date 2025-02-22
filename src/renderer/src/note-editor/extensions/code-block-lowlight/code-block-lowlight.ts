@@ -2,13 +2,14 @@ import { CodeBlockLowlight as TiptapCodeBlockLowlight } from '@tiptap/extension-
 import { common, createLowlight } from 'lowlight'
 
 export const CodeBlockLowlight = TiptapCodeBlockLowlight.extend({
+  addAttributes: () => ({ 'spell-check': false }),
   addOptions() {
     return {
       ...this.parent?.(),
       lowlight: createLowlight(common),
-      defaultLanguage: null,
       HTMLAttributes: {
-        class: 'block-node'
+        class: 'block-node',
+        'spell-check': false
       }
     }
   }

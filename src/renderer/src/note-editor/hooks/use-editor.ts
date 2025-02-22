@@ -2,7 +2,7 @@ import * as React from 'react'
 import type { Editor } from '@tiptap/react'
 import type { Content, UseEditorOptions } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
-import { useEditor } from '@tiptap/react'
+import { useEditor as useTiptapEditor } from '@tiptap/react'
 import { Typography } from '@tiptap/extension-typography'
 import { Placeholder } from '@tiptap/extension-placeholder'
 import { Underline } from '@tiptap/extension-underline'
@@ -22,10 +22,10 @@ import {
 } from '../extensions'
 import { cn } from '@renderer/utils'
 import { fileToBase64, getOutput, randomId } from '../utils'
-import { useThrottle } from '../hooks/use-throttle'
+import { useThrottle } from './use-throttle'
 import { toast } from '@renderer/hooks/use-toast'
 
-export interface UseMinimalTiptapEditorProps extends UseEditorOptions {
+export interface UseEditorProps extends UseEditorOptions {
   value?: Content
   output?: 'html' | 'json' | 'text'
   placeholder?: string
@@ -169,7 +169,7 @@ const createExtensions = (placeholder: string) => [
   GlobalDragHandle
 ]
 
-export const useMinimalTiptapEditor = ({
+export const useEditor = ({
   value,
   output = 'html',
   placeholder = '',
@@ -178,7 +178,7 @@ export const useMinimalTiptapEditor = ({
   onUpdate,
   onBlur,
   ...props
-}: UseMinimalTiptapEditorProps): Editor | null => {
+}: UseEditorProps): Editor | null => {
   const throttledSetValue = useThrottle((value: Content) => onUpdate?.(value), throttleDelay)
 
   const handleUpdate = React.useCallback(
@@ -200,7 +200,7 @@ export const useMinimalTiptapEditor = ({
     [output, onBlur]
   )
 
-  const editor = useEditor({
+  const editor = useTiptapEditor({
     extensions: createExtensions(placeholder),
     editorProps: {
       attributes: {
@@ -219,4 +219,4 @@ export const useMinimalTiptapEditor = ({
   return editor
 }
 
-export default useMinimalTiptapEditor
+export default useEditor
