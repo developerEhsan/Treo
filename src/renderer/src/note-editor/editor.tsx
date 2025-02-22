@@ -1,8 +1,7 @@
 import * as React from 'react'
 import './styles/index.css'
 
-import type { Content, Editor } from '@tiptap/react'
-import type { UseMinimalTiptapEditorProps } from './hooks/use-editor'
+import type { Content, Editor as TiptapEditor } from '@tiptap/react'
 import { EditorContent } from '@tiptap/react'
 import { Separator } from '@renderer/components/ui/separator'
 import { cn } from '@renderer/utils'
@@ -12,17 +11,17 @@ import { SectionThree } from './components/section/three'
 import { SectionFour } from './components/section/four'
 import { SectionFive } from './components/section/five'
 import { LinkBubbleMenu } from './components/bubble-menu/link-bubble-menu'
-import { useMinimalTiptapEditor } from './hooks/use-editor'
 import { MeasuredContainer } from './components/measured-container'
+import useEditor, { UseEditorProps } from './hooks/use-editor'
 
-export interface MinimalTiptapProps extends Omit<UseMinimalTiptapEditorProps, 'onUpdate'> {
+export interface EditorProps extends Omit<UseEditorProps, 'onUpdate'> {
   readonly value?: Content
   readonly onChange?: (value: Content) => void
   readonly className?: string
   readonly editorContentClassName?: string
 }
 
-function Toolbar({ editor }: { readonly editor: Editor }): React.JSX.Element {
+function Toolbar({ editor }: { readonly editor: TiptapEditor }): React.JSX.Element {
   return (
     <div className="shrink-0 overflow-x-auto border-b border-border p-2">
       <div className="flex w-max items-center gap-px">
@@ -67,9 +66,9 @@ function Toolbar({ editor }: { readonly editor: Editor }): React.JSX.Element {
   )
 }
 
-export const MinimalTiptapEditor = React.forwardRef<HTMLDivElement, MinimalTiptapProps>(
+export const Editor = React.forwardRef<HTMLDivElement, EditorProps>(
   ({ value, onChange, className, editorContentClassName, ...props }, ref) => {
-    const editor = useMinimalTiptapEditor({
+    const editor = useEditor({
       value,
       onUpdate: onChange,
       ...props
@@ -102,6 +101,6 @@ export const MinimalTiptapEditor = React.forwardRef<HTMLDivElement, MinimalTipta
   }
 )
 
-MinimalTiptapEditor.displayName = 'MinimalTiptapEditor'
+Editor.displayName = 'Editor'
 
-export default MinimalTiptapEditor
+export default Editor

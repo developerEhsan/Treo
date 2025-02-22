@@ -1,2 +1,3 @@
 pnpm pre-commit
+pnpm typecheck
 git add .
