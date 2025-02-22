@@ -22,4 +22,4 @@ updates:
       - your-ehsan
     target-branch: development
     schedule:
-      interval: 'daily'
+      interval: 'weekly'
