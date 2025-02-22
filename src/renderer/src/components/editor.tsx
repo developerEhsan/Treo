@@ -1,21 +1,19 @@
 import React from 'react'
-import '@renderer/minimal-tiptap/styles/index.css'
+import '@renderer/note-editor/styles/index.css'
 import { EditorContent, type Content, type Editor } from '@tiptap/react'
-import SectionOne from '@renderer/minimal-tiptap/components/section/one'
-import SectionTwo from '@renderer/minimal-tiptap/components/section/two'
-import SectionThree from '@renderer/minimal-tiptap/components/section/three'
-import SectionFour from '@renderer/minimal-tiptap/components/section/four'
-import SectionFive from '@renderer/minimal-tiptap/components/section/five'
+import SectionOne from '@renderer/note-editor/components/section/one'
+import SectionTwo from '@renderer/note-editor/components/section/two'
+import SectionThree from '@renderer/note-editor/components/section/three'
+import SectionFour from '@renderer/note-editor/components/section/four'
+import SectionFive from '@renderer/note-editor/components/section/five'
 import { Separator } from './ui/separator'
-import useMinimalTiptapEditor, {
-  UseMinimalTiptapEditorProps
-} from '@renderer/minimal-tiptap/hooks/use-minimal-tiptap'
-import { MeasuredContainer } from '@renderer/minimal-tiptap/components/measured-container'
+import { MeasuredContainer } from '@renderer/note-editor/components/measured-container'
 import { cn } from '@renderer/utils'
-import { LinkBubbleMenu } from '@renderer/minimal-tiptap/components/bubble-menu/link-bubble-menu'
+import { LinkBubbleMenu } from '@renderer/note-editor/components/bubble-menu/link-bubble-menu'
 import { NotesNavActions } from './home/components/notes-nav-actions'
+import useEditor, { UseEditorProps } from '@renderer/note-editor/hooks/use-editor'
 
-export interface MinimalTiptapProps extends Omit<UseMinimalTiptapEditorProps, 'onUpdate'> {
+export interface EditorProps extends Omit<UseEditorProps, 'onUpdate'> {
   readonly value?: Content
   readonly onChange?: (value: Content) => void
   readonly className?: string
@@ -30,9 +28,7 @@ function Toolbar({ editor }: { readonly editor: Editor }): React.JSX.Element {
       </div>
       <div className="flex w-max items-center gap-px">
         <SectionOne editor={editor} activeLevels={[1, 2, 3]} variant="outline" />
-
         <Separator orientation="vertical" className="mx-2 h-7" />
-
         <SectionTwo
           editor={editor}
           activeActions={[
@@ -46,22 +42,16 @@ function Toolbar({ editor }: { readonly editor: Editor }): React.JSX.Element {
           mainActionCount={5}
           variant="outline"
         />
-
         <Separator orientation="vertical" className="mx-2 h-7" />
-
         <SectionThree editor={editor} variant="outline" />
-
         <Separator orientation="vertical" className="mx-2 h-7" />
-
         <SectionFour
           editor={editor}
           activeActions={['bulletList', 'orderedList']}
           mainActionCount={2}
           variant="outline"
         />
-
         <Separator orientation="vertical" className="mx-2 h-7" />
-
         <SectionFive
           editor={editor}
           activeActions={['blockquote', 'codeBlock', 'horizontalRule']}
@@ -73,9 +63,9 @@ function Toolbar({ editor }: { readonly editor: Editor }): React.JSX.Element {
   )
 }
 
-export const MinimalTiptapThree = React.forwardRef<HTMLDivElement, MinimalTiptapProps>(
+export const EditorThree = React.forwardRef<HTMLDivElement, EditorProps>(
   ({ value, onChange, className, editorContentClassName, ...props }, ref) => {
-    const editor = useMinimalTiptapEditor({
+    const editor = useEditor({
       value,
       onUpdate: onChange,
       ...props
@@ -93,18 +83,16 @@ export const MinimalTiptapThree = React.forwardRef<HTMLDivElement, MinimalTiptap
         ref={ref}
       >
         <Toolbar editor={editor} />
-
         <EditorContent
           editor={editor}
           className={cn('minimal-tiptap-editor', editorContentClassName)}
         />
-
         <LinkBubbleMenu editor={editor} />
       </MeasuredContainer>
     )
   }
 )
 
-MinimalTiptapThree.displayName = 'MinimalTiptapThree'
+EditorThree.displayName = 'EditorThree'
 
-export default MinimalTiptapThree
+export default EditorThree

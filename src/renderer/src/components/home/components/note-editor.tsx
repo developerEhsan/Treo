@@ -1,4 +1,4 @@
-import MinimalTiptapThree from '@renderer/components/minimal-tiptap-three'
+import MinimalTiptapThree from '@renderer/components/editor'
 import { useSidebar } from '@renderer/components/ui/sidebar'
 import { mutationKeys } from '@renderer/constants/mutation-keys'
 import { allNoteKey, queryKeys } from '@renderer/constants/query-keys'

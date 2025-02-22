@@ -30,8 +30,7 @@ export default defineConfig(({ mode }) => ({
     },
     resolve: {
       alias: {
-        '@renderer': resolve(__dirname, 'src/renderer/src'),
-        '@editor': resolve(__dirname, 'src/renderer/src/minimal-tiptap/')
+        '@renderer': resolve(__dirname, 'src/renderer/src')
       }
     },
     plugins: [TanStackRouterVite({ autoCodeSplitting: true }), react()]

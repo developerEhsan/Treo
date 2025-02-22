@@ -65,16 +65,13 @@ export const SectionFive: React.FC<SectionFiveProps> = ({
   return (
     <>
       <LinkEditPopover editor={editor} size={size} variant={variant} />
-
       <ImageEditDialog editor={editor} size={size} variant={variant} />
-
       <ToolbarSection
         actions={formatActions}
         activeActions={activeActions}
         dropdownIcon={
           <>
             <PlusIcon className="size-5" />
-
             <CaretDownIcon className="size-5" />
           </>
         }
