@@ -94,7 +94,7 @@
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
     "@electron-toolkit/eslint-config-ts": "^3.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
-    "@tailwindcss/postcss": "^4.0.7",
+    "@tailwindcss/postcss": "^4.0.8",
     "@tanstack/router-devtools": "^1.109.2",
     "@tanstack/router-plugin": "^1.109.2",
     "@types/better-sqlite3": "^7.6.12",
