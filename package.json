@@ -96,7 +96,7 @@
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@tailwindcss/postcss": "^4.0.7",
     "@tanstack/router-devtools": "^1.109.2",
-    "@tanstack/router-plugin": "^1.99.3",
+    "@tanstack/router-plugin": "^1.109.2",
     "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^22.13.5",
     "@types/react": "^19.0.10",
