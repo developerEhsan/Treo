@@ -4,6 +4,10 @@ import { FilePenLineIcon } from 'lucide-react'
 import { modalStore } from '@renderer/store/modal-store'
 import { SimpleTooltip } from './simple-tooltip'
 
+/**
+ *
+ * @deprecated for more see `CreateNoteModal` component
+ */
 export function CreateNoteButton(): React.JSX.Element {
   const { openModal } = modalStore()
   return (

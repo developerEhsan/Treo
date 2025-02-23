@@ -13,7 +13,7 @@ export function NoteList({ items }: NoteListProps): React.JSX.Element {
   const { pathname } = useLocation()
   const noteId = pathname.replace('/', '')
   return (
-    <ScrollArea className="h-screen">
+    <ScrollArea className="h-screen !overflow-y-auto">
       <div className="flex flex-col gap-2 p-4 pt-0">
         {items.map((item) => (
           <Link params={{ noteId: String(item.id) }} key={item.id} to="/$noteId">
@@ -52,6 +52,8 @@ export function NoteList({ items }: NoteListProps): React.JSX.Element {
           </Link>
         ))}
       </div>
+      {/* TODO - make this component animate that automatically decrease its height to h-8 when it is on view this will create a stretchy effect on list */}
+      <div className="h-96" />
     </ScrollArea>
   )
 }

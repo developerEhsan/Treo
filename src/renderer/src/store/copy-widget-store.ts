@@ -1,8 +1,5 @@
 import { create } from 'zustand'
 
-// const [popoverState, setPopoverState] = useState<PopoverStates>({ index: 0, open: false })
-// const [search, setSearch] = useState('')
-
 interface PopoverInterface {
   index: number
   isOpen: boolean
