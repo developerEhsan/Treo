@@ -32,7 +32,14 @@ interface FormValues {
   title: string
   description: string
 }
-
+/**
+ * TODO - remove this component once the create note method is improved in production
+ * @deprecated Create note modal is now deprecated for better UI we are going to do something like
+ * - user click on create new note
+ * - then a new Note will Immediately created with default configs like
+ *  - title --- untitled note
+ *  - description --- (empty)
+ */
 export function CreateNoteModal(): React.JSX.Element {
   const queryClient = useQueryClient()
   const form = useForm<FormValues>()
@@ -74,10 +81,8 @@ export function CreateNoteModal(): React.JSX.Element {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create new Note 📒</DialogTitle>
-
           <DialogDescription>Begin creating a brand new one.</DialogDescription>
         </DialogHeader>
-
         <div className="w-full max-w-md mx-auto p-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -87,36 +92,28 @@ export function CreateNoteModal(): React.JSX.Element {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Username</FormLabel>
-
                     <FormControl>
                       <Input placeholder="title" {...field} />
                     </FormControl>
-
                     <FormDescription>Title for the note.</FormDescription>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="description"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Description</FormLabel>
-
                     <FormControl>
                       <Textarea {...field} />
                     </FormControl>
-
                     <FormDescription>Description for the note.</FormDescription>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <Button type="submit" className="w-full">
                 Create
               </Button>
