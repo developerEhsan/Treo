@@ -18,6 +18,7 @@ export const notesSchema = sqliteTable('notes', {
   id: integer().primaryKey({ autoIncrement: true }),
   title: text().notNull(),
   description: text().notNull(),
+  favorite: integer({ mode: 'boolean' }).notNull().default(false),
   content: blob().notNull(), // content is going to be JSON
   labels: blob(), // content is going to be JSON
   createdAt: integer()

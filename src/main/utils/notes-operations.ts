@@ -49,17 +49,7 @@ export function getAllNotes(): {
   updatedAt: number
 }[] {
   // Explicitly select only the required fields
-  const allNotes = db
-    .select({
-      id: notesSchema.id,
-      title: notesSchema.title,
-      description: notesSchema.description,
-      createdAt: notesSchema.createdAt,
-      updatedAt: notesSchema.updatedAt
-    })
-    .from(notesSchema)
-    .all()
-
+  const allNotes = db.select().from(notesSchema).all()
   return allNotes
 }
 
@@ -79,8 +69,6 @@ export function getNoteById(id: string):
     .from(notesSchema)
     .where(eq(notesSchema.id, Number(id)))
     .get()
-  console.log(result)
-
   return result && { ...result, content: JSON.parse(result?.content as string) }
 }
 
@@ -92,19 +80,13 @@ export async function updateNote({
   title
 }: {
   id: string
-  content: object | unknown[]
+  content?: object | unknown[]
   title?: string
   description?: string
-}): Promise<
-  | {
-      result: string
-      error?: undefined
-    }
-  | {
-      error: unknown
-      result?: undefined
-    }
-> {
+}): Promise<{
+  result?: string
+  error?: unknown
+}> {
   try {
     await db
       .update(notesSchema)
@@ -122,23 +104,42 @@ export async function updateNote({
   }
 }
 
+// Function to toggle favorite a note
+export async function toggleFavoriteNote({
+  id,
+  favorite
+}: {
+  id: string
+  favorite: boolean
+}): Promise<{
+  result?: string
+  error?: unknown
+}> {
+  try {
+    await db
+      .update(notesSchema)
+      .set({
+        favorite,
+        updatedAt: Date.now() // Update timestamp
+      })
+      .where(eq(notesSchema.id, Number(id)))
+    return { result: 'success' }
+  } catch (error) {
+    console.error(error)
+    return { error }
+  }
+}
+
 // Function to delete a note
-export async function deleteNote(id: string): Promise<
-  | {
-      result: string
-      error?: undefined
-    }
-  | {
-      error: unknown
-      result?: undefined
-    }
-> {
+export async function deleteNote(id: string): Promise<{
+  error?: unknown
+  result?: string
+}> {
   try {
     await db.delete(notesSchema).where(eq(notesSchema.id, Number(id)))
     return { result: 'success' }
   } catch (error) {
     console.error(error)
-
     return { error }
   }
 }
