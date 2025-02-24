@@ -31,20 +31,14 @@ interface Note {
   id: number
   title: string
   description: string
+  favorite: boolean
   content: Content // Can be an object or array
   createdAt: number
   updatedAt: number
 }
 
 // Define the response structure for create/update operations
-interface MutationResponse {
-  id: number
-  content: Content
-  createdAt: number
-  title: string
-  description: string
-  labels: unknown
-  updatedAt: number
+interface MutationResponse extends Note {
   error?: unknown
 }
 
@@ -72,6 +66,10 @@ interface RendererAPI {
   deleteNote: (id: string) => Promise<void>
   getNote: (id: string) => Promise<Note>
   getAllNotes: () => Promise<Note[]>
+  toggleFavoriteNote: (values: { id: string; favorite: boolean }) => Promise<{
+    result?: string
+    error?: unknown
+  }>
 }
 
 // Extend the global Window interface to include the Electron API and custom API

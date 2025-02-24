@@ -2,13 +2,14 @@ import React from 'react'
 import { Star } from 'lucide-react'
 import { Button } from '../../ui/button'
 import { formatDistanceToNow } from 'date-fns'
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useLocation } from '@tanstack/react-router'
-import { queryKeys } from '@renderer/constants/query-keys'
+import { allNoteKey, queryKeys } from '@renderer/constants/query-keys'
 import { NoteInterface } from '@renderer/types/notes'
 import { mutationKeys } from '@renderer/constants/mutation-keys'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@renderer/components/ui/tooltip'
 import { cn } from '@renderer/utils'
+import { toast } from '@renderer/hooks/use-toast'
 
 export function NotesNavActions(): React.JSX.Element {
   const queryClient = useQueryClient()
@@ -16,7 +17,43 @@ export function NotesNavActions(): React.JSX.Element {
   const noteId = pathname.replace('/', '')
   const noteData = queryClient.getQueryData<NoteInterface>([queryKeys.note, noteId])
   const isMutatingNote = queryClient.isMutating({
-    mutationKey: [mutationKeys['update-note'], noteId]
+    mutationKey: [mutationKeys['update-note'], noteId, 'toggle-favorite']
+  })
+  const { mutate } = useMutation({
+    mutationKey: [mutationKeys['update-note'], noteId],
+    mutationFn: (values: { id: string; favorite: boolean }) =>
+      window.api.toggleFavoriteNote(values),
+    async onMutate(variables) {
+      await queryClient.cancelQueries({ queryKey: allNoteKey })
+      const snapshot = queryClient.getQueryData(allNoteKey)
+      queryClient.setQueryData<NoteInterface[]>(allNoteKey, (previousEntities) =>
+        previousEntities?.map((entity) =>
+          entity.id.toString() === variables.id
+            ? {
+                ...entity,
+                favorite: variables.favorite,
+                updatedAt: Date.now()
+              }
+            : entity
+        )
+      )
+      queryClient.setQueryData<NoteInterface>([queryKeys.note, noteId], (previousNote) => {
+        if (!previousNote) return
+        return {
+          ...previousNote,
+          favorite: variables.favorite,
+          updatedAt: Date.now()
+        }
+      })
+      return { snapshot }
+    },
+    onError(error) {
+      toast({
+        title: 'Failed to toggle favorite ❌ ',
+        description: error.message,
+        variant: 'destructive'
+      })
+    }
   })
 
   return (
@@ -29,8 +66,13 @@ export function NotesNavActions(): React.JSX.Element {
               includeSeconds: true
             })}`}
       </div>
-      <Button variant="ghost" size="icon" className="h-7 w-7">
-        <Star size={16} />
+      <Button
+        onClick={() => mutate({ id: noteId, favorite: !noteData?.favorite })}
+        variant="ghost"
+        size="icon"
+        className="h-7 w-7"
+      >
+        <Star size={16} className={cn(noteData?.favorite ? 'fill-amber-300' : null)} />
       </Button>
       <Tooltip>
         <TooltipTrigger>

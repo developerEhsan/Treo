@@ -5,6 +5,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { NoteInterface } from '@renderer/types/notes'
 import { Link, useLocation } from '@tanstack/react-router'
 import { NoteListMenu } from './note-list-menu'
+import { StarIcon } from 'lucide-react'
 
 interface NoteListProps {
   readonly items: NoteInterface[]
@@ -35,7 +36,8 @@ export function NoteList({ items }: NoteListProps): React.JSX.Element {
                 <div className="line-clamp-2 text-xs text-muted-foreground">{item.description}</div>
               </div>
 
-              <div className="flex justify-end w-full">
+              <div className="flex justify-between w-full">
+                <StarIcon size={13} className={cn({ 'fill-amber-300': item.favorite })} />
                 <div
                   className={cn(
                     'ml-auto text-xs',

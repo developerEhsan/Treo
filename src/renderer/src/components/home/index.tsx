@@ -41,7 +41,7 @@ export function Note({ Notes, defaultLayout = [12, 32, 48] }: NoteProps): React.
         return [...entities, createdNote]
       })
       toast({ title: 'New Note Created 🎉' })
-      navigate({ to: `/${data.id}` })
+      navigate({ to: '/$noteId', params: { noteId: data.id.toString() } })
     },
     onError(error) {
       toast({

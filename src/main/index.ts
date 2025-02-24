@@ -14,6 +14,7 @@ import {
   deleteNote,
   getAllNotes,
   getNoteById,
+  toggleFavoriteNote,
   updateNote
 } from './utils/notes-operations'
 
@@ -177,6 +178,7 @@ app.whenReady().then(() => {
   ipcMain.handle('delete-note', (_, id) => deleteNote(id))
   ipcMain.handle('get-note', (_, id) => getNoteById(id))
   ipcMain.handle('get-all-notes', getAllNotes)
+  ipcMain.handle('toggle-favorite-note', (_, values) => toggleFavoriteNote(values))
 
   let previousContent = clipboard.readText()
   async function checkClipboard(): Promise<void> {
