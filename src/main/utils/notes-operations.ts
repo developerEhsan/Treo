@@ -69,8 +69,6 @@ export function getNoteById(id: string):
     .from(notesSchema)
     .where(eq(notesSchema.id, Number(id)))
     .get()
-  console.log(result)
-
   return result && { ...result, content: JSON.parse(result?.content as string) }
 }
 
