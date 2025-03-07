@@ -1,63 +1,82 @@
 # Automatically assigns labels to PRs based on file changes
 
-#  General Labels
-'🟢 dependencies':
-  - 'package.json'
-  - 'pnpm-lock.yaml'
-  - 'yarn.lock'
-  - 'npm-shrinkwrap.json'
+# General Labels
+'🏬 dependencies':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'package.json'
+          - 'pnpm-lock.yaml'
+          - 'yarn.lock'
+          - 'npm-shrinkwrap.json'
 
-'changelog':
-  - 'CHANGELOG.md'
+'🕔 changelog':
+  - changed-files:
+      - any-glob-to-any-file: ['CHANGELOG.md']
 
-# ⚡ Electron-Specific Labels
-'electron-main':
-  - 'src/main/**'
-  - 'electron/**'
+#  Electron-Specific Labels
+'⚡ electron-main':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/main/**'
+          - 'electron/**'
 
 'electron-renderer':
-  - 'src/renderer/**'
-  - 'src/components/**'
-  - 'src/pages/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/renderer/**'
+          - 'src/components/**'
+          - 'src/pages/**'
 
-#  UI & Frontend
+# UI & Frontend
 '🎨 ui':
-  - 'src/renderer/assets/**'
-  - 'src/styles/**'
-  - 'src/css/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/renderer/assets/**'
+          - 'src/styles/**'
+          - 'src/css/**'
 
-#  Build & Configuration
+# Build & Configuration
 '🏗️ build':
-  - 'webpack.config.js'
-  - 'vite.config.js'
-  - 'babel.config.js'
-  - 'tsconfig.json'
-  - 'esbuild.config.js'
-  - '.eslintrc.js'
-  - '.prettierrc'
-  - 'scripts/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'webpack.config.js'
+          - 'vite.config.js'
+          - 'babel.config.js'
+          - 'tsconfig.json'
+          - 'esbuild.config.js'
+          - '.eslintrc.js'
+          - '.prettierrc'
+          - 'scripts/**'
 
 # Testing
 '🧪 tests':
-  - 'tests/**'
-  - '__tests__/**'
-  - 'jest.config.js'
-  - 'vitest.config.js'
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'tests/**'
+          - '__tests__/**'
+          - 'jest.config.js'
+          - 'vitest.config.js'
 
 # CI/CD & GitHub Actions
 '🛠️ ci/cd':
-  - '.github/workflows/**'
-  - '.github/labeler.yml'
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/**'
+          - '.github/labeler.yml'
 
 # Documentation
 '📄 docs':
-  - 'docs/**'
-  - 'README.md'
-  - 'CONTRIBUTING.md'
-  - 'docs/**/*.md'
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/**'
+          - 'README.md'
+          - 'CONTRIBUTING.md'
+          - 'docs/**/*.md'
 
 # Hotfix
 '🔥 hotfix':
-  - 'src/**'
-  - 'electron/**'
-  - 'package.json'
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**'
+          - 'electron/**'
+          - 'package.json'

@@ -70,6 +70,14 @@ interface RendererAPI {
     result?: string
     error?: unknown
   }>
+  togglePinnedClipboardEntry: (values: { id: string; pinned: boolean }) => Promise<{
+    result?: string
+    error?: unknown
+  }>
+  deleteClipboardEntry: (id: string) => Promise<{
+    result?: string
+    error?: unknown
+  }>
 }
 
 // Extend the global Window interface to include the Electron API and custom API

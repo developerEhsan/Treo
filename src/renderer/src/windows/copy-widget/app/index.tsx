@@ -1,13 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { LoaderCircleIcon, Loader2Icon } from 'lucide-react'
 import { Dialog, DialogContent } from '@renderer/components/ui/dialog'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandList
-} from '@renderer/components/ui/command'
+import { Command, CommandEmpty, CommandInput, CommandList } from '@renderer/components/ui/command'
 import { CommandLoading, Command as CommandPrimitive } from 'cmdk'
 import { cn } from '@renderer/utils'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -19,7 +13,7 @@ export function CopyWidget(): React.JSX.Element {
   const listEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<React.ComponentRef<typeof CommandPrimitive.Input>>(null)
   const itemRef = useRef<React.ComponentRef<typeof CommandPrimitive.Item>>(null)
-  const { popover, searchQuery, setPopover, setSearchQuery } = copyWidgetStore()
+  const { state, searchQuery, setState, setSearchQuery } = copyWidgetStore()
   const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: [queryKeys['clipboard-data']],
     queryFn: ({ pageParam }) =>
@@ -59,26 +53,30 @@ export function CopyWidget(): React.JSX.Element {
     }
   }, [fetchNextPage, hasNextPage, isFetchingNextPage])
 
-  // The Command container catches keyboard events
   const handleKeyDown = (e: React.KeyboardEvent): void => {
+    const selectedElement = document.querySelector('[data-selected="true"]') as HTMLElement | null
+    if (!selectedElement) return
+    const elemIndex = Number(selectedElement.dataset.index ?? -1)
+    const isLastItem = selectedElement.dataset.islast === 'true'
     if (e.key === 'ArrowRight' && (e.metaKey || e.ctrlKey)) {
-      //   @ts-expect-error --- TODO !fix this type later
-      const elemIndex = Number(document.querySelector('[data-selected="true"]')?.dataset.index)
-      setPopover({ index: elemIndex, isOpen: elemIndex > 0 })
+      setState({ index: elemIndex, opened: elemIndex >= 0 ? 'detailed' : null })
     } else {
-      setPopover({ isOpen: false })
+      setState({ opened: null })
       inputRef.current?.focus()
     }
-
-    if (e.key === 'ArrowDown') {
-      //   @ts-expect-error --- TODO !fix this type later
-      if (document.querySelector('[data-selected="true"]')?.dataset.islast === 'true') {
-        if (hasNextPage && !isFetchingNextPage) fetchNextPage()
+    if (e.key === 'ArrowDown' && isLastItem) {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage()
       }
     }
   }
+
   // Flatten all pages to get total items count
-  const allItems = data?.pages.flatMap((page) => page.results) || []
+  const allItems =
+    data?.pages.flatMap((page) =>
+      page.results.map((result) => ({ ...result, currentPage: page.currentPage }))
+    ) || []
+
   const lastItem = allItems.at(-5)
 
   function onOpenChange(): void {
@@ -90,7 +88,9 @@ export function CopyWidget(): React.JSX.Element {
 
   return (
     <Dialog modal onOpenChange={onOpenChange} open>
-      <DialogContent className={cn(popover.isOpen ? 'left-[40%]!' : null, 'p-0 min-w-[50vw]!')}>
+      <DialogContent
+        className={cn(state.opened === 'detailed' ? 'left-[40%]!' : null, 'p-0 min-w-[50vw]!')}
+      >
         <Command
           className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5 scroll-smooth!"
           onKeyDown={handleKeyDown}
@@ -112,27 +112,25 @@ export function CopyWidget(): React.JSX.Element {
               <CommandEmpty>No results found.</CommandEmpty>
             )}
 
-            <CommandGroup heading="Text">
-              {allItems.map((clipboardData) => (
-                <WidgetCommandItem
-                  key={clipboardData.id}
-                  inputRef={inputRef}
-                  lastItem={lastItem}
-                  itemRef={itemRef}
-                  {...clipboardData}
-                />
-              ))}
+            {allItems.map((clipboardData) => (
+              <WidgetCommandItem
+                key={`${clipboardData.id}-${clipboardData.createdAt}`}
+                inputRef={inputRef}
+                itemRef={itemRef}
+                lastItem={lastItem}
+                {...clipboardData}
+              />
+            ))}
 
-              <div ref={listEndRef} className="w-full h-full flex items-center justify-center">
-                {hasNextPage ? (
-                  <Loader2Icon size={18} className="animate-spin my-4" />
-                ) : (
-                  <span className="text-muted-foreground text-center my-4">
-                    No More data available
-                  </span>
-                )}
-              </div>
-            </CommandGroup>
+            <div ref={listEndRef} className="w-full h-full flex items-center justify-center">
+              {hasNextPage ? (
+                <Loader2Icon size={18} className="animate-spin my-4" />
+              ) : (
+                <span className="text-muted-foreground text-center my-4">
+                  No More data available
+                </span>
+              )}
+            </div>
           </CommandList>
         </Command>
       </DialogContent>

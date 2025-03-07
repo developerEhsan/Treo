@@ -17,7 +17,10 @@ const api = {
   deleteNote: (id): Promise<void> => ipcRenderer.invoke('delete-note', id),
   getNote: (id): Promise<void> => ipcRenderer.invoke('get-note', id),
   getAllNotes: (): Promise<void> => ipcRenderer.invoke('get-all-notes'),
-  toggleFavoriteNote: (values): Promise<void> => ipcRenderer.invoke('toggle-favorite-note', values)
+  toggleFavoriteNote: (values): Promise<void> => ipcRenderer.invoke('toggle-favorite-note', values),
+  togglePinnedClipboardEntry: (values): Promise<void> =>
+    ipcRenderer.invoke('toggle-pinned-clipboard-entry', values),
+  deleteClipboardEntry: (id): Promise<void> => ipcRenderer.invoke('delete-clipboard-entry', id)
 }
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
