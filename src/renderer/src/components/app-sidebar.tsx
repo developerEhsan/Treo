@@ -26,11 +26,11 @@ const data = {
       items: [
         {
           title: 'View All',
-          url: '#'
+          url: '/'
         },
         {
           title: 'Starred',
-          url: '#'
+          url: '/starred'
         }
       ]
     },

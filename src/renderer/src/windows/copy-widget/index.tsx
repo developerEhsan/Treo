@@ -5,7 +5,7 @@ import { ThemeProvider } from '@renderer/providers/theme-provider'
 import { QueryProvider } from '@renderer/providers/query-provider'
 import { CopyWidget } from './app'
 import { TooltipProvider } from '@renderer/components/ui/tooltip'
-import { ToastProvider } from '@renderer/components/ui/toast'
+import { Toaster } from '@renderer/components/ui/toaster'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <TooltipProvider>
           <CopyWidget />
         </TooltipProvider>
-        <ToastProvider />
+        <Toaster />
       </ThemeProvider>
     </QueryProvider>
   </React.StrictMode>

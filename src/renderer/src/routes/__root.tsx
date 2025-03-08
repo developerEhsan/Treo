@@ -20,7 +20,6 @@ export const Route = createRootRoute({
         <QueryProvider>
           <SidebarProvider>
             <AppSidebar />
-
             <SidebarInset className="!h-0 overflow-hidden">
               <header className="flex h-14 shrink-0 items-center gap-2">
                 <div className="flex flex-1 items-center gap-2 px-3">
@@ -43,7 +42,6 @@ export const Route = createRootRoute({
           <Toaster />
           <ModalsProvider />
         </QueryProvider>
-
         {import.meta.env.DEV ? <TanStackRouterDevtools /> : null}
       </>
     )

@@ -7,6 +7,9 @@ interface ClipboardDataItem {
   type: 'text' | 'file'
   content: string
   createdAt: number
+  pinned: boolean
+  updatedAt: number
+  favorite: boolean
 }
 
 // Define the structure of the clipboard data response

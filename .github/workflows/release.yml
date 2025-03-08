@@ -60,11 +60,6 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      # - name: Generate Release Notes
-      #   run: |
-      #     pnpm add -g conventional-changelog-cli
-      #     conventional-changelog -p angular -i CHANGELOG.md -s -r 0
-
       - name: Build
         env:
           ELECTRON_BUILDER_ALLOWED_EXECUTABLES: '*'

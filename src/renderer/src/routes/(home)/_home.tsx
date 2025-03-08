@@ -1,12 +1,11 @@
+import React from 'react'
 import InteractiveGrid from '@renderer/components/animata/interactive-grid'
 import { Note } from '@renderer/components/home'
-import { CreateNoteButton } from '@renderer/components/shared/create-note-button'
 import { Loading } from '@renderer/components/shared/loading'
 import { allNoteKey } from '@renderer/constants/query-keys'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { FilePenLineIcon } from 'lucide-react'
-import React from 'react'
 
 export const Route = createFileRoute('/(home)/_home')({
   component: function Home(): React.JSX.Element {
@@ -22,7 +21,6 @@ export const Route = createFileRoute('/(home)/_home')({
             <div className="pointer-events-none my-24 flex h-fit max-w-sm flex-col items-center justify-center text-center text-foreground">
               <h1 className="text-3xl font-bold flex gap-3">
                 <FilePenLineIcon size={32} />
-
                 <span>Select or Create Note</span>
               </h1>
 
@@ -34,11 +32,6 @@ export const Route = createFileRoute('/(home)/_home')({
           </InteractiveGrid>
         </div>
       )
-    return (
-      <>
-        <Note Notes={Notes} />
-        <CreateNoteButton />
-      </>
-    )
+    return <Note Notes={Notes} />
   }
 })

@@ -17,10 +17,6 @@ interface copyWidgetStoreInterface {
 export const copyWidgetStore = create<copyWidgetStoreInterface>()((set) => ({
   state: { index: 0, isOpen: false },
   searchQuery: '',
-  setState(values): void {
-    return set({ state: values })
-  },
-  setSearchQuery(value): void {
-    return set({ searchQuery: value })
-  }
+  setState: (values): void => set({ state: values }),
+  setSearchQuery: (value): void => set({ searchQuery: value })
 }))

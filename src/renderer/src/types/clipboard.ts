@@ -4,6 +4,7 @@ export interface ClipboardDataItem {
   content: string
   createdAt: number
   currentPage: number
+  pinned: boolean
 }
 export interface ClipboardDataType {
   results: ClipboardDataItem[]

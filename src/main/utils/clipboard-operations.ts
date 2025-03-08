@@ -22,7 +22,7 @@ export async function searchClipboard({
         between(clipboardSchema.createdAt, fromDate, toDate) // Date range filter
       )
     )
-    .orderBy(desc(clipboardSchema.createdAt)) // Latest first
+    .orderBy(desc(clipboardSchema.pinned), desc(clipboardSchema.updatedAt)) // Latest first
     .limit(limit)
     .offset(offset)
 

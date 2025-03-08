@@ -6,14 +6,11 @@ import { copyWidgetStore } from '@renderer/store/copy-widget-store'
 import { ClipboardDataItem } from '@renderer/types/clipboard'
 import { copyToClipboard } from '@renderer/utils'
 import { RichText } from './rich-text'
-import { CaretRightIcon, DrawingPinIcon, TextIcon, TrashIcon } from '@radix-ui/react-icons'
+import { CaretRightIcon, DrawingPinFilledIcon, TextIcon } from '@radix-ui/react-icons'
 import { SimpleTooltip } from '@renderer/components/shared/simple-tooltip'
 import { formatDistanceToNow } from 'date-fns'
-import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query'
-import { mutationKeys } from '@renderer/constants/mutation-keys'
-import { queryKeys } from '@renderer/constants/query-keys'
-import { toast } from '@renderer/hooks/use-toast'
-import { ClipboardDataType } from '@renderer/types/clipboard'
+import { DeleteAction } from './delete-action'
+import { PinAction } from './pin-action'
 interface WidgetCommandItemProps extends ClipboardDataItem {
   inputRef: React.RefObject<HTMLInputElement | null>
   itemRef: React.RefObject<HTMLDivElement | null>
@@ -26,55 +23,11 @@ export function WidgetCommandItem({
   inputRef,
   currentPage,
   itemRef,
-  lastItem
+  lastItem,
+  pinned
 }: WidgetCommandItemProps): React.JSX.Element {
-  const queryClient = useQueryClient()
   const { state, setState } = copyWidgetStore()
-  const { mutate } = useMutation({
-    mutationKey: [mutationKeys['delete-clipboard-entry'], id],
-    mutationFn: (entryId: string) => window.api.deleteClipboardEntry(entryId),
 
-    async onMutate(clipboardId) {
-      // Cancel ongoing queries
-      await queryClient.cancelQueries({ queryKey: [queryKeys['clipboard-data']] })
-
-      // Get a snapshot of the current state
-      const snapshot = queryClient.getQueryData([queryKeys['clipboard-data']])
-
-      // Optimistically update the cache
-      queryClient.setQueryData<InfiniteData<ClipboardDataType, unknown> | undefined>(
-        [queryKeys['clipboard-data']],
-        (previousEntities) => {
-          if (!previousEntities) return previousEntities
-          return {
-            ...previousEntities,
-            pages: previousEntities.pages.map((page) => {
-              if (page.currentPage !== currentPage) return page // Skip non-matching pages
-              // Return a new page object with a filtered results array
-              return {
-                ...page,
-                results: page.results.filter((item) => item.id !== Number(clipboardId))
-              }
-            })
-          }
-        }
-      )
-
-      return { snapshot }
-    },
-    onError(error) {
-      toast({
-        title: 'Failed to Delete ❌ ',
-        description: error.message,
-        variant: 'destructive'
-      })
-    },
-    onSettled() {
-      toast({
-        title: 'Deleted successfully'
-      })
-    }
-  })
   return (
     <Popover
       open={state.index === id && state.opened === 'detailed'}
@@ -100,7 +53,7 @@ export function WidgetCommandItem({
               <TextIcon className="mr-2 h-4 w-4" />
               <p className="line-clamp-4">{content}</p>
             </div>
-            <div className="flex">
+            <div className="flex items-center">
               <SimpleTooltip
                 content={
                   <span className="text-sm flex items-center">
@@ -122,6 +75,7 @@ export function WidgetCommandItem({
                   <CaretRightIcon className="text-muted-foreground" />
                 </Button>
               </SimpleTooltip>
+              {pinned ? <DrawingPinFilledIcon className="text-muted-foreground text-sm" /> : null}
             </div>
           </div>
         </CommandItem>
@@ -144,28 +98,9 @@ export function WidgetCommandItem({
                 })}
               </span>
             </div>
-            <div className="flex gap-3 text-muted-foreground duration-200">
-              <Button
-                onClick={() => {
-                  mutate(id.toString(), {
-                    onError(error, variables, context) {
-                      console.error(error, variables, context)
-                    }
-                  })
-                  setState({ opened: null })
-                }}
-                variant={'ghost'}
-                size={'icon'}
-              >
-                <SimpleTooltip content="Delete">
-                  <TrashIcon className="hover:text-destructive-foreground" />
-                </SimpleTooltip>
-              </Button>
-              <Button variant={'ghost'} size={'icon'}>
-                <SimpleTooltip content="Pin">
-                  <DrawingPinIcon />
-                </SimpleTooltip>
-              </Button>
+            <div className="flex text-muted-foreground duration-200">
+              <DeleteAction id={id} inputRef={inputRef} currentPage={currentPage} />
+              <PinAction currentPage={currentPage} id={id} inputRef={inputRef} pinned={pinned} />
             </div>
           </div>
           <RichText content={content} />

@@ -15,7 +15,7 @@ export function CopyWidget(): React.JSX.Element {
   const itemRef = useRef<React.ComponentRef<typeof CommandPrimitive.Item>>(null)
   const { state, searchQuery, setState, setSearchQuery } = copyWidgetStore()
   const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: [queryKeys['clipboard-data']],
+    queryKey: [queryKeys['clipboard-data'], searchQuery],
     queryFn: ({ pageParam }) =>
       window.api.search({ page: pageParam, searchTerm: searchQuery, limit: 15 }),
     initialPageParam: 1,
@@ -71,11 +71,27 @@ export function CopyWidget(): React.JSX.Element {
     }
   }
 
-  // Flatten all pages to get total items count
+  // Ensure that `data.pages` exists and is properly typed before mapping
   const allItems =
-    data?.pages.flatMap((page) =>
-      page.results.map((result) => ({ ...result, currentPage: page.currentPage }))
-    ) || []
+    data?.pages
+      .flatMap((page) =>
+        page.results.map((result) => ({
+          ...result,
+          currentPage: page.currentPage
+        }))
+      )
+      .sort((a, b) => {
+        // Ensure `pinned` is treated as a boolean (convert to number for sorting)
+        const pinnedA = Number(a.pinned)
+        const pinnedB = Number(b.pinned)
+
+        if (pinnedB !== pinnedA) {
+          return pinnedB - pinnedA // Pinned items first
+        }
+
+        // Ensure `updatedAt` is a valid date before comparison
+        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime() // Sort by newest date first
+      }) || []
 
   const lastItem = allItems.at(-5)
 
@@ -89,7 +105,7 @@ export function CopyWidget(): React.JSX.Element {
   return (
     <Dialog modal onOpenChange={onOpenChange} open>
       <DialogContent
-        className={cn(state.opened === 'detailed' ? 'left-[40%]!' : null, 'p-0 min-w-[50vw]!')}
+        className={cn(state.opened === 'detailed' ? 'left-[30%]!' : null, 'p-0 min-w-3xl')}
       >
         <Command
           className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5 scroll-smooth!"
@@ -123,7 +139,7 @@ export function CopyWidget(): React.JSX.Element {
             ))}
 
             <div ref={listEndRef} className="w-full h-full flex items-center justify-center">
-              {hasNextPage ? (
+              {hasNextPage && isFetchingNextPage ? (
                 <Loader2Icon size={18} className="animate-spin my-4" />
               ) : (
                 <span className="text-muted-foreground text-center my-4">
