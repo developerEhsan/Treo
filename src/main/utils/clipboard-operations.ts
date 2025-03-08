@@ -12,16 +12,15 @@ export async function searchClipboard({
   page = 1 // Default page number
 }: SearchClipboardParams): Promise<ClipboardDataType> {
   const offset = (page - 1) * limit // Calculate offset
+  const whereCondition = and(
+    like(clipboardSchema.content, '%' + searchTerm + '%'),
+    between(clipboardSchema.createdAt, fromDate, toDate)
+  )
 
   const results = await db
     .select()
     .from(clipboardSchema)
-    .where(
-      and(
-        like(clipboardSchema.content, '%' + searchTerm + '%'),
-        between(clipboardSchema.createdAt, fromDate, toDate) // Date range filter
-      )
-    )
+    .where(whereCondition)
     .orderBy(desc(clipboardSchema.pinned), desc(clipboardSchema.updatedAt)) // Latest first
     .limit(limit)
     .offset(offset)
@@ -30,12 +29,7 @@ export async function searchClipboard({
   const [{ count }] = await db
     .select({ count: sql<number>`COUNT(*)` })
     .from(clipboardSchema)
-    .where(
-      and(
-        like(clipboardSchema.content, `%${searchTerm}%`),
-        between(clipboardSchema.createdAt, fromDate, toDate)
-      )
-    )
+    .where(whereCondition)
 
   return {
     results,
