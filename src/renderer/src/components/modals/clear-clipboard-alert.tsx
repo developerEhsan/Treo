@@ -43,10 +43,11 @@ export function ClearClipboardAlert(): React.JSX.Element {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account and remove your
-            data from our servers.
-          </AlertDialogDescription>
+           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+           <AlertDialogDescription>
+             This action cannot be undone. This will permanently delete all items
+             from your clipboard history.
+           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
