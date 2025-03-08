@@ -1,6 +1,10 @@
 import React from 'react'
-import { CreateNoteModal } from './create-note-modal'
+import { ClearClipboardAlert } from './clear-clipboard-alert'
 
 export function ModalsProvider(): React.JSX.Element {
-  return <CreateNoteModal />
+  return (
+    <>
+      <ClearClipboardAlert />
+    </>
+  )
 }

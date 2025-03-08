@@ -81,6 +81,10 @@ interface RendererAPI {
     result?: string
     error?: unknown
   }>
+  clearClipboard: () => Promise<{
+    result?: string
+    error?: unknown
+  }>
 }
 
 // Extend the global Window interface to include the Electron API and custom API
