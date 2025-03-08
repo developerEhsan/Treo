@@ -1,3 +1,5 @@
+pnpm commit-msg
+
 # Read commit message from file
 commit_message="$(cat "$1")"
 
@@ -51,7 +53,7 @@ This commit fixes the authentication system by properly
 handling token validation and improving error messages.
 -------------------------------------------------------
 
-👉 Please add a meaningful description and try again.
+👉 Please add a meaningful description.
 EOF
 
 fi
@@ -77,9 +79,7 @@ Current format:
 $commit_message
 -------------------------------------------------------
 
-👉 Please format your commit message correctly and try again.
+👉 Please format your commit message correctly.
 EOF
 
 fi
-
-pnpm commit-msg

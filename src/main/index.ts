@@ -2,12 +2,12 @@ import { db, runMigrate } from './drizzle/db'
 import { app, ipcMain, globalShortcut, Tray, Menu, clipboard } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { clipboardSchema } from './drizzle/schema'
-import { and, between, desc, eq, like, sql } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 import { copyFileSync, existsSync, mkdirSync } from 'fs'
 import { basename, join } from 'path'
 import { createWindow } from './utils/create-window'
 import { icon } from './utils/resources'
-import { ClipboardDataType, SearchClipboardParams } from 'src/types/database'
+import { SearchClipboardParams } from 'src/types/database'
 import { pasteFromClipboard } from './utils/paste-from-clipboard'
 import {
   createNote,
@@ -17,50 +17,13 @@ import {
   toggleFavoriteNote,
   updateNote
 } from './utils/notes-operations'
+import {
+  deleteClipboardEntry,
+  searchClipboard,
+  togglePinnedClipboardEntry
+} from './utils/clipboard-operations'
 
 runMigrate()
-
-// Function to search clipboard entries with pagination
-async function searchClipboard({
-  searchTerm,
-  fromDate = Date.now() - 24 * 60 * 60 * 1000 * 3, // 3 days before
-  toDate = Date.now(),
-  limit = 10, // Default limit (page size)
-  page = 1 // Default page number
-}: SearchClipboardParams): Promise<ClipboardDataType> {
-  const offset = (page - 1) * limit // Calculate offset
-
-  const results = await db
-    .select()
-    .from(clipboardSchema)
-    .where(
-      and(
-        like(clipboardSchema.content, `%${searchTerm}%`), // Partial match search
-        between(clipboardSchema.createdAt, fromDate, toDate) // Date range filter
-      )
-    )
-    .orderBy(desc(clipboardSchema.createdAt)) // Latest first
-    .limit(limit)
-    .offset(offset)
-
-  // Fetch total count for pagination
-  const [{ count }] = await db
-    .select({ count: sql<number>`COUNT(*)` })
-    .from(clipboardSchema)
-    .where(
-      and(
-        like(clipboardSchema.content, `%${searchTerm}%`),
-        between(clipboardSchema.createdAt, fromDate, toDate)
-      )
-    )
-
-  return {
-    results,
-    total: count, // Total number of results
-    totalPages: Math.ceil(count / limit), // Total pages
-    currentPage: page
-  }
-}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -69,10 +32,6 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
   electronApp.setAutoLaunch(import.meta.env.PROD)
-  // Register a 'CommandOrControl+X' shortcut listener.
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
@@ -142,7 +101,7 @@ app.whenReady().then(() => {
     copyWidgetWindow.close()
     // copyWidgetWindow.hide()
   })
-
+  // TODO - make this workable. Right Now it is not being used
   ipcMain.handle('save-file', async (_event, filePath) => {
     const userDataPath = app.getPath('userData')
     const fileName = basename(filePath)
@@ -164,21 +123,20 @@ app.whenReady().then(() => {
   ipcMain.handle('handle-window', async () => {
     return true
   })
-
   ipcMain.handle('paste', () => {
-    if (copyWidgetWindow.isVisible()) {
-      copyWidgetWindow.minimize()
-      copyWidgetWindow.hide()
-    }
+    copyWidgetWindow.minimize()
+    copyWidgetWindow.hide()
     pasteFromClipboard()
+    return true
   })
-
   ipcMain.handle('create-note', (_, values) => createNote(values))
   ipcMain.handle('update-note', (_, values) => updateNote(values))
   ipcMain.handle('delete-note', (_, id) => deleteNote(id))
   ipcMain.handle('get-note', (_, id) => getNoteById(id))
   ipcMain.handle('get-all-notes', getAllNotes)
   ipcMain.handle('toggle-favorite-note', (_, values) => toggleFavoriteNote(values))
+  ipcMain.handle('toggle-pinned-clipboard-entry', (_, values) => togglePinnedClipboardEntry(values))
+  ipcMain.handle('delete-clipboard-entry', (_, values) => deleteClipboardEntry(values))
 
   let previousContent = clipboard.readText()
   async function checkClipboard(): Promise<void> {
@@ -193,12 +151,9 @@ app.whenReady().then(() => {
 
   // Check the clipboard every second
   setInterval(checkClipboard, 1000)
-  mainWindow.on('ready-to-show', () => mainWindow.show())
-  // app.on('ready-to-show', () => {
-  //   appWindow.show()
-  // })
+  if (import.meta.env.DEV) mainWindow.on('ready-to-show', () => mainWindow.show())
 
-  // TODO --- This Logic needs to done ASAP
+  // TODO --- This Logic needs to done
   // app.on('activate', function () {
   //   // On macOS it's common to re-create a window in the app when the
   //   // dock icon is clicked and there are no other windows open.

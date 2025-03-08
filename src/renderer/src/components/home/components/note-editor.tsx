@@ -86,7 +86,7 @@ export function NoteEditor({
       onFocus={() => setOpen(false)}
       output="json"
       placeholder="This is your placeholder..."
-      throttleDelay={1000} // 1 sec
+      throttleDelay={2000} // 2 sec
       value={content}
     />
   )

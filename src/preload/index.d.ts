@@ -7,6 +7,9 @@ interface ClipboardDataItem {
   type: 'text' | 'file'
   content: string
   createdAt: number
+  pinned: boolean
+  updatedAt: number
+  favorite: boolean
 }
 
 // Define the structure of the clipboard data response
@@ -67,6 +70,14 @@ interface RendererAPI {
   getNote: (id: string) => Promise<Note>
   getAllNotes: () => Promise<Note[]>
   toggleFavoriteNote: (values: { id: string; favorite: boolean }) => Promise<{
+    result?: string
+    error?: unknown
+  }>
+  togglePinnedClipboardEntry: (values: { id: string; pinned: boolean }) => Promise<{
+    result?: string
+    error?: unknown
+  }>
+  deleteClipboardEntry: (id: string) => Promise<{
     result?: string
     error?: unknown
   }>

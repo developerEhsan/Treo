@@ -1,26 +1,22 @@
 import { create } from 'zustand'
 
-interface PopoverInterface {
+interface CopyWidgetState {
   index: number
-  isOpen: boolean
+  opened: 'detailed' | null
 }
 
 // Define the interface for the copyWidget store
 interface copyWidgetStoreInterface {
-  popover: Partial<PopoverInterface>
+  state: Partial<CopyWidgetState>
   searchQuery: string
-  setPopover: (values: Partial<PopoverInterface>) => void
+  setState: (values: Partial<CopyWidgetState>) => void
   setSearchQuery: (value: string) => void
 }
 
 // Create the Zustand store
 export const copyWidgetStore = create<copyWidgetStoreInterface>()((set) => ({
-  popover: { index: 0, isOpen: false },
+  state: { index: 0, isOpen: false },
   searchQuery: '',
-  setPopover(values): void {
-    return set({ popover: values })
-  },
-  setSearchQuery(value): void {
-    return set({ searchQuery: value })
-  }
+  setState: (values): void => set({ state: values }),
+  setSearchQuery: (value): void => set({ searchQuery: value })
 }))
