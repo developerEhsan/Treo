@@ -3,5 +3,6 @@ export const mutationKeys = {
   'create-note': 'create-note',
   'update-note': 'update-note',
   'delete-clipboard-entry': 'delete-clipboard-entry',
-  'pinned-clipboard-entry': 'pinned-clipboard-entry'
+  'pinned-clipboard-entry': 'pinned-clipboard-entry',
+  'clear-clipboard': 'clear-clipboard'
 }

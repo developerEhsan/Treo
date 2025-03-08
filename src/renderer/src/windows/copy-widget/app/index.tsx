@@ -1,20 +1,21 @@
 import { useRef, useEffect } from 'react'
-import { LoaderCircleIcon, Loader2Icon } from 'lucide-react'
+import { Loader2Icon } from 'lucide-react'
 import { Dialog, DialogContent } from '@renderer/components/ui/dialog'
-import { Command, CommandEmpty, CommandInput, CommandList } from '@renderer/components/ui/command'
-import { CommandLoading, Command as CommandPrimitive } from 'cmdk'
+import { Command, CommandInput, CommandList } from '@renderer/components/ui/command'
+import { Command as CommandPrimitive } from 'cmdk'
 import { cn } from '@renderer/utils'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { copyWidgetStore } from '@renderer/store/copy-widget-store'
 import { WidgetCommandItem } from './components/widget-command-item'
 import { queryKeys } from '@renderer/constants/query-keys'
+import { WidgetMenu } from './components/widget-menu'
 
 export function CopyWidget(): React.JSX.Element {
   const listEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<React.ComponentRef<typeof CommandPrimitive.Input>>(null)
   const itemRef = useRef<React.ComponentRef<typeof CommandPrimitive.Item>>(null)
   const { state, searchQuery, setState, setSearchQuery } = copyWidgetStore()
-  const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: [queryKeys['clipboard-data'], searchQuery],
     queryFn: ({ pageParam }) =>
       window.api.search({ page: pageParam, searchTerm: searchQuery, limit: 15 }),
@@ -105,29 +106,24 @@ export function CopyWidget(): React.JSX.Element {
   return (
     <Dialog modal onOpenChange={onOpenChange} open>
       <DialogContent
-        className={cn(state.opened === 'detailed' ? 'left-[30%]!' : null, 'p-0 min-w-3xl')}
+        className={cn(state.opened === 'detailed' ? 'left-[30%]!' : null, 'p-0 min-w-3xl min-h-80')}
       >
         <Command
           className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5 scroll-smooth!"
           onKeyDown={handleKeyDown}
           shouldFilter={false}
         >
-          <CommandInput
-            autoFocus
-            defaultValue={searchQuery}
-            onValueChange={setSearchQuery}
-            placeholder="Type to search..."
-            ref={inputRef}
-          />
-          <CommandList>
-            {isLoading ? (
-              <CommandLoading className="min-h-40 w-full h-full flex items-center justify-center">
-                <LoaderCircleIcon className="animate-spin" size={32} />
-              </CommandLoading>
-            ) : (
-              <CommandEmpty>No results found.</CommandEmpty>
-            )}
-
+          <div className="flex justify-between pr-12">
+            <CommandInput
+              autoFocus
+              defaultValue={searchQuery}
+              onValueChange={setSearchQuery}
+              placeholder="Type to search..."
+              ref={inputRef}
+            />
+            <WidgetMenu />
+          </div>
+          <CommandList className="w-full h-full [&_[cmdk-list-sizer]]:h-full">
             {allItems.map((clipboardData) => (
               <WidgetCommandItem
                 key={`${clipboardData.id}-${clipboardData.createdAt}`}

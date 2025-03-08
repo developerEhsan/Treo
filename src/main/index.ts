@@ -18,6 +18,7 @@ import {
   updateNote
 } from './utils/notes-operations'
 import {
+  clearClipboard,
   deleteClipboardEntry,
   searchClipboard,
   togglePinnedClipboardEntry
@@ -137,6 +138,7 @@ app.whenReady().then(() => {
   ipcMain.handle('toggle-favorite-note', (_, values) => toggleFavoriteNote(values))
   ipcMain.handle('toggle-pinned-clipboard-entry', (_, values) => togglePinnedClipboardEntry(values))
   ipcMain.handle('delete-clipboard-entry', (_, values) => deleteClipboardEntry(values))
+  ipcMain.handle('clear-clipboard', clearClipboard)
 
   let previousContent = clipboard.readText()
   async function checkClipboard(): Promise<void> {

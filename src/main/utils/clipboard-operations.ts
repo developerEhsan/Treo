@@ -6,7 +6,7 @@ import { and, between, desc, eq, like, sql } from 'drizzle-orm'
 // Function to search clipboard entries with pagination
 export async function searchClipboard({
   searchTerm,
-  fromDate = Date.now() - 24 * 60 * 60 * 1000 * 7, // 7 days before
+  fromDate = Date.now() - 24 * 60 * 60 * 1000 * 30, // 30 days before
   toDate = Date.now(),
   limit = 10, // Default limit (page size)
   page = 1 // Default page number
@@ -72,6 +72,19 @@ export async function togglePinnedClipboardEntry({
         updatedAt: Date.now() // Update timestamp
       })
       .where(eq(clipboardSchema.id, Number(id)))
+    return { result: 'success' }
+  } catch (error) {
+    console.error(error)
+    return { error }
+  }
+}
+
+export async function clearClipboard(): Promise<{
+  result?: string
+  error?: unknown
+}> {
+  try {
+    await db.delete(clipboardSchema)
     return { result: 'success' }
   } catch (error) {
     console.error(error)

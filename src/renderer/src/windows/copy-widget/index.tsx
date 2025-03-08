@@ -6,6 +6,7 @@ import { QueryProvider } from '@renderer/providers/query-provider'
 import { CopyWidget } from './app'
 import { TooltipProvider } from '@renderer/components/ui/tooltip'
 import { Toaster } from '@renderer/components/ui/toaster'
+import { ModalsProvider } from '@renderer/components/modals'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <CopyWidget />
         </TooltipProvider>
         <Toaster />
+        <ModalsProvider />
       </ThemeProvider>
     </QueryProvider>
   </React.StrictMode>

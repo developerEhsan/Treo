@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
 // Define the keys for each modal (you can add more as needed)
-export const modalKeys = ['create-note-modal'] as const
+export const modalKeys = ['create-note-modal', 'clear-clipboard-dialog'] as const
 
 // Define the type for modal keys
 type ModalKey = (typeof modalKeys)[number]
