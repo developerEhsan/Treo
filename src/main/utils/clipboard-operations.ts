@@ -18,7 +18,7 @@ export async function searchClipboard({
     .from(clipboardSchema)
     .where(
       and(
-        like(clipboardSchema.content, `%${searchTerm}%`), // Partial match search
+        like(clipboardSchema.content, '%' + searchTerm + '%'),
         between(clipboardSchema.createdAt, fromDate, toDate) // Date range filter
       )
     )

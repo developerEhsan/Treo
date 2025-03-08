@@ -21,7 +21,7 @@ export const clipboardSchema = sqliteTable('clipboard', {
 })
 
 export const notesSchema = sqliteTable('notes', {
-  id: integer().primaryKey({ autoIncrement: true }).unique(),
+  id: integer().primaryKey({ autoIncrement: true }),
   title: text().notNull(),
   description: text().notNull(),
   favorite: integer({ mode: 'boolean' }).notNull().default(false),
