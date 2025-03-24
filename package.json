@@ -80,7 +80,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.1.1",
     "date-fns": "^4.1.0",
-    "drizzle-orm": "^0.40.0",
+    "drizzle-orm": "^0.41.0",
     "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.482.0",
