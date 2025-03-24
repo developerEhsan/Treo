@@ -83,10 +83,7 @@ export const EditorThree = React.forwardRef<HTMLDivElement, EditorProps>(
         ref={ref}
       >
         <Toolbar editor={editor} />
-        <EditorContent
-          editor={editor}
-          className={cn('minimal-tiptap-editor', editorContentClassName)}
-        />
+        <EditorContent editor={editor} className={cn('editor', editorContentClassName)} />
         <LinkBubbleMenu editor={editor} />
       </MeasuredContainer>
     )

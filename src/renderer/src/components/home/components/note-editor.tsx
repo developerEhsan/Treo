@@ -1,4 +1,4 @@
-import MinimalTiptapThree from '@renderer/components/editor'
+import Editor from '@renderer/components/editor'
 import { useSidebar } from '@renderer/components/ui/sidebar'
 import { mutationKeys } from '@renderer/constants/mutation-keys'
 import { allNoteKey, queryKeys } from '@renderer/constants/query-keys'
@@ -75,7 +75,7 @@ export function NoteEditor({
     })
   }
   return (
-    <MinimalTiptapThree
+    <Editor
       className={cn('h-full min-h-56 w-full rounded-xl')}
       editable
       editorClassName="focus:outline-hidden px-5 py-4 h-full"

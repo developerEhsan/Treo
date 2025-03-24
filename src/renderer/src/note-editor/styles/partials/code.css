@@ -1,24 +1,24 @@
 @import '@renderer/assets/base.css';
 
-.minimal-tiptap-editor .ProseMirror code.inline {
+.editor .ProseMirror code.inline {
   @apply rounded-sm border border-[var(--mt-code-color)] bg-[var(--mt-code-background)] px-1 py-0.5 text-sm;
 }
 
-.minimal-tiptap-editor .ProseMirror pre {
+.editor .ProseMirror pre {
   @apply relative rounded-sm border font-mono text-sm;
   @apply border-[var(--mt-pre-border)] bg-[var(--mt-pre-background)] text-[var(--mt-pre-color)];
   @apply hyphens-none whitespace-pre text-left;
 }
 
-.minimal-tiptap-editor .ProseMirror code {
+.editor .ProseMirror code {
   @apply break-words leading-[1.7em];
 }
 
-.minimal-tiptap-editor .ProseMirror pre code {
+.editor .ProseMirror pre code {
   @apply block overflow-x-auto p-3.5;
 }
 
-.minimal-tiptap-editor .ProseMirror pre {
+.editor .ProseMirror pre {
   .hljs-keyword,
   .hljs-operator,
   .hljs-function,
