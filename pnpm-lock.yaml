@@ -96,8 +96,8 @@ importers:
         specifier: ^2.11.7
         version: 2.11.7(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))(@tiptap/extension-text-style@2.11.7(@tiptap/core@2.11.5(@tiptap/pm@2.11.7)))
       '@tiptap/extension-heading':
-        specifier: ^2.11.5
-        version: 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))
+        specifier: ^2.11.7
+        version: 2.11.7(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))
       '@tiptap/extension-horizontal-rule':
         specifier: ^2.11.7
         version: 2.11.7(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)
@@ -2050,8 +2050,8 @@ packages:
     peerDependencies:
       '@tiptap/core': ^2.7.0
 
-  '@tiptap/extension-heading@2.11.5':
-    resolution: {integrity: sha512-x/MV53psJ9baRcZ4k4WjnCUBMt8zCX7mPlKVT+9C/o+DEs/j/qxPLs95nHeQv70chZpSwCQCt93xMmuF0kPoAg==}
+  '@tiptap/extension-heading@2.11.7':
+    resolution: {integrity: sha512-8kWh7y4Rd2fwxfWOhFFWncHdkDkMC1Z60yzIZWjIu72+6yQxvo8w3yeb7LI7jER4kffbMmadgcfhCHC/fkObBA==}
     peerDependencies:
       '@tiptap/core': ^2.7.0
 
@@ -7039,7 +7039,7 @@ snapshots:
     dependencies:
       '@tiptap/core': 2.11.5(@tiptap/pm@2.11.7)
 
-  '@tiptap/extension-heading@2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))':
+  '@tiptap/extension-heading@2.11.7(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))':
     dependencies:
       '@tiptap/core': 2.11.5(@tiptap/pm@2.11.7)
 
@@ -7149,7 +7149,7 @@ snapshots:
       '@tiptap/extension-dropcursor': 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)
       '@tiptap/extension-gapcursor': 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)
       '@tiptap/extension-hard-break': 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))
-      '@tiptap/extension-heading': 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))
+      '@tiptap/extension-heading': 2.11.7(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))
       '@tiptap/extension-history': 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)
       '@tiptap/extension-horizontal-rule': 2.11.7(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))(@tiptap/pm@2.11.7)
       '@tiptap/extension-italic': 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.7))
