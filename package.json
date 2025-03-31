@@ -84,7 +84,7 @@
     "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.483.0",
-    "react-day-picker": "9.6.3",
+    "react-day-picker": "9.6.4",
     "react-hook-form": "^7.54.2",
     "react-medium-image-zoom": "^5.2.14",
     "react-resizable-panels": "^2.1.7",
