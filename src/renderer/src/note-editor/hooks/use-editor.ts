@@ -57,9 +57,16 @@ const createExtensions = (placeholder: string) => [
       // This function should return the uploaded image URL.
 
       // wait 3s to simulate upload
-      await new Promise((resolve) => setTimeout(resolve, 3000))
+      // await new Promise((resolve) => setTimeout(resolve, 3000))
+      const arrayBuffer = await file.arrayBuffer()
 
-      const src = await fileToBase64(file)
+      console.log(file, arrayBuffer)
+      const src = await window.api.handleSelectedFile({
+        name: file.name,
+        buffer: arrayBuffer
+      })
+
+      // const src = await fileToBase64(file)
 
       // either return { id: string | number, src: string } or just src
       // return src;
@@ -202,6 +209,7 @@ export const useEditor = ({
     extensions: createExtensions(placeholder),
     editorProps: {
       attributes: {
+        spellcheck: 'false', // TODO | disable the spellcheck only for the code block
         autocomplete: 'off',
         autocorrect: 'off',
         autocapitalize: 'off',

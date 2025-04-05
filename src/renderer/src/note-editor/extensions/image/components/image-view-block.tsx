@@ -173,8 +173,7 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
         setImageState((prev) => ({ ...prev, isServerUploading: true }))
         const response = await fetch(initSrc)
         const blob = await response.blob()
-        const file = new File([blob], fileName, { type: blob.type })
-
+        const file = new File([blob], fileName, blob)
         const url = await uploadFn(file, editor)
         const normalizedData = normalizeUploadResponse(url)
 
@@ -215,7 +214,7 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
       >
         <div
           className={cn('relative flex h-full cursor-default flex-col items-center gap-2 rounded', {
-            'outline outline-2 outline-offset-1 outline-primary': selected || isResizing
+            'outline-2 outline-offset-1 outline-primary': selected || isResizing
           })}
         >
           <div className="h-full contain-paint">

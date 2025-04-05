@@ -67,6 +67,8 @@ export function NoteEditor({
       // @ts-expect-error ---
       content?.content as ContentNode[]
     )
+    console.log(content)
+
     mutate({
       id: noteId,
       content: content,
@@ -86,7 +88,7 @@ export function NoteEditor({
       onFocus={() => setOpen(false)}
       output="json"
       placeholder="This is your placeholder..."
-      throttleDelay={2000} // 2 sec
+      throttleDelay={3000} // 3 sec
       value={content}
     />
   )

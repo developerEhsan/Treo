@@ -3,7 +3,7 @@ import { app, ipcMain, globalShortcut, Tray, Menu, clipboard } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { clipboardSchema } from './drizzle/schema'
 import { desc, eq } from 'drizzle-orm'
-import { copyFileSync, existsSync, mkdirSync } from 'fs'
+import { copyFileSync, existsSync, mkdirSync, writeFileSync } from 'fs'
 import { basename, join } from 'path'
 import { createWindow } from './utils/create-window'
 import { icon } from './utils/resources'
@@ -40,7 +40,8 @@ app.whenReady().then(() => {
     windowOptions: {
       show: false,
       width: 1200,
-      height: 800
+      height: 800,
+      webPreferences: { webSecurity: false } // TODO: improve this later
     },
     loadUrl: process.env['ELECTRON_RENDERER_URL'],
     loadFile: '../renderer/index.html'
@@ -102,6 +103,7 @@ app.whenReady().then(() => {
     copyWidgetWindow.close()
     // copyWidgetWindow.hide()
   })
+
   // TODO - make this workable. Right Now it is not being used
   ipcMain.handle('save-file', async (_event, filePath) => {
     const userDataPath = app.getPath('userData')
@@ -118,21 +120,37 @@ app.whenReady().then(() => {
 
     return { success: true, path: newFilePath }
   })
+
+  ipcMain.handle(
+    'handle-selected-file',
+    async (_event, fileData: { name: string; buffer: ArrayBuffer }) => {
+      console.log(fileData)
+
+      const buffer = Buffer.from(fileData.buffer)
+      const userData = app.getPath('userData')
+      const targetPath = join(userData, fileData.name)
+      writeFileSync(targetPath, buffer)
+      return targetPath
+    }
+  )
+
   ipcMain.handle('search', async (_e, params: SearchClipboardParams) => {
     return await searchClipboard(params)
   })
-  ipcMain.handle('handle-window', async () => {
-    return true
-  })
+
   ipcMain.handle('paste', () => {
     copyWidgetWindow.minimize()
     copyWidgetWindow.hide()
     pasteFromClipboard()
     return true
   })
+
   ipcMain.handle('create-note', (_, values) => createNote(values))
+
   ipcMain.handle('update-note', (_, values) => updateNote(values))
+
   ipcMain.handle('delete-note', (_, id) => deleteNote(id))
+
   ipcMain.handle('get-note', (_, id) => getNoteById(id))
   ipcMain.handle('get-all-notes', getAllNotes)
   ipcMain.handle('toggle-favorite-note', (_, values) => toggleFavoriteNote(values))
