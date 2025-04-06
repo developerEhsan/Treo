@@ -67,7 +67,6 @@ export function NoteEditor({
       // @ts-expect-error ---
       content?.content as ContentNode[]
     )
-    console.log(content)
 
     mutate({
       id: noteId,

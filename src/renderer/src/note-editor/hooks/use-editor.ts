@@ -52,21 +52,14 @@ const createExtensions = (placeholder: string) => [
   Underline,
   Image.configure({
     allowedMimeTypes: ['image/*'],
+    // This function should return the uploaded image URL.
     uploadFn: async (file) => {
-      // NOTE: This is a fake upload function. Replace this with your own upload logic.
-      // This function should return the uploaded image URL.
-
-      // wait 3s to simulate upload
-      // await new Promise((resolve) => setTimeout(resolve, 3000))
       const arrayBuffer = await file.arrayBuffer()
 
-      console.log(file, arrayBuffer)
       const src = await window.api.handleSelectedFile({
         name: file.name,
         buffer: arrayBuffer
       })
-
-      // const src = await fileToBase64(file)
 
       // either return { id: string | number, src: string } or just src
       // return src;

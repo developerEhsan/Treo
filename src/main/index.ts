@@ -86,7 +86,6 @@ app.whenReady().then(() => {
   // 🔹 Handle IPC Calls
   ipcMain.handle('save-text', async (_event, text) => {
     await db.insert(clipboardSchema).values({ type: 'text', content: text })
-    console.log('Text saved')
     return { success: true }
   })
 
@@ -124,8 +123,6 @@ app.whenReady().then(() => {
   ipcMain.handle(
     'handle-selected-file',
     async (_event, fileData: { name: string; buffer: ArrayBuffer }) => {
-      console.log(fileData)
-
       const buffer = Buffer.from(fileData.buffer)
       const userData = app.getPath('userData')
       const targetPath = join(userData, fileData.name)
@@ -162,7 +159,6 @@ app.whenReady().then(() => {
   async function checkClipboard(): Promise<void> {
     const currentContent = clipboard.readText()
     if (currentContent !== previousContent) {
-      console.log('Clipboard content has changed')
       await db.insert(clipboardSchema).values({ type: 'text', content: currentContent })
       previousContent = currentContent
       copyWidgetWindow.webContents.send('refresh-data')
