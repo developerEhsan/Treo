@@ -173,7 +173,7 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
         setImageState((prev) => ({ ...prev, isServerUploading: true }))
         const response = await fetch(initSrc)
         const blob = await response.blob()
-        const file = new File([blob], fileName, blob)
+        const file = new File([blob], fileName, { type: blob.type })
         const url = await uploadFn(file, editor)
         const normalizedData = normalizeUploadResponse(url)
 
