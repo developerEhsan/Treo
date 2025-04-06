@@ -6,8 +6,7 @@
     "types": ["electron-vite/node"],
     "baseUrl": ".",
     "paths": {
-      "@renderer/*": ["src/renderer/src/*"],
-      "@editor/*": ["src/renderer/src/minimal-tiptap/*"]
+      "@renderer/*": ["src/renderer/src/*"]
     }
   }
 }

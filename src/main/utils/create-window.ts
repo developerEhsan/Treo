@@ -15,15 +15,14 @@ export function createWindow({
 }: Partial<CreateWindowInterface>): BrowserWindow {
   // Create the browser appWindow.
   const appWindow = new BrowserWindow({
-    ...{
-      autoHideMenuBar: true,
-      icon,
-      webPreferences: {
-        preload: join(__dirname, '../preload/index.mjs'),
-        sandbox: false
-      }
-    },
-    ...windowOptions
+    ...windowOptions,
+    autoHideMenuBar: true,
+    icon,
+    webPreferences: {
+      ...windowOptions?.webPreferences,
+      preload: join(__dirname, '../preload/index.mjs'),
+      sandbox: false
+    }
   })
 
   appWindow.webContents.setWindowOpenHandler((details) => {

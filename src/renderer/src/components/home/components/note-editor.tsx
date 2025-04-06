@@ -1,4 +1,4 @@
-import MinimalTiptapThree from '@renderer/components/editor'
+import Editor from '@renderer/components/editor'
 import { useSidebar } from '@renderer/components/ui/sidebar'
 import { mutationKeys } from '@renderer/constants/mutation-keys'
 import { allNoteKey, queryKeys } from '@renderer/constants/query-keys'
@@ -67,6 +67,7 @@ export function NoteEditor({
       // @ts-expect-error ---
       content?.content as ContentNode[]
     )
+
     mutate({
       id: noteId,
       content: content,
@@ -75,7 +76,7 @@ export function NoteEditor({
     })
   }
   return (
-    <MinimalTiptapThree
+    <Editor
       className={cn('h-full min-h-56 w-full rounded-xl')}
       editable
       editorClassName="focus:outline-hidden px-5 py-4 h-full"
@@ -86,7 +87,7 @@ export function NoteEditor({
       onFocus={() => setOpen(false)}
       output="json"
       placeholder="This is your placeholder..."
-      throttleDelay={2000} // 2 sec
+      throttleDelay={1000} // 1 sec
       value={content}
     />
   )

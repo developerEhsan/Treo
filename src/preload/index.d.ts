@@ -49,9 +49,10 @@ interface MutationResponse extends Note {
 interface RendererAPI {
   saveText: (text: string) => Promise<void>
   fetchTexts: () => Promise<ClipboardDataType>
-  saveFile: (filePath: string) => Promise<void>
+  saveFile: (filePath: string) => Promise<{ path: string }>
   closeWindow: () => Promise<void>
   pasteCopied: () => Promise<void>
+  handleSelectedFile: (values: { name: string; buffer: ArrayBuffer }) => Promise<string>
   handleWindow: (e?: boolean) => Promise<boolean>
   search: (searchValues: SearchClipboardParams) => Promise<ClipboardDataType>
   createNote: (values: {

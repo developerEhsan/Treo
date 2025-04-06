@@ -52,16 +52,14 @@ const createExtensions = (placeholder: string) => [
   Underline,
   Image.configure({
     allowedMimeTypes: ['image/*'],
-    maxFileSize: 5 * 1024 * 1024,
-    allowBase64: true,
+    // This function should return the uploaded image URL.
     uploadFn: async (file) => {
-      // NOTE: This is a fake upload function. Replace this with your own upload logic.
-      // This function should return the uploaded image URL.
+      const arrayBuffer = await file.arrayBuffer()
 
-      // wait 3s to simulate upload
-      await new Promise((resolve) => setTimeout(resolve, 3000))
-
-      const src = await fileToBase64(file)
+      const src = await window.api.handleSelectedFile({
+        name: file.name,
+        buffer: arrayBuffer
+      })
 
       // either return { id: string | number, src: string } or just src
       // return src;
@@ -204,6 +202,7 @@ export const useEditor = ({
     extensions: createExtensions(placeholder),
     editorProps: {
       attributes: {
+        spellcheck: 'false', // TODO | disable the spellcheck only for the code block
         autocomplete: 'off',
         autocorrect: 'off',
         autocapitalize: 'off',

@@ -8,6 +8,9 @@ on:
 
 jobs:
   stale:
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
     if: github.repository_owner == 'your-ehsan'
     steps:

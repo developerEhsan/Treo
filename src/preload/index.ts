@@ -21,7 +21,8 @@ const api = {
   togglePinnedClipboardEntry: (values): Promise<void> =>
     ipcRenderer.invoke('toggle-pinned-clipboard-entry', values),
   deleteClipboardEntry: (id): Promise<void> => ipcRenderer.invoke('delete-clipboard-entry', id),
-  clearClipboard: (): Promise<void> => ipcRenderer.invoke('clear-clipboard')
+  clearClipboard: (): Promise<void> => ipcRenderer.invoke('clear-clipboard'),
+  handleSelectedFile: (values): Promise<void> => ipcRenderer.invoke('handle-selected-file', values)
 }
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
