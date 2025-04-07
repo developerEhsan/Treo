@@ -103,7 +103,7 @@
     "@tailwindcss/postcss": "^4.0.17",
     "@tanstack/router-devtools": "^1.109.2",
     "@tanstack/router-plugin": "^1.109.2",
-    "@types/better-sqlite3": "^7.6.12",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.13.14",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
