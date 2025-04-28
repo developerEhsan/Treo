@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@electron-toolkit/preload':
         specifier: ^3.0.2
-        version: 3.0.2(electron@35.2.0)
+        version: 3.0.2(electron@35.2.1)
       '@electron-toolkit/utils':
         specifier: ^4.0.0
-        version: 4.0.0(electron@35.2.0)
+        version: 4.0.0(electron@35.2.1)
       '@hookform/resolvers':
         specifier: ^5.0.1
         version: 5.0.1(react-hook-form@7.56.0(react@19.1.0))
@@ -232,8 +232,8 @@ importers:
         specifier: ^0.31.0
         version: 0.31.0
       electron:
-        specifier: ^35.2.0
-        version: 35.2.0
+        specifier: ^35.2.1
+        version: 35.2.1
       electron-builder:
         specifier: ^26.0.12
         version: 26.0.12(electron-builder-squirrel-windows@25.1.8)
@@ -3060,6 +3060,10 @@ packages:
     resolution: {integrity: sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==}
     engines: {node: '>=8'}
 
+  detect-libc@2.0.4:
+    resolution: {integrity: sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==}
+    engines: {node: '>=8'}
+
   detect-node-es@1.1.0:
     resolution: {integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==}
 
@@ -3238,8 +3242,8 @@ packages:
       '@swc/core':
         optional: true
 
-  electron@35.2.0:
-    resolution: {integrity: sha512-GHda7oCkN0pA23qzah735DEbRa06IPwlzP3uvjAmf9af8gxdj5i93JEHeQVGVmSVpd7sSb1pfecs9nz7B1q5ag==}
+  electron@35.2.1:
+    resolution: {integrity: sha512-LO4xXLpzkPPUVLvAbdHMlW7N9Z+Qqz+7QsmSWXluTIQMeJk+v7o36nUTZghyA2I1s//tlMvuaCtle6Qo2W0Ktg==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -5903,17 +5907,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@electron-toolkit/preload@3.0.2(electron@35.2.0)':
+  '@electron-toolkit/preload@3.0.2(electron@35.2.1)':
     dependencies:
-      electron: 35.2.0
+      electron: 35.2.1
 
   '@electron-toolkit/tsconfig@1.0.1(@types/node@22.14.1)':
     dependencies:
       '@types/node': 22.14.1
 
-  '@electron-toolkit/utils@4.0.0(electron@35.2.0)':
+  '@electron-toolkit/utils@4.0.0(electron@35.2.1)':
     dependencies:
-      electron: 35.2.0
+      electron: 35.2.1
 
   '@electron/asar@3.2.18':
     dependencies:
@@ -5981,7 +5985,7 @@ snapshots:
       '@malept/cross-spawn-promise': 2.0.0
       chalk: 4.1.2
       debug: 4.4.0
-      detect-libc: 2.0.3
+      detect-libc: 2.0.4
       fs-extra: 10.1.0
       got: 11.8.6
       node-abi: 3.74.0
@@ -8554,6 +8558,8 @@ snapshots:
 
   detect-libc@2.0.3: {}
 
+  detect-libc@2.0.4: {}
+
   detect-node-es@1.1.0: {}
 
   detect-node@2.1.0:
@@ -8707,7 +8713,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@35.2.0:
+  electron@35.2.1:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.14.1
