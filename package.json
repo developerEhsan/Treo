@@ -110,7 +110,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "conventional-changelog-cli": "^5.0.0",
     "cross-env": "^7.0.3",
-    "drizzle-kit": "^0.31.0",
+    "drizzle-kit": "^0.31.1",
     "electron": "^36.1.0",
     "electron-builder": "^26.0.12",
     "electron-vite": "^3.1.0",
