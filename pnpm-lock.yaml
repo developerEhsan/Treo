@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@electron-toolkit/preload':
         specifier: ^3.0.2
-        version: 3.0.2(electron@35.2.2)
+        version: 3.0.2(electron@36.1.0)
       '@electron-toolkit/utils':
         specifier: ^4.0.0
-        version: 4.0.0(electron@35.2.2)
+        version: 4.0.0(electron@36.1.0)
       '@hookform/resolvers':
         specifier: ^5.0.1
         version: 5.0.1(react-hook-form@7.56.1(react@19.1.0))
@@ -232,8 +232,8 @@ importers:
         specifier: ^0.31.0
         version: 0.31.0
       electron:
-        specifier: ^35.2.1
-        version: 35.2.2
+        specifier: ^36.1.0
+        version: 36.1.0
       electron-builder:
         specifier: ^26.0.12
         version: 26.0.12(electron-builder-squirrel-windows@26.0.12)
@@ -556,8 +556,8 @@ packages:
     resolution: {integrity: sha512-fKpv9kg4SPmt+hY7SVBnIYULE9QJl8L3sCfcBsnqbJwwBwAeTLokJ9TRt9y7bK0JAzIW2y78TVVjvnQEms/yyA==}
     engines: {node: '>=16.4'}
 
-  '@electron/windows-sign@1.2.1':
-    resolution: {integrity: sha512-YfASnrhJ+ve6Q43ZiDwmpBgYgi2u0bYjeAVi2tDfN7YWAKO8X9EEOuPGtqbJpPLM6TfAHimghICjWe2eaJ8BAg==}
+  '@electron/windows-sign@1.2.2':
+    resolution: {integrity: sha512-dfZeox66AvdPtb2lD8OsIIQh12Tp0GNCRUDfBHIKGpbmopZto2/A8nSpYYLoedPIHpqkeblZ/k8OV0Gy7PYuyQ==}
     engines: {node: '>=14.14'}
     hasBin: true
 
@@ -2903,8 +2903,8 @@ packages:
     resolution: {integrity: sha512-bO3y10YikuUwUuDUQRM4KfwNkKhnpVO7IPdbsrejwN9/AABJzzTQ4GeHwyzNSrVO+tEH3/Np255a3sVZpZDjvg==}
     engines: {node: '>=8.0.0'}
 
-  electron@35.2.2:
-    resolution: {integrity: sha512-jZnCOtIgrt28esWP5z/PKndj/vPQ/Zt+cvNRlb/qOGnK/AjW1mASwPMtQ099NlSodf69RR3JrhnZCYbTWeDR4g==}
+  electron@36.1.0:
+    resolution: {integrity: sha512-gnp3BnbKdGsVc7cm1qlEaZc8pJsR08mIs8H/yTo8gHEtFkGGJbDTVZOYNAfbQlL0aXh+ozv+CnyiNeDNkT1Upg==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -5455,17 +5455,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@electron-toolkit/preload@3.0.2(electron@35.2.2)':
+  '@electron-toolkit/preload@3.0.2(electron@36.1.0)':
     dependencies:
-      electron: 35.2.2
+      electron: 36.1.0
 
   '@electron-toolkit/tsconfig@1.0.1(@types/node@22.15.3)':
     dependencies:
       '@types/node': 22.15.3
 
-  '@electron-toolkit/utils@4.0.0(electron@35.2.2)':
+  '@electron-toolkit/utils@4.0.0(electron@36.1.0)':
     dependencies:
-      electron: 35.2.2
+      electron: 36.1.0
 
   '@electron/asar@3.2.18':
     dependencies:
@@ -5566,7 +5566,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@electron/windows-sign@1.2.1':
+  '@electron/windows-sign@1.2.2':
     dependencies:
       cross-dirname: 0.1.0
       debug: 4.4.0
@@ -7902,11 +7902,11 @@ snapshots:
       lodash: 4.17.21
       temp: 0.9.4
     optionalDependencies:
-      '@electron/windows-sign': 1.2.1
+      '@electron/windows-sign': 1.2.2
     transitivePeerDependencies:
       - supports-color
 
-  electron@35.2.2:
+  electron@36.1.0:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.15.3
