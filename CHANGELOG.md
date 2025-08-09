@@ -1,3 +1,9 @@
+# [1.2.0](https://github.com/Your-Ehsan/Treo/compare/v1.1.6...v1.2.0) (2025-08-09)
+
+### Bug Fixes
+
+- **#163:** fixed code scanning alert - added permissions in job action ([1007515](https://github.com/Your-Ehsan/Treo/commit/1007515ab1816f768bf276427348663629dd49a6))
+
 ## <small>1.1.6 (2025-04-06)</small>
 
 - chore: changed throttle time to 1s from 3s ([eb4a9c4](https://github.com/Your-Ehsan/Treo/commit/eb4a9c4))
