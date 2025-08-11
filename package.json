@@ -73,7 +73,7 @@
     "@tiptap/extension-typography": "^3.1.0",
     "@tiptap/extension-underline": "^3.1.0",
     "@tiptap/pm": "^2.26.1",
-    "@tiptap/react": "^2.26.1",
+    "@tiptap/react": "^3.1.0",
     "@tiptap/starter-kit": "^2.26.1",
     "better-sqlite3": "^12.2.0",
     "class-variance-authority": "^0.7.1",
