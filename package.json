@@ -64,7 +64,7 @@
     "@tanstack/react-router": "^1.130.12",
     "@tiptap/extension-code-block-lowlight": "^3.1.0",
     "@tiptap/extension-color": "^2.26.1",
-    "@tiptap/extension-heading": "^2.26.1",
+    "@tiptap/extension-heading": "^3.1.0",
     "@tiptap/extension-horizontal-rule": "^3.1.0",
     "@tiptap/extension-image": "^3.1.0",
     "@tiptap/extension-link": "^3.1.0",
