@@ -126,7 +126,7 @@
     "react-dom": "^19.1.1",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2",
-    "vite": "^6.3.5"
+    "vite": "^7.1.1"
   },
   "bun": {
     "onlyBuiltDependencies": [
