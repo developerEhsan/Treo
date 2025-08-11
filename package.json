@@ -91,7 +91,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "tiptap-extension-global-drag-handle": "^0.1.18",
-    "zod": "^3.25.76",
+    "zod": "^4.0.17",
     "zustand": "^5.0.7"
   },
   "devDependencies": {
