@@ -83,7 +83,7 @@
     "drizzle-orm": "^0.44.4",
     "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
-    "lucide-react": "^0.541.0",
+    "lucide-react": "^0.542.0",
     "react-day-picker": "9.9.0",
     "react-hook-form": "^7.62.0",
     "react-medium-image-zoom": "^5.3.0",
