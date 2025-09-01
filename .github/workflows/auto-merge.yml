@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Enable auto-merge for Dependabot PRs
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.PAT}}
-        run: gh pr merge --delete-branch --auto --merge "$PR_URL"
+        run: gh pr review --approve "$PR_URL" && gh pr merge --delete-branch --auto --merge "$PR_URL"
