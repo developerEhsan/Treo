@@ -148,7 +148,7 @@ interface SectionThreeProps extends VariantProps<typeof toggleVariants> {
 }
 
 export const SectionThree: React.FC<SectionThreeProps> = ({ editor, size, variant }) => {
-  const color = editor.getAttributes('textStyle')?.color || 'hsl(var(--foreground))'
+  const color = (editor.getAttributes('textStyle')?.color as string) || 'hsl(var(--foreground))'
   const [selectedColor, setSelectedColor] = React.useState(color)
 
   const handleColorChange = React.useCallback(
@@ -199,10 +199,10 @@ export const SectionThree: React.FC<SectionThreeProps> = ({ editor, size, varian
 
       <PopoverContent align="start" className="w-full">
         <div className="space-y-1.5">
-          {COLORS.map((palette, index) => (
+          {COLORS.map((palette) => (
             <MemoizedColorPicker
               inverse={palette.inverse}
-              key={index}
+              key={palette.label}
               onColorChange={handleColorChange}
               palette={palette}
               selectedColor={selectedColor}

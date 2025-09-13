@@ -6,9 +6,8 @@ import { exec } from 'child_process'
  */
 export function pasteFromClipboard(): void {
   exec(
-    `powershell.exe -ExecutionPolicy Bypass -File "Add-Type -AssemblyName System.Windows.Forms
-[System.Windows.Forms.SendKeys]::SendWait("^v")
-exit"`,
+    `powershell.exe -ExecutionPolicy Bypass -Command "Add-Type -AssemblyName System.Windows.Forms;
++[System.Windows.Forms.SendKeys]::SendWait('^v')" `,
     (error) => {
       if (error) {
         console.error('PowerShell Error:', error)

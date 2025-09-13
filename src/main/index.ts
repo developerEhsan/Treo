@@ -36,7 +36,7 @@ app.whenReady().then(() => {
       width: 1200,
       height: 800,
       webPreferences: {
-        webSecurity: import.meta.env.DEV ? false : true
+        webSecurity: import.meta.env.PROD
       }
     },
     loadUrl: import.meta.env.DEV ? process.env['ELECTRON_RENDERER_URL'] : undefined,

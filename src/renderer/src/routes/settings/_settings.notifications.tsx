@@ -21,8 +21,8 @@ import { Switch } from '@renderer/components/ui/switch'
 import { Separator } from '@renderer/components/ui/separator'
 
 const notificationsFormSchema = z.object({
-  type: z.enum(['all', 'mentions', 'none'], {
-    required_error: 'You need to select a notification type.'
+  type: z.enum(['all', 'mentions', 'none'] as const, {
+    error: 'You need to select a notification type.'
   }),
   mobile: z.boolean().default(false).optional(),
   communication_emails: z.boolean().default(false).optional(),

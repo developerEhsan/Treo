@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Editor } from '@tiptap/react'
+import type { Editor, Extensions } from '@tiptap/react'
 import type { Content, UseEditorOptions } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import { useEditor as useTiptapEditor } from '@tiptap/react'
@@ -35,8 +35,7 @@ export interface UseEditorProps extends UseEditorOptions {
   onBlur?: (content: Content) => void
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const createExtensions = (placeholder: string) => [
+const createExtensions = (placeholder: string): Extensions => [
   StarterKit.configure({
     horizontalRule: false,
     codeBlock: false,
@@ -128,19 +127,17 @@ const createExtensions = (placeholder: string) => [
     maxFileSize: 5 * 1024 * 1024,
     onDrop: (editor, files, pos) => {
       files.forEach(async (file) => {
-        const src = await fileToBase64(file)
         editor.commands.insertContentAt(pos, {
           type: 'image',
-          attrs: { src }
+          attrs: { src: await fileToBase64(file) }
         })
       })
     },
     onPaste: (editor, files) => {
       files.forEach(async (file) => {
-        const src = await fileToBase64(file)
         editor.commands.insertContent({
           type: 'image',
-          attrs: { src }
+          attrs: { src: await fileToBase64(file) }
         })
       })
     },
@@ -154,8 +151,8 @@ const createExtensions = (placeholder: string) => [
       })
     }
   }),
-  Color,
-  TextStyle,
+  // Color,
+  // TextStyle,
   Selection,
   Typography,
   UnsetAllMarks,

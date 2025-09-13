@@ -1,4 +1,4 @@
-name: Validate Windows Build on PR
+name: Validate Multi-Platform Build on PR
 
 on:
   pull_request:
@@ -10,7 +10,10 @@ permissions:
 
 jobs:
   validate-build:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Check out Git repository
@@ -18,43 +21,53 @@ jobs:
         with:
           fetch-depth: 0 # Required for changelog generation
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          version: latest
+          bun-version: latest
 
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22.x # Ensures correct versioning
-          cache: 'pnpm'
 
-      - name: Get pnpm store directory
+      - name: Get Bun cache directory
         shell: bash
-        id: pnpm_cache_path
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+        id: bun_cache_path
+        run: echo "CACHE_PATH=$(bun pm cache)" >> $GITHUB_OUTPUT
 
-      - name: Setup pnpm cache
+      - name: Setup Bun cache
         uses: actions/cache@v4
         with:
-          path: ${{ steps.pnpm_cache_path.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: ${{ steps.bun_cache_path.outputs.CACHE_PATH }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-
+            ${{ runner.os }}-bun-
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Build
         env:
           ELECTRON_BUILDER_ALLOWED_EXECUTABLES: '*'
-        run: pnpm build
+        run: bun run build
 
-    #   - name: Verify Build Output
-    #     shell: bash
-    #     run: |
-    #       if [[ -z $(find dist -type f -name "*.exe") ]]; then
-    #         echo "❌ Build output not found! Skipping release."
-    #         exit 1
-    #       fi
-    #       echo "✅ Build output found!"
+      # - name: Verify Build Output (Windows)
+      #   if: runner.os == 'Windows'
+      #   shell: bash
+      #   run: |
+      #     if [[ -z $(find dist -type f -name "*.exe") ]]; then
+      #       echo "❌ Windows build output (.exe) not found! Skipping release."
+      #       exit 1
+      #     fi
+      #     echo "✅ Windows build output found!"
+
+      # - name: Verify Build Output (Linux)
+      #   if: runner.os == 'Linux'
+      #   shell: bash
+      #   run: |
+      #     if [[ -z $(find dist -type f \( -name "*.AppImage" -o -name "*.deb" -o -name "*.rpm" \)) ]]; then
+      #       echo "❌ Linux build output not found! Skipping release."
+      #       exit 1
+      #     fi
+      #     echo "✅ Linux build output found!"

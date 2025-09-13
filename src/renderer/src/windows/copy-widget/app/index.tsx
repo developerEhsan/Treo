@@ -29,6 +29,7 @@ export function CopyWidget(): React.JSX.Element {
   })
 
   useEffect(() => {
+    const listEnd = listEndRef.current
     if (!hasNextPage || isFetchingNextPage) return
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -43,13 +44,13 @@ export function CopyWidget(): React.JSX.Element {
       }
     )
 
-    if (listEndRef.current) {
-      observer.observe(listEndRef.current)
+    if (listEnd) {
+      observer.observe(listEnd)
     }
 
     return (): void => {
-      if (listEndRef.current) {
-        observer.unobserve(listEndRef.current)
+      if (listEnd) {
+        observer.unobserve(listEnd)
       }
     }
   }, [fetchNextPage, hasNextPage, isFetchingNextPage])

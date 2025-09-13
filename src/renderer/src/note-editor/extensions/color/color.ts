@@ -4,7 +4,7 @@ import { Plugin } from '@tiptap/pm/state'
 export const Color = TiptapColor.extend({
   addProseMirrorPlugins() {
     return [
-      ...(this.parent?.() || []),
+      // ...(this.parent?.() || []),
       new Plugin({
         props: {
           handleKeyDown: (_, event): false | void => {

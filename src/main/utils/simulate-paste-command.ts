@@ -4,7 +4,7 @@ import { spawn } from 'child_process'
  * Simulates the 'Ctrl+V' (paste) keypress across different operating systems.
  * Requires `xdotool` on Linux, `osascript` on macOS, or PowerShell on Windows.
  */
-export function simulatePasteCommand(): void {
+export function simulatePasteCommand(): boolean {
   const platform = process.platform
 
   const commands: Record<string, { shell: string; args: string[] }> = {
@@ -30,7 +30,7 @@ export function simulatePasteCommand(): void {
   const config = commands[platform]
   if (!config) {
     console.error('Unsupported OS:', platform)
-    return
+    return false
   }
 
   const proc = spawn(config.shell, config.args)
@@ -48,4 +48,5 @@ export function simulatePasteCommand(): void {
       console.warn(`Paste command exited with code ${code}`)
     }
   })
+  return true
 }
