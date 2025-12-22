@@ -83,7 +83,7 @@ For more contribution guidelines see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## 🔗 **Stay Connected**
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/your-ehsan/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/developerEhsan/)
 
 Looking forward to your thoughts, feedback, and contributions! 🚀
 
